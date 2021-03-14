@@ -2,6 +2,8 @@ package xyz.colinholzman.makina
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import java.lang.RuntimeException
 
 internal class StateTest {
     @Test
@@ -43,5 +45,15 @@ internal class StateTest {
         val baz = machine.states[1]
         baz.assignParent(machine)
         assertEquals(bar, baz.parent)
+    }
+
+    @Test
+    fun testAssignParentNotFound() {
+        val machine = Parse.fileFromString("machine foo; state bar {} state baz: oops {}")
+        val bar = machine.states[0]
+        val baz = machine.states[1]
+        assertThrows<RuntimeException> {
+            baz.assignParent(machine)
+        }
     }
 }
