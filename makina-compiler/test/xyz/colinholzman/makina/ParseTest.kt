@@ -62,4 +62,25 @@ internal class ParseTest {
         val expected = Handler.Event("Foo", null, null, "bar")
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun testParseEmptyState() {
+        val actual = Parse.state("state Foo {}")
+        val expected = State("Foo", mutableListOf(), null)
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun testParseStateWithParent() {
+        val actual = Parse.state("state Foo: Bar {}")
+        val expected = State("Foo", mutableListOf(), "Bar")
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun testParseStateWithHandler() {
+        val actual = Parse.state("state Foo { entry bar; }")
+        val expected = State("Foo", mutableListOf(Handler.Entry("bar")), null)
+        assertEquals(expected, actual)
+    }
 }
