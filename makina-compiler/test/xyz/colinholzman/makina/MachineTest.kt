@@ -15,4 +15,16 @@ internal class MachineTest {
         val machine = Parse.fileFromString("machine foo; state foo {} state bar {}")
         assert(!machine.hasDuplicateStates())
     }
+
+    @Test
+    fun testHasDuplicateInitialStates() {
+        val machine = Parse.fileFromString("machine foo; initial state foo {} initial state bar {}")
+        assert(machine.hasDuplicateInitialStates())
+    }
+
+    @Test
+    fun testHasNoDuplicateInitialStates() {
+        val machine = Parse.fileFromString("machine foo; initial state foo {} state bar {}")
+        assert(!machine.hasDuplicateInitialStates())
+    }
 }
