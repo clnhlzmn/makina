@@ -15,9 +15,9 @@ internal class ParseTest {
     @Test
     fun testParseFile() {
         val file = java.io.File.createTempFile("makina", "makina")
-        file.writeText("machine Foo;")
+        file.writeText("machine Foo; state Bar {}")
         val actual = Parse.file(file.absolutePath)
-        val expected = Machine("Foo")
+        val expected = Machine("Foo", listOf(State("Bar", listOf(), null)))
         assertEquals(expected, actual)
     }
 
@@ -66,21 +66,21 @@ internal class ParseTest {
     @Test
     fun testParseEmptyState() {
         val actual = Parse.state("state Foo {}")
-        val expected = State("Foo", mutableListOf(), null)
+        val expected = State("Foo", listOf(), null)
         assertEquals(expected, actual)
     }
 
     @Test
     fun testParseStateWithParent() {
         val actual = Parse.state("state Foo: Bar {}")
-        val expected = State("Foo", mutableListOf(), "Bar")
+        val expected = State("Foo", listOf(), "Bar")
         assertEquals(expected, actual)
     }
 
     @Test
     fun testParseStateWithHandler() {
         val actual = Parse.state("state Foo { entry bar; }")
-        val expected = State("Foo", mutableListOf(Handler.Entry("bar")), null)
+        val expected = State("Foo", listOf(Handler.Entry("bar")), null)
         assertEquals(expected, actual)
     }
 }

@@ -5,10 +5,7 @@ import java.io.File
 fun main(args: Array<String>) {
     for (arg in args) {
         println(arg)
-        File(arg).useLines { lines ->
-            for (line in lines) {
-                println(line)
-            }
-        }
+        val machine = Parse.file(arg)
+        println(machine)
     }
 }
