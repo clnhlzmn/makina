@@ -1,7 +1,7 @@
 package xyz.colinholzman.makina
 
-class FileVisitor: makinaBaseVisitor<File>() {
-    override fun visitFile(ctx: makinaParser.FileContext?): File {
-        return super.visitFile(ctx)
+class FileVisitor: makinaBaseVisitor<Machine>() {
+    override fun visitFile(ctx: makinaParser.FileContext?): Machine {
+        return Machine(ctx!!.ID().text)
     }
 }

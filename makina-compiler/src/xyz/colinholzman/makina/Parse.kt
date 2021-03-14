@@ -14,13 +14,13 @@ class Parse {
             parser.addErrorListener(ThrowingErrorListener.INSTANCE)
             return parser
         }
-        fun fileFromString(content: String): File {
+        fun fileFromString(content: String): Machine {
             val stream = CharStreams.fromString(content)
             val parser = parser(stream)
             val context = parser.file()
             return context.accept(FileVisitor())
         }
-        fun file(path: String): File {
+        fun file(path: String): Machine {
             val stream = CharStreams.fromFileName(path)
             val parser = parser(stream)
             val context = parser.file()
