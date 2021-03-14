@@ -3,6 +3,7 @@ machine Turnstile;
 initial state Closed {
     entry Closed_apply_latch;
     on ticket (Closed_valid_ticket) -> Open;
+    on ticket Closed_notify_invalid_ticket;
     on pass Closed_alarm;
 }
 
