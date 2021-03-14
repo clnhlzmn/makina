@@ -1,6 +1,43 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Test" type="JUnit" factoryName="JUnit">
     <module name="makina-compiler" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="xyz.colinholzman.makina.makinaBaseListener" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="xyz.colinholzman.makina.makinaBaseVisitor" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="xyz.colinholzman.makina.makinaLexer" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="xyz.colinholzman.makina.makinaListener" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="xyz.colinholzman.makina.makinaParser" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="xyz.colinholzman.makina.makinaVisitor" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="xyz.colinholzman.makina.FileVisitor" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+    </extension>
     <option name="PACKAGE_NAME" value="" />
     <option name="MAIN_CLASS_NAME" value="" />
     <option name="METHOD_NAME" value="" />
