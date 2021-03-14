@@ -18,4 +18,15 @@ data class State(val id: String,
         return HashSet(handlerIds).size != handlerIds.size
     }
 
+    fun assignSubStates(machine: Machine) {
+        subStates.addAll(machine.states.filter { it != this && it.parentId == id })
+    }
+
+    fun assignParent(machine: Machine) {
+        if (parentId == null) return
+        val foundParent = machine.states.find { it.id == parentId } ?:
+            throw RuntimeException("parent state $parentId not found")
+        parent = foundParent
+    }
+
 }
