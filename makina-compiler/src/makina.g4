@@ -5,7 +5,7 @@ file
     ;
 
 state
-    : 'initial'? 'state' ID parent? '{' handler* '}'
+    : initial='initial'? 'state' ID parent? '{' handler* '}'
     ;
 
 parent

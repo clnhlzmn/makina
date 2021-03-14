@@ -83,4 +83,11 @@ internal class ParseTest {
         val expected = State("Foo", listOf(Handler.Entry("bar")), null)
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun testParseInitialState() {
+        val actual = Parse.state("initial state Foo { }")
+        val expected = State("Foo", listOf(), null, true)
+        assertEquals(expected, actual)
+    }
 }

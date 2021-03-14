@@ -5,6 +5,7 @@ class StateVisitor: makinaBaseVisitor<State>() {
         val id = ctx!!.ID().text
         val parentId = if (ctx.parent() != null) ctx.parent().ID().text else null
         val handlers = ctx.handler().map { it.accept(HandlerVisitor()) }
-        return State(id, handlers, parentId)
+        val initial = ctx.initial != null
+        return State(id, handlers, parentId, initial)
     }
 }
