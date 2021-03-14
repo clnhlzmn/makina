@@ -13,9 +13,9 @@ parent
     ;
 
 handler
-    : 'entry' ID ';'
-    | 'exit' ID ';'
-    | 'on' ID guard? action? transition? ';'
+    : 'entry' action ';'                        #entryHandler
+    | 'exit' action ';'                         #exitHandler
+    | 'on' ID guard? action? target? ';'        #eventHandler
     ;
 
 action
@@ -26,7 +26,7 @@ guard
     : '(' ID ')'
     ;
 
-transition
+target
     : '->' ID
     ;
 

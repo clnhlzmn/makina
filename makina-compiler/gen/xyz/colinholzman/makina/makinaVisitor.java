@@ -1,4 +1,4 @@
-// Generated from D:/Colin/My Documents/makina/makina-compiler/src\makina.g4 by ANTLR 4.9.1
+// Generated from /Users/colinholzman/makina/makina-compiler/src/makina.g4 by ANTLR 4.9.1
 package xyz.colinholzman.makina;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -29,11 +29,26 @@ public interface makinaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParent(makinaParser.ParentContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link makinaParser#handler}.
+	 * Visit a parse tree produced by the {@code entryHandler}
+	 * labeled alternative in {@link makinaParser#handler}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitHandler(makinaParser.HandlerContext ctx);
+	T visitEntryHandler(makinaParser.EntryHandlerContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code exitHandler}
+	 * labeled alternative in {@link makinaParser#handler}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExitHandler(makinaParser.ExitHandlerContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code eventHandler}
+	 * labeled alternative in {@link makinaParser#handler}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEventHandler(makinaParser.EventHandlerContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link makinaParser#action}.
 	 * @param ctx the parse tree
@@ -47,9 +62,9 @@ public interface makinaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGuard(makinaParser.GuardContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link makinaParser#transition}.
+	 * Visit a parse tree produced by {@link makinaParser#target}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTransition(makinaParser.TransitionContext ctx);
+	T visitTarget(makinaParser.TargetContext ctx);
 }

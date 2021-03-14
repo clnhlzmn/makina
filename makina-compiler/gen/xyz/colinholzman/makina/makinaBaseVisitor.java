@@ -1,4 +1,4 @@
-// Generated from D:/Colin/My Documents/makina/makina-compiler/src\makina.g4 by ANTLR 4.9.1
+// Generated from /Users/colinholzman/makina/makina-compiler/src/makina.g4 by ANTLR 4.9.1
 package xyz.colinholzman.makina;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -38,7 +38,21 @@ public class makinaBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitHandler(makinaParser.HandlerContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEntryHandler(makinaParser.EntryHandlerContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitExitHandler(makinaParser.ExitHandlerContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitEventHandler(makinaParser.EventHandlerContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -59,5 +73,5 @@ public class makinaBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTransition(makinaParser.TransitionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTarget(makinaParser.TargetContext ctx) { return visitChildren(ctx); }
 }

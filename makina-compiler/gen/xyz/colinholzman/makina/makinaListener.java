@@ -1,4 +1,4 @@
-// Generated from D:/Colin/My Documents/makina/makina-compiler/src\makina.g4 by ANTLR 4.9.1
+// Generated from /Users/colinholzman/makina/makina-compiler/src/makina.g4 by ANTLR 4.9.1
 package xyz.colinholzman.makina;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -38,15 +38,41 @@ public interface makinaListener extends ParseTreeListener {
 	 */
 	void exitParent(makinaParser.ParentContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link makinaParser#handler}.
+	 * Enter a parse tree produced by the {@code entryHandler}
+	 * labeled alternative in {@link makinaParser#handler}.
 	 * @param ctx the parse tree
 	 */
-	void enterHandler(makinaParser.HandlerContext ctx);
+	void enterEntryHandler(makinaParser.EntryHandlerContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link makinaParser#handler}.
+	 * Exit a parse tree produced by the {@code entryHandler}
+	 * labeled alternative in {@link makinaParser#handler}.
 	 * @param ctx the parse tree
 	 */
-	void exitHandler(makinaParser.HandlerContext ctx);
+	void exitEntryHandler(makinaParser.EntryHandlerContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code exitHandler}
+	 * labeled alternative in {@link makinaParser#handler}.
+	 * @param ctx the parse tree
+	 */
+	void enterExitHandler(makinaParser.ExitHandlerContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code exitHandler}
+	 * labeled alternative in {@link makinaParser#handler}.
+	 * @param ctx the parse tree
+	 */
+	void exitExitHandler(makinaParser.ExitHandlerContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code eventHandler}
+	 * labeled alternative in {@link makinaParser#handler}.
+	 * @param ctx the parse tree
+	 */
+	void enterEventHandler(makinaParser.EventHandlerContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code eventHandler}
+	 * labeled alternative in {@link makinaParser#handler}.
+	 * @param ctx the parse tree
+	 */
+	void exitEventHandler(makinaParser.EventHandlerContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link makinaParser#action}.
 	 * @param ctx the parse tree
@@ -68,13 +94,13 @@ public interface makinaListener extends ParseTreeListener {
 	 */
 	void exitGuard(makinaParser.GuardContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link makinaParser#transition}.
+	 * Enter a parse tree produced by {@link makinaParser#target}.
 	 * @param ctx the parse tree
 	 */
-	void enterTransition(makinaParser.TransitionContext ctx);
+	void enterTarget(makinaParser.TargetContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link makinaParser#transition}.
+	 * Exit a parse tree produced by {@link makinaParser#target}.
 	 * @param ctx the parse tree
 	 */
-	void exitTransition(makinaParser.TransitionContext ctx);
+	void exitTarget(makinaParser.TargetContext ctx);
 }

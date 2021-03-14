@@ -1,4 +1,4 @@
-// Generated from D:/Colin/My Documents/makina/makina-compiler/src\makina.g4 by ANTLR 4.9.1
+// Generated from /Users/colinholzman/makina/makina-compiler/src/makina.g4 by ANTLR 4.9.1
 package xyz.colinholzman.makina;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -52,13 +52,37 @@ public class makinaBaseListener implements makinaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterHandler(makinaParser.HandlerContext ctx) { }
+	@Override public void enterEntryHandler(makinaParser.EntryHandlerContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitHandler(makinaParser.HandlerContext ctx) { }
+	@Override public void exitEntryHandler(makinaParser.EntryHandlerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExitHandler(makinaParser.ExitHandlerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExitHandler(makinaParser.ExitHandlerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEventHandler(makinaParser.EventHandlerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEventHandler(makinaParser.EventHandlerContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -88,13 +112,13 @@ public class makinaBaseListener implements makinaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTransition(makinaParser.TransitionContext ctx) { }
+	@Override public void enterTarget(makinaParser.TargetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTransition(makinaParser.TransitionContext ctx) { }
+	@Override public void exitTarget(makinaParser.TargetContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

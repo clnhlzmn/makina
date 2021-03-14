@@ -26,5 +26,11 @@ class Parse {
             val context = parser.file()
             return context.accept(FileVisitor())
         }
+        fun handler(content: String): Handler {
+            val stream = CharStreams.fromString(content)
+            val parser = parser(stream)
+            val context = parser.handler()
+            return context.accept(HandlerVisitor())
+        }
     }
 }
