@@ -34,8 +34,9 @@ internal class StateTest {
         val bar = machine.states[0]
         val baz = machine.states[1]
         bar.assignSubStates(machine)
-        val expected = listOf(baz)
-        assertEquals(expected, bar.subStates)
+        baz.assignSubStates(machine)
+        assertEquals(listOf(baz), bar.subStates)
+        assertEquals(emptyList<State>(), baz.subStates)
     }
 
     @Test
@@ -43,14 +44,15 @@ internal class StateTest {
         val machine = Parse.fileFromString("machine foo; state bar {} state baz: bar {}")
         val bar = machine.states[0]
         val baz = machine.states[1]
+        bar.assignParent(machine)
         baz.assignParent(machine)
+        assertEquals(null, bar.parent)
         assertEquals(bar, baz.parent)
     }
 
     @Test
     fun testAssignParentNotFound() {
         val machine = Parse.fileFromString("machine foo; state bar {} state baz: oops {}")
-        val bar = machine.states[0]
         val baz = machine.states[1]
         assertThrows<RuntimeException> {
             baz.assignParent(machine)
