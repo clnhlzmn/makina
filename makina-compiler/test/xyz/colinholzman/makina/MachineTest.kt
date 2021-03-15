@@ -33,4 +33,10 @@ internal class MachineTest {
         val machine = Parse.fileFromString("machine foo; initial state foo {} state bar {}")
         assert(!machine.hasDuplicateInitialStates())
     }
+
+    @Test
+    fun getAllActionAndGuardNames() {
+        val machine = Parse.fileFromString("machine foo; state bar { entry do_it; } state baz { exit do_that; on Foo do_this; }")
+        assertEquals(setOf("do_it", "do_that", "do_this"), machine.getAllActionAndGuardNames())
+    }
 }
