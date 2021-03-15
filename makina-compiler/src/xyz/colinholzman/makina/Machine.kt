@@ -27,4 +27,12 @@ data class Machine(val id: String, val states: List<State> = emptyList()): Node(
             }
         }.toSet()
     }
+
+    fun getAllEventNames(): Set<String> {
+        return states.flatMap { state ->
+            state.handlers.filterIsInstance<Handler.Event>().map { handler ->
+                handler.id
+            }
+        }.toSet()
+    }
 }
