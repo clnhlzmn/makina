@@ -30,4 +30,8 @@ data class State(val id: String,
         parent = foundParent
     }
 
+    fun isLeafState(): Boolean {
+        return subStates.isEmpty()
+    }
+
 }

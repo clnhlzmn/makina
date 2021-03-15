@@ -25,7 +25,7 @@ internal class StateTest {
     @Test
     fun testNoDuplicateHandlers() {
         val state = Parse.state("state foo { entry foo; on bar; on qux; exit baz; }")
-        assert(!state.hasDuplicateHandlers())
+        assertFalse(state.hasDuplicateHandlers())
     }
 
     @Test
@@ -58,4 +58,16 @@ internal class StateTest {
             baz.assignParent(machine)
         }
     }
+
+    @Test
+    fun testIsLeafState() {
+        val machine = Parse.fileFromString("machine foo; state bar {} state baz: bar {}")
+        val bar = machine.states[0]
+        val baz = machine.states[1]
+        bar.assignSubStates(machine)
+        baz.assignSubStates(machine)
+        assertFalse(bar.isLeafState())
+        assert(baz.isLeafState())
+    }
+
 }
