@@ -34,6 +34,16 @@ data class State(val id: String,
         return subStates.isEmpty()
     }
 
+    fun getDepth(): Int {
+        var ret = 0
+        var current: State? = parent
+        while (current != null) {
+            ret++
+            current = current.parent
+        }
+        return ret
+    }
+
     fun isDescendantOf(other: State): Boolean {
         var current: State? = this
         while (current != null) {

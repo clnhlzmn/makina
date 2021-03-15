@@ -71,6 +71,12 @@ internal class StateTest {
     }
 
     @Test
+    fun testGetDepth() {
+        assertEquals(2, TestStates.s111.getDepth())
+        assertEquals(0, TestStates.s1.getDepth())
+    }
+
+    @Test
     fun testIsDescendantOf() {
         val foo = Parse.state("state foo {}")
         val bar = Parse.state("state bar {}")
