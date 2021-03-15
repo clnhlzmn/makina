@@ -11,9 +11,9 @@ data class State(val id: String,
     fun hasDuplicateHandlers(): Boolean {
         val handlerIds = handlers.map {
             when (it) {
-                is Handler.Entry -> "entry"
-                is Handler.Exit -> "exit"
-                is Handler.Event -> it.id
+                is Handler.Entry -> Pair("entry", null)
+                is Handler.Exit -> Pair("exit", null)
+                is Handler.Event -> Pair(it.id, it.guard)
             }
         }
         return HashSet(handlerIds).size != handlerIds.size

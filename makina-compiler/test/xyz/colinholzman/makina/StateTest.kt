@@ -18,8 +18,10 @@ internal class StateTest {
     }
     @Test
     fun testHasDuplicateEvent() {
-        val state = Parse.state("state foo { on foo -> Bar; on foo (bar); }")
+        var state = Parse.state("state foo { on foo -> Bar; on foo do_it; }")
         assert(state.hasDuplicateHandlers())
+        state = Parse.state("state foo { on foo -> Bar; on foo (bar); }")
+        assertFalse(state.hasDuplicateHandlers())
     }
 
     @Test
