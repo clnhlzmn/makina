@@ -34,4 +34,14 @@ data class State(val id: String,
         return subStates.isEmpty()
     }
 
+    fun isDescendantOf(other: State): Boolean {
+        var current: State? = this
+        while (current != null) {
+            if (current.parent == other)
+                return true
+            current = current.parent
+        }
+        return false
+    }
+
 }

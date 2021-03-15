@@ -70,4 +70,13 @@ internal class StateTest {
         assert(baz.isLeafState())
     }
 
+    @Test
+    fun testIsDescendantOf() {
+        val foo = Parse.state("state foo {}")
+        val bar = Parse.state("state bar {}")
+        bar.parent = foo
+        assert(bar.isDescendantOf(foo))
+        assertFalse(foo.isDescendantOf(bar))
+    }
+
 }
