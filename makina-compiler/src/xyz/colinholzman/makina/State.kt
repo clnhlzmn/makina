@@ -44,4 +44,25 @@ data class State(val id: String,
         return false
     }
 
+    private fun getAncestors(): Set<State> {
+        return sequence<State> {
+            var ancestor = parent
+            while (ancestor != null) {
+                yield(ancestor)
+                ancestor = ancestor.parent
+            }
+        }.toSet()
+    }
+
+    fun getProperAncestors(other: State?): Set<State> {
+        return when {
+            other == null -> getAncestors()
+            this == other || other.isDescendantOf(this) -> emptySet()
+            else -> getAncestors().filterNot { a -> (other.getAncestors() + other).contains(a) }.toSet()
+        }
+    }
+
+    companion object {
+    }
+
 }
