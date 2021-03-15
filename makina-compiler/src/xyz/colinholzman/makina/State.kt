@@ -63,6 +63,14 @@ data class State(val id: String,
     }
 
     companion object {
+
+        fun getLCCA(states: List<State>): State? {
+            if (states.size <= 1) return null
+            states.first().getAncestors().forEach { a ->
+                if (states.drop(1).all { s -> s.isDescendantOf(a) }) return a
+            }
+            return null
+        }
     }
 
 }

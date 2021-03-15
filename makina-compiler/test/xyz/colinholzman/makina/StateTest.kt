@@ -127,4 +127,11 @@ internal class StateTest {
         assertEquals(setOf(s11), s111.getProperAncestors(s1))
     }
 
+    @Test
+    fun testGetLCCA() {
+        assertEquals(s1, State.getLCCA(listOf(s111, s121)))
+        assertEquals(s11, State.getLCCA(listOf(s111, s112)))
+        assertEquals(null, State.getLCCA(listOf(s12, s21)))
+    }
+
 }
