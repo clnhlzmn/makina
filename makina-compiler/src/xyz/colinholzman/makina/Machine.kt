@@ -53,7 +53,7 @@ data class Machine(val id: String, val states: List<State> = emptyList()): Node(
         while (children.isNotEmpty()) {
             val designatedInitial = children.find { it.initial }
             val initial = designatedInitial ?: children.first()
-                set.add(initial)
+            set.add(initial)
             children = initial.subStates
         }
         return StateConfiguration(set)
