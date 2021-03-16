@@ -51,11 +51,11 @@ class CodeGenerator(val machine: Machine) {
             println("#include \"${machine.id}.h\"")
             println()
             for (state in machine.states.filter { it.isLeafState() }) {
-                println("static int ${machine.id}_${state.id}($machineStructName *, $machineEventName *);")
+                println("static int ${machine.id}_${state.getFullyQualifiedName()}($machineStructName *, $machineEventName *);")
             }
             println()
             for (state in machine.states.filter { it.isLeafState() }) {
-                println("static int ${machine.id}_${state.id}($machineStructName *self, $machineEventName *event) {")
+                println("static int ${machine.id}_${state.getFullyQualifiedName()}($machineStructName *self, $machineEventName *event) {")
                 println("\tif (!self || !event) return -1;")
                 val config = StateConfiguration((state.getProperAncestors(null) + state).toSet())
                 val handlers = config.getHandlers()
@@ -76,7 +76,7 @@ class CodeGenerator(val machine: Machine) {
                         if (handler.action != null) {
                             println("\t\t${handler.action}(self, event);")
                         }
-                        println("\t\tself->state = ${machine.id}_${target.id};")
+                        println("\t\tself->state = ${machine.id}_${target.getFullyQualifiedName()};")
                         val entrySet = transition.getEntrySet()
                         for (stateToEnter in entrySet) {
                             for (entry in stateToEnter.handlers.filterIsInstance<Handler.Entry>()) {
@@ -97,7 +97,7 @@ class CodeGenerator(val machine: Machine) {
             println("\tif (!self) return -1;")
             val initialConfig = machine.getInitialStateConfiguration()
             val initialLeafState = initialConfig.getLeafState()
-            println("\tself->state = ${machine.id}_${initialLeafState.id};")
+            println("\tself->state = ${machine.id}_${initialLeafState.getFullyQualifiedName()};")
             val entryHandlers = initialConfig.getEntryHandlers()
             for (handler in entryHandlers) {
                 println("\t${handler.action}(self, NULL);")
