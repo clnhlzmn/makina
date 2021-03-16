@@ -21,7 +21,7 @@ data class Machine(val id: String, val states: List<State> = emptyList()): Node(
     }
 
     private fun hasDuplicateInitialStates(): Boolean {
-        return states.filter { it.initial }.count() > 1
+        return states.filter { it.initial && it.parent == null }.count() > 1
     }
 
     fun getAllActionAndGuardNames(): Set<String> {

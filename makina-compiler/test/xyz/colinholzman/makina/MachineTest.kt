@@ -37,6 +37,7 @@ internal class MachineTest {
     fun testHasNoDuplicateInitialStates() {
         assertDoesNotThrow {
             Parse.fileFromString("machine foo; initial state foo {} state bar {}")
+            Parse.fileFromString("machine foo; initial state foo {} initial state bar: foo {}")
         }
     }
 
