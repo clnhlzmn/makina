@@ -42,6 +42,16 @@ internal class StateTest {
     }
 
     @Test
+    fun hasDuplicateSubstates() {
+        val state = State("foo")
+        val child = State("child", initial = true)
+        val child2 = State("child2", initial = true)
+        assertThrows<RuntimeException> {
+            state.subStates = listOf(child, child2)
+        }
+    }
+
+    @Test
     fun testAssignSubStates() {
         val machine = Parse.fileFromString("machine foo; state bar {} state baz: bar {}")
         val bar = machine.states[0]

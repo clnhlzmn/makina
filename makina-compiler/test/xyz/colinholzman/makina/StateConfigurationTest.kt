@@ -24,7 +24,7 @@ internal class StateConfigurationTest {
     fun getHandlers() {
         val parent = Parse.state("state foo { on bar; }")
         val child = Parse.state("state baz: foo { on qux; }")
-        parent.subStates.add(child)
+        parent.subStates = listOf(child)
         child.parent = parent
         val config = StateConfiguration(setOf(child, parent))
         assertEquals(listOf(Handler.Event("qux"), Handler.Event("bar")), config.getHandlers())
@@ -34,7 +34,7 @@ internal class StateConfigurationTest {
     fun getEntryHandlers() {
         val parent = Parse.state("state foo { entry bar; }")
         val child = Parse.state("state baz: foo { entry qux; }")
-        parent.subStates.add(child)
+        parent.subStates = listOf(child)
         child.parent = parent
         val config = StateConfiguration(setOf(child, parent))
         assertEquals(listOf(Handler.Entry("bar"), Handler.Entry("qux")), config.getEntryHandlers())
@@ -44,7 +44,7 @@ internal class StateConfigurationTest {
     fun getLeafState() {
         val parent = Parse.state("state foo { on bar; }")
         val child = Parse.state("state baz: foo { on qux; }")
-        parent.subStates.add(child)
+        parent.subStates = listOf(child)
         child.parent = parent
         val config = StateConfiguration(setOf(child, parent))
         assertEquals(child, config.getLeafState())

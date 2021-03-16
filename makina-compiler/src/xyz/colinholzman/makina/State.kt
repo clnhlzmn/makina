@@ -9,7 +9,11 @@ data class State(val id: String,
         if (hasDuplicateHandlers()) throw RuntimeException("duplicate handlers")
     }
 
-    val subStates: MutableList<State> = mutableListOf()
+    var subStates: List<State> = ArrayList()
+        set(value) {
+            field = value
+            if (hasDuplicateInitialStates()) throw RuntimeException("duplicate initial states")
+        }
     var parent: State? = null
 
     private fun hasDuplicateHandlers(): Boolean {
@@ -23,8 +27,12 @@ data class State(val id: String,
         return HashSet(handlerIds).size != handlerIds.size
     }
 
+    private fun hasDuplicateInitialStates(): Boolean {
+        return subStates.filter { it.initial }.size > 1
+    }
+
     fun assignSubStates(machine: Machine) {
-        subStates.addAll(machine.states.filter { it != this && it.parentId == id })
+        subStates = machine.states.filter { it != this && it.parentId == id }
     }
 
     fun assignParent(machine: Machine) {

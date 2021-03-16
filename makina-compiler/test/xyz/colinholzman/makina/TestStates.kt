@@ -34,11 +34,11 @@ class TestStates {
 
             s21.parent = s2
 
-            s2.subStates.add(s21)
-            s1.subStates.addAll(listOf(s11, s12))
+            s2.subStates = listOf(s21)
+            s1.subStates = listOf(s11, s12)
 
-            s11.subStates.addAll(listOf(s111, s112))
-            s12.subStates.addAll(listOf(s121, s122))
+            s11.subStates = listOf(s111, s112)
+            s12.subStates = listOf(s121, s122)
         }
     }
 }
