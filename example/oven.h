@@ -10,9 +10,9 @@ int disable_heater(struct oven *, struct oven_event *);
 int error(struct oven *, struct oven_event *);
 
 enum oven_event_id {
-	oven_event_open,
 	oven_event_start,
 	oven_event_timeout,
+	oven_event_open,
 	oven_event_close,
 };
 

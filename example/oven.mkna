@@ -2,16 +2,14 @@ machine oven;
 
 initial state closed {
     on open -> open;
-}
-
-initial state idle: closed {
-    on start -> cooking;
-}
-
-state cooking: closed {
-    entry enable_heater;
-    on timeout -> idle;
-    exit disable_heater; 
+    initial state idle {
+        on start -> cooking;
+    }
+    state cooking {
+        entry enable_heater;
+        on timeout -> idle;
+        exit disable_heater; 
+    }
 }
 
 state open {
