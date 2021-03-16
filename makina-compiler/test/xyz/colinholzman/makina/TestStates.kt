@@ -15,12 +15,12 @@ class TestStates {
 
         val s121 = State("s121")
         val s122 = State("s122")
-        val s12 = State("s12")
+        val s12 = State("s12", initial = true)
 
         val s1 = State("s1")
 
         val s21 = State("s21")
-        val s2 = State("s2")
+        val s2 = State("s2", initial = true)
 
         init {
             s111.parent = s11

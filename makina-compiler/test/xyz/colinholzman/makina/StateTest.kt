@@ -3,6 +3,13 @@ package xyz.colinholzman.makina
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import xyz.colinholzman.makina.TestStates.Companion.s1
+import xyz.colinholzman.makina.TestStates.Companion.s2
+import xyz.colinholzman.makina.TestStates.Companion.s21
+import xyz.colinholzman.makina.TestStates.Companion.s11
+import xyz.colinholzman.makina.TestStates.Companion.s12
+import xyz.colinholzman.makina.TestStates.Companion.s111
+import xyz.colinholzman.makina.TestStates.Companion.s121
 
 internal class StateTest {
     @Test
@@ -97,6 +104,15 @@ internal class StateTest {
         assertEquals(TestStates.s1, State.getLCCA(listOf(TestStates.s111, TestStates.s121)))
         assertEquals(TestStates.s11, State.getLCCA(listOf(TestStates.s111, TestStates.s112)))
         assertEquals(null, State.getLCCA(listOf(TestStates.s12, TestStates.s21)))
+    }
+
+    @Test
+    fun getStateConfiguration() {
+        assertEquals(StateConfiguration(setOf(s2, s21)), s21.getStateConfiguration())
+        assertEquals(StateConfiguration(setOf(s2, s21)), s2.getStateConfiguration())
+        assertEquals(StateConfiguration(setOf(s1, s12, s121)), s1.getStateConfiguration())
+        assertEquals(StateConfiguration(setOf(s1, s11, s111)), s11.getStateConfiguration())
+        assertEquals(StateConfiguration(setOf(s1, s11, s111)), s111.getStateConfiguration())
     }
 
 }

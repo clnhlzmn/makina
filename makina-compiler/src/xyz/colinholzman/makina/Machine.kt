@@ -50,14 +50,9 @@ data class Machine(val id: String, val states: List<State> = emptyList()): Node(
     }
 
     fun getInitialStateConfiguration(): StateConfiguration {
-        var children = this.states.filter { it.parent == null }
-        val set = hashSetOf<State>()
-        while (children.isNotEmpty()) {
-            val designatedInitial = children.find { it.initial }
-            val initial = designatedInitial ?: children.first()
-            set.add(initial)
-            children = initial.subStates
-        }
-        return StateConfiguration(set)
+        val children = this.states.filter { it.parent == null }
+        val designatedInitial = children.find { it.initial }
+        val initial = designatedInitial ?: children.first()
+        return initial.getStateConfiguration()
     }
 }

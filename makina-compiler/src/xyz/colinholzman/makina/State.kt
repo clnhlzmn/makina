@@ -76,6 +76,17 @@ data class State(val id: String,
         }
     }
 
+    //if this is a leaf state then get the config that is this state + ancestors
+    //it this is not a leaf state then get the initial state configuration
+    fun getStateConfiguration(): StateConfiguration {
+        return if (isLeafState())
+            StateConfiguration((getAncestors() + this).toSet())
+        else {
+            val initial = subStates.find { it.initial } ?: subStates.first()
+            initial.getStateConfiguration()
+        }
+    }
+
     companion object {
 
         fun getLCCA(states: List<State>): State? {
