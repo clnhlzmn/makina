@@ -51,15 +51,10 @@ data class Machine(val id: String, val states: List<State> = emptyList()): Node(
         var children = this.states.filter { it.parent == null }
         val set = hashSetOf<State>()
         while (children.isNotEmpty()) {
-            val initial = children.find { it.initial }
-            val first = children.first()
-            children = if (initial != null) {
+            val designatedInitial = children.find { it.initial }
+            val initial = designatedInitial ?: children.first()
                 set.add(initial)
-                initial.subStates
-            } else {
-                set.add(first)
-                first.subStates
-            }
+            children = initial.subStates
         }
         return StateConfiguration(set)
     }
