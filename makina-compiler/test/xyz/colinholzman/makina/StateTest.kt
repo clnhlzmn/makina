@@ -3,12 +3,14 @@ package xyz.colinholzman.makina
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import xyz.colinholzman.makina.State.Companion.getLCCA
 import xyz.colinholzman.makina.TestStates.Companion.s1
 import xyz.colinholzman.makina.TestStates.Companion.s2
 import xyz.colinholzman.makina.TestStates.Companion.s21
 import xyz.colinholzman.makina.TestStates.Companion.s11
 import xyz.colinholzman.makina.TestStates.Companion.s12
 import xyz.colinholzman.makina.TestStates.Companion.s111
+import xyz.colinholzman.makina.TestStates.Companion.s112
 import xyz.colinholzman.makina.TestStates.Companion.s121
 
 internal class StateTest {
@@ -87,8 +89,8 @@ internal class StateTest {
 
     @Test
     fun testGetDepth() {
-        assertEquals(2, TestStates.s111.getDepth())
-        assertEquals(0, TestStates.s1.getDepth())
+        assertEquals(2, s111.getDepth())
+        assertEquals(0, s1.getDepth())
     }
 
     @Test
@@ -102,18 +104,18 @@ internal class StateTest {
 
     @Test
     fun testGetProperAncestors() {
-        assertEquals(listOf(TestStates.s11, TestStates.s1), TestStates.s111.getProperAncestors(null))
-        assertEquals(listOf(TestStates.s2), TestStates.s21.getProperAncestors(null))
-        assertEquals(emptyList<State>(), TestStates.s1.getProperAncestors(null))
-        assertEquals(emptyList<State>(), TestStates.s1.getProperAncestors(TestStates.s111))
-        assertEquals(listOf(TestStates.s11), TestStates.s111.getProperAncestors(TestStates.s1))
+        assertEquals(listOf(s11, s1), s111.getProperAncestors(null))
+        assertEquals(listOf(s2), s21.getProperAncestors(null))
+        assertEquals(emptyList<State>(), s1.getProperAncestors(null))
+        assertEquals(emptyList<State>(), s1.getProperAncestors(s111))
+        assertEquals(listOf(s11), s111.getProperAncestors(s1))
     }
 
     @Test
     fun testGetLCCA() {
-        assertEquals(TestStates.s1, State.getLCCA(listOf(TestStates.s111, TestStates.s121)))
-        assertEquals(TestStates.s11, State.getLCCA(listOf(TestStates.s111, TestStates.s112)))
-        assertEquals(null, State.getLCCA(listOf(TestStates.s12, TestStates.s21)))
+        assertEquals(s1, listOf(s111, s121).getLCCA())
+        assertEquals(s11, listOf(s111, s112).getLCCA())
+        assertEquals(null, listOf(s12, s21).getLCCA())
     }
 
     @Test

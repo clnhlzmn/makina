@@ -17,14 +17,18 @@ data class StateConfiguration(val states: Set<State>) {
         return true
     }
 
+    //Returns the list of handlers that this state configuration should handle.
+    //The handlers are deepest deepest state first and in document order for handlers within a single state.
     fun getHandlers(): List<Handler.Event> {
         return orderedStates.flatMap { state -> state.handlers.filterIsInstance<Handler.Event>() }
     }
 
+    //Returns the list of entry handlers that should be activated when initializing a machine in this state config.
     fun getEntryHandlers(): List<Handler.Entry> {
         return orderedStates.reversed().flatMap { state -> state.handlers.filterIsInstance<Handler.Entry>() }
     }
 
+    //Returns the leaf state for this configuration.
     fun getLeafState(): State {
         return orderedStates.first()
     }
