@@ -16,6 +16,11 @@ data class State(val id: String,
         }
     var parent: State? = null
 
+    fun getFullyQualifiedName(): List<String> {
+        return if (parent == null) listOf(id)
+        else parent!!.getFullyQualifiedName() + id
+    }
+
     private fun hasDuplicateHandlers(): Boolean {
         val handlerIds = handlers.map {
             when (it) {

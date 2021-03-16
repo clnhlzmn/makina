@@ -14,6 +14,15 @@ import xyz.colinholzman.makina.TestStates.Companion.s112
 import xyz.colinholzman.makina.TestStates.Companion.s121
 
 internal class StateTest {
+
+    @Test
+    fun fullyQualifiedName() {
+        assertEquals(listOf("s1", "s11", "s111"), s111.getFullyQualifiedName())
+        assertEquals(listOf("s1", "s11"), s11.getFullyQualifiedName())
+        assertEquals(listOf("s2", "s21"), s21.getFullyQualifiedName())
+        assertEquals(listOf("s2"), s2.getFullyQualifiedName())
+    }
+
     @Test
     fun testHasDuplicateEntry() {
         assertThrows<RuntimeException> {
