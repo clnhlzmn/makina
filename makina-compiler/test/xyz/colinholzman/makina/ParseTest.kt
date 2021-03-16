@@ -18,7 +18,7 @@ internal class ParseTest {
         val file = java.io.File.createTempFile("makina", "makina")
         file.writeText("machine Foo; state Bar {}")
         val actual = Parse.file(file.absolutePath)
-        val expected = Machine("Foo", listOf(State("Bar", listOf(), null)))
+        val expected = Machine("Foo", listOf(State("Bar", listOf())))
         assertEquals(expected, actual)
     }
 
@@ -67,35 +67,35 @@ internal class ParseTest {
     @Test
     fun testParseEmptyState() {
         val actual = Parse.state("state Foo {}").first()
-        val expected = State("Foo", listOf(), null)
+        val expected = State("Foo", listOf())
         assertEquals(expected, actual)
     }
 
     @Test
     fun testParseStateWithParent() {
         val actual = Parse.state("state Foo: Bar {}").first()
-        val expected = State("Foo", listOf(), "Bar")
+        val expected = State("Foo", listOf(), listOf("Bar"))
         assertEquals(expected, actual)
     }
 
     @Test
     fun testParseStateWithHandler() {
         val actual = Parse.state("state Foo { entry bar; }").first()
-        val expected = State("Foo", listOf(Handler.Entry("bar")), null)
+        val expected = State("Foo", listOf(Handler.Entry("bar")))
         assertEquals(expected, actual)
     }
 
     @Test
     fun testParseInitialState() {
         val actual = Parse.state("initial state Foo { }").first()
-        val expected = State("Foo", listOf(), null, true)
+        val expected = State("Foo", listOf(), initial = true)
         assertEquals(expected, actual)
     }
 
     @Test
     fun testParseStateWithSubStates() {
         val actual = Parse.state("state foo { state bar {} }").toSet()
-        val expected = setOf(State("foo"), State("bar", parentId = "foo"))
+        val expected = setOf(State("foo"), State("bar", parentId = listOf("foo")))
         assertEquals(expected, actual)
     }
 

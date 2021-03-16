@@ -2,7 +2,7 @@ package xyz.colinholzman.makina
 
 data class State(val id: String,
                  val handlers: List<Handler> = listOf(),
-                 val parentId: String? = null,
+                 val parentId: List<String> = emptyList(),
                  val initial: Boolean = false): Node() {
 
     init {
@@ -37,12 +37,15 @@ data class State(val id: String,
     }
 
     fun assignSubStates(machine: Machine) {
-        subStates = machine.states.filter { it != this && it.parentId == id }
+        subStates = machine.states
+                .filter { it.parentId.isNotEmpty() }
+                .filter { it.parentId.last() == id }
     }
 
     fun assignParent(machine: Machine) {
-        if (parentId == null) return
-        val foundParent = machine.states.find { it.id == parentId } ?:
+        if (parentId.isEmpty()) return
+        val foundParent = machine.states
+                .find { it.id == parentId.last() && it.parentId == parentId.dropLast(1) } ?:
             throw RuntimeException("parent state $parentId not found")
         parent = foundParent
     }

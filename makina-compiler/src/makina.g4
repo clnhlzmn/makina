@@ -5,11 +5,12 @@ file
     ;
 
 state
-    : initial='initial'? 'state' ID parent? '{' (handler | state)* '}'
+    : initial='initial'? 'state' ID parent '{' (handler | state)* '}'
     ;
 
 parent
-    : ':' ID
+    : //empty
+    | ':' ID ('.' ID)*
     ;
 
 handler
