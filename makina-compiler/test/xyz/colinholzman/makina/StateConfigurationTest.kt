@@ -39,4 +39,14 @@ internal class StateConfigurationTest {
         val config = StateConfiguration(setOf(child, parent))
         assertEquals(listOf(Handler.Entry("bar"), Handler.Entry("qux")), config.getEntryHandlers())
     }
+
+    @Test
+    fun getLeafState() {
+        val parent = Parse.state("state foo { on bar; }")
+        val child = Parse.state("state baz: foo { on qux; }")
+        parent.subStates.add(child)
+        child.parent = parent
+        val config = StateConfiguration(setOf(child, parent))
+        assertEquals(child, config.getLeafState())
+    }
 }

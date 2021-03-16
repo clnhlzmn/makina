@@ -24,4 +24,8 @@ data class StateConfiguration(val states: Set<State>) {
     fun getEntryHandlers(): List<Handler.Entry> {
         return orderedStates.reversed().flatMap { state -> state.handlers.filterIsInstance<Handler.Entry>() }
     }
+
+    fun getLeafState(): State {
+        return orderedStates.first()
+    }
 }
