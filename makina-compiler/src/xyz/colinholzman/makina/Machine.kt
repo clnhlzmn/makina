@@ -16,7 +16,7 @@ data class Machine(val id: String, val states: List<State> = emptyList()): Node(
     }
 
     private fun hasDuplicateStates(): Boolean {
-        val stateIds = states.map { it.id }
+        val stateIds = states.map { Pair(it.id, it.parent) }
         return HashSet(stateIds).size != stateIds.size
     }
 

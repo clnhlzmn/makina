@@ -23,6 +23,15 @@ internal class MachineTest {
     fun testNoDuplicateStates() {
         assertDoesNotThrow {
             Parse.fileFromString("machine foo; state foo {} state bar {}")
+            Parse.fileFromString("machine foo; state foo {} state bar: foo {} state baz {} state bar: baz {}")
+            Parse.fileFromString("machine foo; " +
+                    "state foo {} " +
+                    "state bar: foo {} " +
+                    "state qux: bar {} " +
+                    "state baz {} " +
+                    "state fred: baz {} " +
+                    "state qux: fred {}"
+            )
         }
     }
 
