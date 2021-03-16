@@ -17,7 +17,11 @@ data class StateConfiguration(val states: Set<State>) {
         return true
     }
 
-    fun getHandlers(): List<Handler> {
+    fun getHandlers(): List<Handler.Event> {
         return orderedStates.flatMap { state -> state.handlers.filterIsInstance<Handler.Event>() }
+    }
+
+    fun getEntryHandlers(): List<Handler.Entry> {
+        return orderedStates.reversed().flatMap { state -> state.handlers.filterIsInstance<Handler.Entry>() }
     }
 }
