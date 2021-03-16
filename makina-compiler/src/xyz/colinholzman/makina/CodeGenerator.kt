@@ -61,10 +61,30 @@ class CodeGenerator(val machine: Machine) {
                 for (handler in handlers) {
                     val guard = if (handler.guard != null) "${handler.guard}(self, event)" else "true"
                     println("\tif (event.id == ${machine.id}_${handler.id} && $guard) {")
-                    if (handler.action != null) {
+                    if (handler.target != null) {
+                        var target = handler.getTargetState(machine)
+                        if (!target.isLeafState())
+                            target = target.getStateConfiguration().getLeafState()
+                        val transition = Transition(state, target)
+                        val exitSet = transition.getExitSet()
+                        for (stateToExit in exitSet) {
+                            for (exit in stateToExit.handlers.filterIsInstance<Handler.Exit>()) {
+                                println("\t\t${exit.action}(self, event);")
+                            }
+                        }
+                        if (handler.action != null) {
+                            println("\t\t${handler.action}(self, event);")
+                        }
+                        println("\t\tself->state = ${machine.id}_${target.id};")
+                        val entrySet = transition.getEntrySet()
+                        for (stateToEnter in entrySet) {
+                            for (entry in stateToEnter.handlers.filterIsInstance<Handler.Entry>()) {
+                                println("\t\t${entry.action}(self, event);")
+                            }
+                        }
+                    } else if (handler.action != null) {
                         println("\t\t${handler.action}(self, event);")
                     }
-                    //TODO: handle transitions (get target state, get exit set, get entry set, etc...)
                     println("\t\treturn 0;")
                     println("\t}")
                 }

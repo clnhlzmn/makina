@@ -6,6 +6,8 @@ static int Turnstile_Open(struct Turnstile *, struct Turnstile_event *);
 static int Turnstile_Closed(struct Turnstile *self, struct Turnstile_event *event) {
 	if (!self || !event) return -1;
 	if (event.id == Turnstile_ticket && Closed_valid_ticket(self, event)) {
+		self->state = Turnstile_Open;
+		Open_release_latch(self, event);
 		return 0;
 	}
 	if (event.id == Turnstile_ticket && true) {
@@ -22,6 +24,8 @@ static int Turnstile_Closed(struct Turnstile *self, struct Turnstile_event *even
 static int Turnstile_Open(struct Turnstile *self, struct Turnstile_event *event) {
 	if (!self || !event) return -1;
 	if (event.id == Turnstile_pass && true) {
+		self->state = Turnstile_Closed;
+		Closed_apply_latch(self, event);
 		return 0;
 	}
 	if (event.id == Turnstile_ticket && true) {
