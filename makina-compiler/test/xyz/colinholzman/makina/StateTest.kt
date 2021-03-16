@@ -3,31 +3,35 @@ package xyz.colinholzman.makina
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.lang.RuntimeException
 
 internal class StateTest {
     @Test
     fun testHasDuplicateEntry() {
-        val state = Parse.state("state foo { entry foo; entry bar; }")
-        assert(state.hasDuplicateHandlers())
+        assertThrows<RuntimeException> {
+            Parse.state("state foo { entry foo; entry bar; }")
+        }
     }
     @Test
     fun testHasDuplicateExit() {
-        val state = Parse.state("state foo { exit foo; exit bar; }")
-        assert(state.hasDuplicateHandlers())
+        assertThrows<RuntimeException> {
+            Parse.state("state foo { exit foo; exit bar; }")
+        }
     }
     @Test
     fun testHasDuplicateEvent() {
-        var state = Parse.state("state foo { on foo -> Bar; on foo do_it; }")
-        assert(state.hasDuplicateHandlers())
-        state = Parse.state("state foo { on foo -> Bar; on foo (bar); }")
-        assertFalse(state.hasDuplicateHandlers())
+        assertThrows<RuntimeException> {
+            Parse.state("state foo { on foo -> Bar; on foo do_it; }")
+        }
+        assertDoesNotThrow {
+            Parse.state("state foo { on foo -> Bar; on foo (bar); }")
+        }
     }
 
     @Test
     fun testNoDuplicateHandlers() {
-        val state = Parse.state("state foo { entry foo; on bar; on qux; exit baz; }")
-        assertFalse(state.hasDuplicateHandlers())
+        assertDoesNotThrow {
+            Parse.state("state foo { entry foo; on bar; on qux; exit baz; }")
+        }
     }
 
     @Test

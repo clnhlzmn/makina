@@ -5,10 +5,14 @@ data class State(val id: String,
                  val parentId: String? = null,
                  val initial: Boolean = false): Node() {
 
+    init {
+        if (hasDuplicateHandlers()) throw RuntimeException("duplicate handlers")
+    }
+
     val subStates: MutableList<State> = mutableListOf()
     var parent: State? = null
 
-    fun hasDuplicateHandlers(): Boolean {
+    private fun hasDuplicateHandlers(): Boolean {
         val handlerIds = handlers.map {
             when (it) {
                 is Handler.Entry -> Pair("entry", null)
