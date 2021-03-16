@@ -4,21 +4,23 @@ data class Machine(val id: String, val states: List<State> = emptyList()): Node(
 
     init {
         linkStateGraph()
+        if (hasDuplicateStates()) throw RuntimeException("duplicate states")
+        if (hasDuplicateInitialStates()) throw RuntimeException("duplicate initial states")
     }
 
-    fun linkStateGraph() {
+    private fun linkStateGraph() {
         states.forEach {
             it.assignParent(this)
             it.assignSubStates(this)
         }
     }
 
-    fun hasDuplicateStates(): Boolean {
+    private fun hasDuplicateStates(): Boolean {
         val stateIds = states.map { it.id }
         return HashSet(stateIds).size != stateIds.size
     }
 
-    fun hasDuplicateInitialStates(): Boolean {
+    private fun hasDuplicateInitialStates(): Boolean {
         return states.filter { it.initial }.count() > 1
     }
 

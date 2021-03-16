@@ -2,36 +2,42 @@ package xyz.colinholzman.makina
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 internal class MachineTest {
     @Test
     fun testHasDuplicateStates() {
-        val machine = Parse.fileFromString("machine foo; state foo {} state foo {}")
-        assert(machine.hasDuplicateStates())
+        assertThrows<RuntimeException> {
+            Parse.fileFromString("machine foo; state foo {} state foo {}")
+        }
     }
 
     @Test
     fun testHasDuplicateStatesWithInitial() {
-        val machine = Parse.fileFromString("machine foo; state foo {} initial state foo {}")
-        assert(machine.hasDuplicateStates())
+        assertThrows<RuntimeException> {
+            Parse.fileFromString("machine foo; state foo {} initial state foo {}")
+        }
     }
 
     @Test
     fun testNoDuplicateStates() {
-        val machine = Parse.fileFromString("machine foo; state foo {} state bar {}")
-        assert(!machine.hasDuplicateStates())
+        assertDoesNotThrow {
+            Parse.fileFromString("machine foo; state foo {} state bar {}")
+        }
     }
 
     @Test
     fun testHasDuplicateInitialStates() {
-        val machine = Parse.fileFromString("machine foo; initial state foo {} initial state bar {}")
-        assert(machine.hasDuplicateInitialStates())
+        assertThrows<RuntimeException> {
+            Parse.fileFromString("machine foo; initial state foo {} initial state bar {}")
+        }
     }
 
     @Test
     fun testHasNoDuplicateInitialStates() {
-        val machine = Parse.fileFromString("machine foo; initial state foo {} state bar {}")
-        assert(!machine.hasDuplicateInitialStates())
+        assertDoesNotThrow {
+            Parse.fileFromString("machine foo; initial state foo {} state bar {}")
+        }
     }
 
     @Test
