@@ -104,8 +104,8 @@ internal class StateTest {
 
     @Test
     fun testIsDescendantOf() {
-        val foo = Parse.state("state foo {}")
-        val bar = Parse.state("state bar {}")
+        val foo = Parse.state("state foo {}").first()
+        val bar = Parse.state("state bar {}").first()
         bar.parent = foo
         assert(bar.isDescendantOf(foo))
         assertFalse(foo.isDescendantOf(bar))

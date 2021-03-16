@@ -32,7 +32,7 @@ class Parse {
             val context = parser.handler()
             return context.accept(HandlerVisitor())
         }
-        fun state(content: String): State {
+        fun state(content: String): List<State> {
             val stream = CharStreams.fromString(content)
             val parser = parser(stream)
             val context = parser.state()

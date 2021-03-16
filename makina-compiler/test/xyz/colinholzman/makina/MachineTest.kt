@@ -32,6 +32,7 @@ internal class MachineTest {
                     "state fred: baz {} " +
                     "state qux: fred {}"
             )
+            Parse.fileFromString("machine foo; state foo { state foo {} } state bar { state foo {} }")
         }
     }
 
