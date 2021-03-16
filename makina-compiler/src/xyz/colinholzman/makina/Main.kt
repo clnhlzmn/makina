@@ -12,8 +12,12 @@ fun main(args: Array<String>) {
         val directoryPath = Paths.get(arg).parent.toString()
         val headerPath = Paths.get(directoryPath, "${machine.id}.h").toString()
         val sourcePath = Paths.get(directoryPath, "${machine.id}.c").toString()
+        val generator = CodeGenerator(machine)
         File(headerPath).printWriter().use {
-            CodeGenerator.generateHeader(machine, it)
+            generator.generateHeader(it)
+        }
+        File(sourcePath).printWriter().use {
+            generator.generateSource(it)
         }
     }
 }
