@@ -16,9 +16,9 @@ data class State(val id: String,
         }
     var parent: State? = null
 
-    fun getFullyQualifiedName(): List<String> {
-        return if (parent == null) listOf(id)
-        else parent!!.getFullyQualifiedName() + id
+    fun getFullyQualifiedName(): String {
+        return if (parent == null) id
+        else "${parent!!.getFullyQualifiedName()}_$id"
     }
 
     private fun hasDuplicateHandlers(): Boolean {

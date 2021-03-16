@@ -17,10 +17,10 @@ internal class StateTest {
 
     @Test
     fun fullyQualifiedName() {
-        assertEquals(listOf("s1", "s11", "s111"), s111.getFullyQualifiedName())
-        assertEquals(listOf("s1", "s11"), s11.getFullyQualifiedName())
-        assertEquals(listOf("s2", "s21"), s21.getFullyQualifiedName())
-        assertEquals(listOf("s2"), s2.getFullyQualifiedName())
+        assertEquals("s1_s11_s111", s111.getFullyQualifiedName())
+        assertEquals("s1_s11", s11.getFullyQualifiedName())
+        assertEquals("s2_s21", s21.getFullyQualifiedName())
+        assertEquals("s2", s2.getFullyQualifiedName())
     }
 
     @Test
