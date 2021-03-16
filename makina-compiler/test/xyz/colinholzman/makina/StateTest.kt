@@ -64,7 +64,7 @@ internal class StateTest {
 
     @Test
     fun testAssignSubStates() {
-        val machine = Parse.fileFromString("machine foo; state bar {} state baz: bar {}")
+        val machine = Parse.fileFromString("machine foo; state bar {} state bar.baz {}")
         val bar = machine.states[0]
         val baz = machine.states[1]
         assertEquals(listOf(baz), bar.subStates)
@@ -73,9 +73,9 @@ internal class StateTest {
 
     @Test
     fun testAssignParent() {
-        val machine = Parse.fileFromString("machine foo; state bar {} state baz: bar {}")
-        val bar = machine.states[0]
-        val baz = machine.states[1]
+        val machine = Parse.fileFromString("machine foo; state bar {} state bar.baz {}")
+        val bar = machine.states.find { it.id == "bar" }!!
+        val baz = machine.states.find { it.id == "baz" }!!
         assertEquals(null, bar.parent)
         assertEquals(bar, baz.parent)
     }
@@ -83,13 +83,13 @@ internal class StateTest {
     @Test
     fun testAssignParentNotFound() {
         assertThrows<RuntimeException> {
-            Parse.fileFromString("machine foo; state bar {} state baz: oops {}")
+            Parse.fileFromString("machine foo; state bar {} state oops.baz {}")
         }
     }
 
     @Test
     fun testIsLeafState() {
-        val machine = Parse.fileFromString("machine foo; state bar {} state baz: bar {}")
+        val machine = Parse.fileFromString("machine foo; state bar {} state bar.baz {}")
         val bar = machine.states.find { it.id == "bar" }!!
         val baz = machine.states.find { it.id == "baz" }!!
         assertFalse(bar.isLeafState())
@@ -98,7 +98,7 @@ internal class StateTest {
 
     @Test
     fun isLeafStateNested() {
-        val machine = Parse.fileFromString("machine foo; state bar { state baz {} } state qux: bar {}")
+        val machine = Parse.fileFromString("machine foo; state bar { state baz {} } state bar.qux {}")
         val baz = machine.states.find { it.id == "baz" }!!
         val qux = machine.states.find { it.id == "qux" }!!
         assert(baz.isLeafState())

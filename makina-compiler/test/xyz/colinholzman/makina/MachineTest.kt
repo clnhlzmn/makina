@@ -36,14 +36,14 @@ internal class MachineTest {
     fun testNoDuplicateStates() {
         assertDoesNotThrow {
             Parse.fileFromString("machine foo; state foo {} state bar {}")
-            Parse.fileFromString("machine foo; state foo {} state bar: foo {} state baz {} state bar: baz {}")
+            Parse.fileFromString("machine foo; state foo {} state foo.bar {} state baz {} state baz.bar {}")
             Parse.fileFromString("machine foo; " +
                     "state foo {} " +
-                    "state bar: foo {} " +
-                    "state qux: foo.bar {} " +
+                    "state foo.bar {} " +
+                    "state foo.bar.qux {} " +
                     "state baz {} " +
-                    "state fred: baz {} " +
-                    "state qux: baz.fred {}"
+                    "state baz.fred {} " +
+                    "state baz.fred.qux {}"
             )
             Parse.fileFromString("machine foo; state foo { state foo {} } state bar { state foo {} }")
             Parse.fileFromString("machine foo; state foo { state bar { state baz {} } } state qux { state bar { state baz {} } }")
@@ -61,7 +61,7 @@ internal class MachineTest {
     fun testHasNoDuplicateInitialStates() {
         assertDoesNotThrow {
             Parse.fileFromString("machine foo; initial state foo {} state bar {}")
-            Parse.fileFromString("machine foo; initial state foo {} initial state bar: foo {}")
+            Parse.fileFromString("machine foo; initial state foo {} initial state foo.bar {}")
         }
     }
 

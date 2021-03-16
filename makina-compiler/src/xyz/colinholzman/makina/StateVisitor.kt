@@ -11,8 +11,9 @@ class StateVisitor: makinaBaseVisitor<List<State>>() {
     }
 
     override fun visitState(ctx: makinaParser.StateContext?): List<State> {
-        val id = ctx!!.ID().text
-        var parentId = ctx.parent().accept(ParentVisitor())
+        val fullId = ctx!!.id().accept(IdVisitor())
+        val id = fullId.last()
+        var parentId = fullId.dropLast(1)
         if (parentId.isEmpty())
             parentId = currentParentId
         else if (currentParentId.isNotEmpty() && parentId != currentParentId)
