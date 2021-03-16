@@ -17,11 +17,11 @@ internal class MachineTest {
         assertThrows<RuntimeException> {
             Parse.fileFromString("machine foo; " +
                     "state foo {} " +
-                    "state bar: foo {} " +
-                    "state baz: bar {} " +  //should be baz: foo.bar
+                    "state foo.bar {} " +
+                    "state bar.baz {} " +  //should be foo.bar.baz
                     "state qux {} " +
-                    "state bar: qux {} " +
-                    "state baz: bar {}")    //should be baz: qux.bar
+                    "state qux.bar {} " +
+                    "state bar.baz {}")    //should be qux.bar.baz
         }
     }
 
@@ -47,6 +47,19 @@ internal class MachineTest {
             )
             Parse.fileFromString("machine foo; state foo { state foo {} } state bar { state foo {} }")
             Parse.fileFromString("machine foo; state foo { state bar { state baz {} } } state qux { state bar { state baz {} } }")
+        }
+    }
+
+    @Test
+    fun minimalUnambiguousParentSpec() {
+        assertDoesNotThrow {
+            Parse.fileFromString("machine foo; " +
+                    "state foo {} " +
+                    "state foo.bar {} " +
+                    "state bar.baz {} " +
+                    "state qux {} " +
+                    "state qux.fred {} " +
+                    "state fred.baz {}")
         }
     }
 

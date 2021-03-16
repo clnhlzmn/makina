@@ -44,8 +44,18 @@ data class State(val id: String,
 
     fun assignParent(machine: Machine) {
         if (parentId.isEmpty()) return
-        val foundParent = machine.states
-                .find { it.id == parentId.last() && it.parentId == parentId.dropLast(1) } ?:
+        var foundParent: State? = null
+        for (state in machine.states) {
+            var fullId = state.parentId + state.id
+            if (fullId.size < parentId.size)
+                continue
+            fullId = fullId.drop(fullId.size - parentId.size)
+            if (fullId == parentId) {
+                foundParent = state
+                break
+            }
+        }
+        if (foundParent == null)
             throw RuntimeException("parent state $parentId not found")
         parent = foundParent
     }
