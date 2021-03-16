@@ -35,8 +35,6 @@ internal class StateTest {
         val machine = Parse.fileFromString("machine foo; state bar {} state baz: bar {}")
         val bar = machine.states[0]
         val baz = machine.states[1]
-        bar.assignSubStates(machine)
-        baz.assignSubStates(machine)
         assertEquals(listOf(baz), bar.subStates)
         assertEquals(emptyList<State>(), baz.subStates)
     }
@@ -46,18 +44,14 @@ internal class StateTest {
         val machine = Parse.fileFromString("machine foo; state bar {} state baz: bar {}")
         val bar = machine.states[0]
         val baz = machine.states[1]
-        bar.assignParent(machine)
-        baz.assignParent(machine)
         assertEquals(null, bar.parent)
         assertEquals(bar, baz.parent)
     }
 
     @Test
     fun testAssignParentNotFound() {
-        val machine = Parse.fileFromString("machine foo; state bar {} state baz: oops {}")
-        val baz = machine.states[1]
         assertThrows<RuntimeException> {
-            baz.assignParent(machine)
+            Parse.fileFromString("machine foo; state bar {} state baz: oops {}")
         }
     }
 
@@ -66,8 +60,6 @@ internal class StateTest {
         val machine = Parse.fileFromString("machine foo; state bar {} state baz: bar {}")
         val bar = machine.states[0]
         val baz = machine.states[1]
-        bar.assignSubStates(machine)
-        baz.assignSubStates(machine)
         assertFalse(bar.isLeafState())
         assert(baz.isLeafState())
     }

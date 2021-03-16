@@ -53,20 +53,17 @@ internal class MachineTest {
         var s12 = State("s12", parentId="s1", initial = false)
         var s111 = State("s111", parentId="s11", initial = false)
         var machine = Machine("foo", listOf(s1, s11, s12, s111))
-        machine.linkStateGraph()
         var expected = StateConfiguration(setOf(s1, s11, s111))
         assertEquals(expected, machine.getInitialStateConfiguration())
 
         s1 = State("s1", initial = true)
         machine = Machine("foo", listOf(s1, s11, s12, s111))
-        machine.linkStateGraph()
         expected = StateConfiguration(setOf(s1, s11, s111))
         assertEquals(expected, machine.getInitialStateConfiguration())
 
         s1 = State("s1", initial = false)
         s12 = State("s12", parentId = "s1", initial = true)
         machine = Machine("foo", listOf(s1, s11, s12, s111))
-        machine.linkStateGraph()
         expected = StateConfiguration(setOf(s1, s12))
         assertEquals(expected, machine.getInitialStateConfiguration())
     }
