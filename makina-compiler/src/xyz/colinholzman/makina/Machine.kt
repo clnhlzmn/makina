@@ -2,6 +2,13 @@ package xyz.colinholzman.makina
 
 data class Machine(val id: String, val states: List<State> = emptyList()): Node() {
 
+    fun linkStateGraph() {
+        states.forEach {
+            it.assignParent(this)
+            it.assignSubStates(this)
+        }
+    }
+
     fun hasDuplicateStates(): Boolean {
         val stateIds = states.map { it.id }
         return HashSet(stateIds).size != stateIds.size
@@ -34,5 +41,22 @@ data class Machine(val id: String, val states: List<State> = emptyList()): Node(
                 handler.id
             }
         }.toSet()
+    }
+
+    fun getInitialStateConfiguration(): StateConfiguration {
+        var children = this.states.filter { it.parent == null }
+        val set = hashSetOf<State>()
+        while (children.isNotEmpty()) {
+            val initial = children.find { it.initial }
+            val first = children.first()
+            children = if (initial != null) {
+                set.add(initial)
+                initial.subStates
+            } else {
+                set.add(first)
+                first.subStates
+            }
+        }
+        return StateConfiguration(set)
     }
 }
