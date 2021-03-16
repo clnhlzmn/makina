@@ -2,7 +2,7 @@
   <configuration default="false" name="Compile" type="JetRunConfigurationType">
     <module name="makina-compiler" />
     <option name="VM_PARAMETERS" value="" />
-    <option name="PROGRAM_PARAMETERS" value="../example/example.mkna" />
+    <option name="PROGRAM_PARAMETERS" value="../example/oven.mkna" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <option name="PASS_PARENT_ENVS" value="true" />
