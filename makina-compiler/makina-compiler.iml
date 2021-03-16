@@ -26,6 +26,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="antlr-runtime-4.9.21" level="project" />
+    <orderEntry type="library" name="antlr-runtime-4.9.2" level="project" />
   </component>
 </module>
