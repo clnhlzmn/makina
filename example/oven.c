@@ -59,4 +59,3 @@ int oven_process_event(struct oven *self, struct oven_event *event) {
 	self->state(self, event);
 	return 0;
 }
-

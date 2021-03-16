@@ -31,4 +31,3 @@ int oven_init(struct oven *);
 int oven_process_event(struct oven *, struct oven_event *);
 
 #endif /*OVEN_H*/
-

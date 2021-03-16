@@ -42,7 +42,6 @@ class CodeGenerator(val machine: Machine) {
             println("int ${machine.id}_process_event($machineStructName *, $machineEventName *);")
             println()
             println("#endif /*${machine.id.toUpperCase()}_H*/")
-            println()
         }
     }
     fun generateSource(output: PrintWriter) {
@@ -111,7 +110,6 @@ class CodeGenerator(val machine: Machine) {
             println("\tself->state(self, event);")
             println("\treturn 0;")
             println("}")
-            println()
         }
     }
 }
