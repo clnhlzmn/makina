@@ -3,14 +3,21 @@ package xyz.colinholzman.makina
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.assertThrows
 
 internal class StateConfigurationTest {
 
     @Test
     fun testIsValid() {
-        assertTrue(StateConfiguration(setOf(TestStates.s1, TestStates.s11, TestStates.s111)).isValid())
-        assertFalse(StateConfiguration(setOf(TestStates.s1, TestStates.s11, TestStates.s12, TestStates.s111)).isValid())
-        assertFalse(StateConfiguration(setOf(TestStates.s1, TestStates.s21, TestStates.s111)).isValid())
+        assertDoesNotThrow {
+            StateConfiguration(setOf(TestStates.s1, TestStates.s11, TestStates.s111))
+        }
+        assertThrows<RuntimeException> {
+            StateConfiguration(setOf(TestStates.s1, TestStates.s11, TestStates.s12, TestStates.s111))
+        }
+        assertThrows<RuntimeException> {
+            StateConfiguration(setOf(TestStates.s1, TestStates.s21, TestStates.s111))
+        }
     }
 
     @Test
