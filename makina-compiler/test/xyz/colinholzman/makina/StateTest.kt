@@ -90,10 +90,19 @@ internal class StateTest {
     @Test
     fun testIsLeafState() {
         val machine = Parse.fileFromString("machine foo; state bar {} state baz: bar {}")
-        val bar = machine.states[0]
-        val baz = machine.states[1]
+        val bar = machine.states.find { it.id == "bar" }!!
+        val baz = machine.states.find { it.id == "baz" }!!
         assertFalse(bar.isLeafState())
         assert(baz.isLeafState())
+    }
+
+    @Test
+    fun isLeafStateNested() {
+        val machine = Parse.fileFromString("machine foo; state bar { state baz {} } state qux: bar {}")
+        val baz = machine.states.find { it.id == "baz" }!!
+        val qux = machine.states.find { it.id == "qux" }!!
+        assert(baz.isLeafState())
+        assert(qux.isLeafState())
     }
 
     @Test

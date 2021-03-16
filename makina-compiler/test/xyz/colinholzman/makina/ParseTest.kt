@@ -1,5 +1,6 @@
 package xyz.colinholzman.makina
 
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 import kotlin.math.exp
 import kotlin.test.assertEquals
@@ -96,5 +97,18 @@ internal class ParseTest {
         val actual = Parse.state("state foo { state bar {} }").toSet()
         val expected = setOf(State("foo"), State("bar", parentId = "foo"))
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun testNestedStateIsLeafState() {
+        val machine = Parse.fileFromString("machine foo; state bar { state baz {} state qux {} } state fred {}")
+        val bar = machine.states.find { it.id == "bar" }!!
+        val baz = machine.states.find { it.id == "baz" }!!
+        val qux = machine.states.find { it.id == "qux" }!!
+        val fred = machine.states.find { it.id == "fred" }!!
+        assertFalse(bar.isLeafState())
+        assert(baz.isLeafState())
+        assert(qux.isLeafState())
+        assert(fred.isLeafState())
     }
 }
