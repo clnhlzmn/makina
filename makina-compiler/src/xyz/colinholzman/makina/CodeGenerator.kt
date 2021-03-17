@@ -56,7 +56,7 @@ class CodeGenerator(val machine: Machine) {
             for (state in machine.states.filter { it.isLeafState() }) {
                 println("static int ${machine.id}_${state.getFullyQualifiedName()}($machineStructName *self, $machineEventName *event) {")
                 println("\tif (!self || !event) return -1;")
-                val config = StateConfiguration((state.getProperAncestors(null) + state).toSet())
+                val config = state.getStateConfiguration()
                 val handlers = config.getHandlers()
                 for (handler in handlers) {
                     val guard = if (handler.guard != null) "${handler.guard}(self, event)" else "1"
