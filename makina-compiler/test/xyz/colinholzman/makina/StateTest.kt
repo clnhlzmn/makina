@@ -4,8 +4,10 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import xyz.colinholzman.makina.State.Companion.getLCCA
+import xyz.colinholzman.makina.TestStates.Companion.machine
 import xyz.colinholzman.makina.TestStates.Companion.s1
 import xyz.colinholzman.makina.TestStates.Companion.s2
+import xyz.colinholzman.makina.TestStates.Companion.s3
 import xyz.colinholzman.makina.TestStates.Companion.s21
 import xyz.colinholzman.makina.TestStates.Companion.s11
 import xyz.colinholzman.makina.TestStates.Companion.s12
@@ -14,6 +16,12 @@ import xyz.colinholzman.makina.TestStates.Companion.s112
 import xyz.colinholzman.makina.TestStates.Companion.s121
 
 internal class StateTest {
+
+    @Test
+    fun getSiblings() {
+        assertEquals(setOf(s1, s3), s2.getSiblings(machine).toSet())
+        assertEquals(setOf(s12), s11.getSiblings(machine).toSet())
+    }
 
     @Test
     fun fullyQualifiedName() {

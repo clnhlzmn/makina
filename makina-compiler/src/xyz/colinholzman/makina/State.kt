@@ -16,6 +16,13 @@ data class State(val id: String,
         }
     var parent: State? = null
 
+    fun getSiblings(machine: Machine): List<State> {
+        return if (parent == null)
+            machine.states.filter { it.parent == null && it != this }
+        else
+            parent!!.subStates.filter { it != this }
+    }
+
     fun getFullyQualifiedName(): String {
         return if (parent == null) id
         else "${parent!!.getFullyQualifiedName()}_$id"
