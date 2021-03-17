@@ -3,10 +3,20 @@ package xyz.colinholzman.makina
 sealed class Handler: Node() {
     data class Entry(val action: String): Handler()
     data class Exit(val action: String): Handler()
-    data class Event(val id: String, val guard: String? = null, val action: String? = null, val target: String? = null): Handler() {
-        fun getTargetState(machine: Machine): State {
-            if (target == null) throw RuntimeException("handler doesn't define a transition")
-            return machine.states.find { it.id == target } ?: throw RuntimeException("target state not found")
+    data class Event(val id: String, val guard: String? = null, val action: String? = null, val target: List<String> = emptyList()): Handler() {
+        fun getTargetState(source: State, machine: Machine): State {
+            if (target.isEmpty()) throw RuntimeException("handler doesn't define a transition")
+            var scope: State? = source
+            while (scope != null) {
+                val parentId = scope.parentId
+                val fullTargetId = parentId + scope.id + target
+                val found = machine.states.find { it.parentId + it.id == fullTargetId }
+                if (found != null) return found
+                scope = scope.parent
+            }
+            val found = machine.states.find { it.parentId + it.id == target }
+            if (found != null) return found
+            throw RuntimeException("target not found")
         }
     }
 }

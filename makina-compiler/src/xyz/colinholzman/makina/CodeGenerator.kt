@@ -53,19 +53,19 @@ class CodeGenerator(val machine: Machine) {
                 println("static int ${machine.id}_${state.getFullyQualifiedName()}($machineStructName *, $machineEventName *);")
             }
             println()
-            for (state in machine.states.filter { it.isLeafState() }) {
-                println("static int ${machine.id}_${state.getFullyQualifiedName()}($machineStructName *self, $machineEventName *event) {")
+            for (sourceState in machine.states.filter { it.isLeafState() }) {
+                println("static int ${machine.id}_${sourceState.getFullyQualifiedName()}($machineStructName *self, $machineEventName *event) {")
                 println("\tif (!self || !event) return -1;")
-                val config = state.getStateConfiguration()
+                val config = sourceState.getStateConfiguration()
                 val handlers = config.getHandlers()
                 for (handler in handlers) {
                     val guard = if (handler.guard != null) "${handler.guard}(self, event)" else "1"
                     println("\tif (event->id == ${machine.id}_event_${handler.id} && $guard) {")
-                    if (handler.target != null) {
-                        var target = handler.getTargetState(machine)
+                    if (handler.target.isNotEmpty()) {
+                        var target = handler.getTargetState(sourceState, machine)
                         if (!target.isLeafState())
                             target = target.getStateConfiguration().getLeafState()
-                        val transition = Transition(state, target)
+                        val transition = Transition(sourceState, target)
                         val exitSet = transition.getExitSet()
                         for (stateToExit in exitSet) {
                             for (exit in stateToExit.handlers.filterIsInstance<Handler.Exit>()) {

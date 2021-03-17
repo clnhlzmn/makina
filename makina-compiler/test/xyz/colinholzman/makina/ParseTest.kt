@@ -39,28 +39,28 @@ internal class ParseTest {
     @Test
     fun testParseSimpleEventHandler() {
         val actual = Parse.handler("on Foo;")
-        val expected = Handler.Event("Foo", null, null, null)
+        val expected = Handler.Event("Foo", null, null)
         assertEquals(expected, actual)
     }
 
     @Test
     fun testParseGuardEventHandler() {
         val actual = Parse.handler("on Foo (bar);")
-        val expected = Handler.Event("Foo", "bar", null, null)
+        val expected = Handler.Event("Foo", "bar", null)
         assertEquals(expected, actual)
     }
 
     @Test
     fun testParseActionEventHandler() {
         val actual = Parse.handler("on Foo bar;")
-        val expected = Handler.Event("Foo", null, "bar", null)
+        val expected = Handler.Event("Foo", null, "bar")
         assertEquals(expected, actual)
     }
 
     @Test
     fun testParseTransitionEventHandler() {
         val actual = Parse.handler("on Foo -> bar;")
-        val expected = Handler.Event("Foo", null, null, "bar")
+        val expected = Handler.Event("Foo", null, null, listOf("bar"))
         assertEquals(expected, actual)
     }
 
