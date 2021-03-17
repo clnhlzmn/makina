@@ -9,11 +9,14 @@ data class State(val id: String,
         if (hasDuplicateHandlers()) throw RuntimeException("duplicate handlers")
     }
 
+    //subStates field is valid only after this State has been included in a Machine
     var subStates: List<State> = ArrayList()
         set(value) {
             field = value
             if (hasDuplicateInitialStates()) throw RuntimeException("duplicate initial states")
         }
+
+    //parent field is valid only after this State has been included in a Machine
     var parent: State? = null
 
     fun getDistanceTo(other: State): Int {
@@ -60,20 +63,8 @@ data class State(val id: String,
 
     fun assignParent(machine: Machine) {
         if (parentId.isEmpty()) return
-        var foundParent: State? = null
-        for (state in machine.states) {
-            var fullId = state.parentId + state.id
-            if (fullId.size < parentId.size)
-                continue
-            fullId = fullId.drop(fullId.size - parentId.size)
-            if (fullId == parentId) {
-                foundParent = state
-                break
-            }
-        }
-        if (foundParent == null)
-            throw RuntimeException("parent state $parentId not found")
-        parent = foundParent
+        parent = machine.states.find { it.parentId + it.id == parentId }
+                ?: throw RuntimeException("parent state $parentId not found")
     }
 
     fun isLeafState(): Boolean {

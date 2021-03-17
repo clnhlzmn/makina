@@ -51,19 +51,6 @@ internal class MachineTest {
     }
 
     @Test
-    fun minimalUnambiguousParentSpec() {
-        assertDoesNotThrow {
-            Parse.fileFromString("machine foo; " +
-                    "state foo {} " +
-                    "state foo.bar {} " +
-                    "state bar.baz {} " +
-                    "state qux {} " +
-                    "state qux.fred {} " +
-                    "state fred.baz {}")
-        }
-    }
-
-    @Test
     fun testHasDuplicateInitialStates() {
         assertThrows<RuntimeException> {
             Parse.fileFromString("machine foo; initial state foo {} initial state bar {}")
