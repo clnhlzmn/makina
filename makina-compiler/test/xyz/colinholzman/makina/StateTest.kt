@@ -15,6 +15,8 @@ import xyz.colinholzman.makina.TestStates.Companion.s111
 import xyz.colinholzman.makina.TestStates.Companion.s112
 import xyz.colinholzman.makina.TestStates.Companion.s121
 import xyz.colinholzman.makina.TestStates.Companion.s122
+import xyz.colinholzman.makina.TestStates.Companion.s3_s12
+import xyz.colinholzman.makina.TestStates.Companion.s3_s2
 
 internal class StateTest {
 
@@ -26,6 +28,8 @@ internal class StateTest {
         assertEquals(2, s2.getDistanceTo(s12))
         assertEquals(2, s1.getDistanceTo(s122))
         assertEquals(2, s111.getDistanceTo(s1))
+        assertEquals(1, s3_s12.getDistanceTo(s3_s2))
+        assertEquals(1, s3_s2.getDistanceTo(s3_s12))
     }
 
     @Test
