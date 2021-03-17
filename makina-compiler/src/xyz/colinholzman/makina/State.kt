@@ -16,6 +16,15 @@ data class State(val id: String,
         }
     var parent: State? = null
 
+    fun getDistanceTo(other: State): Int {
+        return when {
+            other == this -> 0
+            other.isDescendantOf(this) -> other.getDepth() - getDepth()
+            this.isDescendantOf(other) -> getDepth() - other.getDepth()
+            else -> getDepth() + other.getDepth() + 1
+        }
+    }
+
     fun getSiblings(machine: Machine): List<State> {
         return if (parent == null)
             machine.states.filter { it.parent == null && it != this }
