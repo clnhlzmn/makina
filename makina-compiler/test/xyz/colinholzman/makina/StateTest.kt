@@ -21,18 +21,6 @@ import xyz.colinholzman.makina.TestStates.Companion.s3_s2
 internal class StateTest {
 
     @Test
-    fun getDistanceTo() {
-        assertEquals(0, s1.getDistanceTo(s1))
-        assertEquals(1, s1.getDistanceTo(s2))
-        assertEquals(2, s12.getDistanceTo(s2))
-        assertEquals(2, s2.getDistanceTo(s12))
-        assertEquals(2, s1.getDistanceTo(s122))
-        assertEquals(2, s111.getDistanceTo(s1))
-        assertEquals(1, s3_s12.getDistanceTo(s3_s2))
-        assertEquals(1, s3_s2.getDistanceTo(s3_s12))
-    }
-
-    @Test
     fun getSiblings() {
         assertEquals(setOf(s1, s3), s2.getSiblings(machine).toSet())
         assertEquals(setOf(s12), s11.getSiblings(machine).toSet())
