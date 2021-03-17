@@ -14,9 +14,6 @@ import xyz.colinholzman.makina.TestStates.Companion.s12
 import xyz.colinholzman.makina.TestStates.Companion.s111
 import xyz.colinholzman.makina.TestStates.Companion.s112
 import xyz.colinholzman.makina.TestStates.Companion.s121
-import xyz.colinholzman.makina.TestStates.Companion.s122
-import xyz.colinholzman.makina.TestStates.Companion.s3_s12
-import xyz.colinholzman.makina.TestStates.Companion.s3_s2
 
 internal class StateTest {
 
@@ -28,10 +25,10 @@ internal class StateTest {
 
     @Test
     fun fullyQualifiedName() {
-        assertEquals("s1_s11_s111", s111.getFullyQualifiedName())
-        assertEquals("s1_s11", s11.getFullyQualifiedName())
-        assertEquals("s2_s21", s21.getFullyQualifiedName())
-        assertEquals("s2", s2.getFullyQualifiedName())
+        assertEquals("s1_s11_s111", s111.getFullyQualifiedIdString())
+        assertEquals("s1_s11", s11.getFullyQualifiedIdString())
+        assertEquals("s2_s21", s21.getFullyQualifiedIdString())
+        assertEquals("s2", s2.getFullyQualifiedIdString())
     }
 
     @Test

@@ -26,9 +26,13 @@ data class State(val id: String,
             parent!!.subStates.filter { it != this }
     }
 
-    fun getFullyQualifiedName(): String {
-        return if (parent == null) id
-        else "${parent!!.getFullyQualifiedName()}_$id"
+    fun getFullyQualifiedId(): List<String> {
+        return if (parent == null) listOf(id)
+        else parent!!.getFullyQualifiedId() + id
+    }
+
+    fun getFullyQualifiedIdString(): String {
+        return getFullyQualifiedId().joinToString("_")
     }
 
     private fun hasDuplicateHandlers(): Boolean {

@@ -8,13 +8,12 @@ sealed class Handler: Node() {
             if (target.isEmpty()) throw RuntimeException("handler doesn't define a transition")
             var scope: State? = source
             while (scope != null) {
-                val parentId = scope.parentId
-                val fullTargetId = parentId + scope.id + target
-                val found = machine.states.find { it.parentId + it.id == fullTargetId }
+                val fullTargetId = scope.getFullyQualifiedId() + target
+                val found = machine.states.find { it.getFullyQualifiedId() == fullTargetId }
                 if (found != null) return found
                 scope = scope.parent
             }
-            val found = machine.states.find { it.parentId + it.id == target }
+            val found = machine.states.find { it.getFullyQualifiedId() == target }
             if (found != null) return found
             throw RuntimeException("target not found")
         }
