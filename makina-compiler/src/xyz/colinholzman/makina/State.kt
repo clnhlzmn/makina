@@ -55,7 +55,7 @@ data class State(val id: String,
     fun assignSubStates(machine: Machine) {
         subStates = machine.states
                 .filter { it.parentId.isNotEmpty() }
-                .filter { it.parentId.last() == id }
+                .filter { it.parentId == parentId + id }
     }
 
     fun assignParent(machine: Machine) {

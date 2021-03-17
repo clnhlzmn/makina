@@ -88,10 +88,18 @@ internal class StateTest {
     @Test
     fun testAssignSubStates() {
         val machine = Parse.fileFromString("machine foo; state bar {} state bar.baz {}")
-        val bar = machine.states[0]
-        val baz = machine.states[1]
+        val bar = machine.states.find { it.id == "bar" }!!
+        val baz = machine.states.find { it.id == "baz" }!!
         assertEquals(listOf(baz), bar.subStates)
         assertEquals(emptyList<State>(), baz.subStates)
+
+        val machine2 = Parse.fileFromString("machine foo; state bar { state bar {} } state bar.foo {} ")
+        val bar2 = machine2.states.find { it.id == "bar" && it.parent == null }!!
+        val bar_bar = machine2.states.find { it.id == "bar" && it.parent != null }!!
+        val bar_foo = machine2.states.find { it.id == "foo" && it.parent != null }!!
+        assertEquals(setOf(bar_bar, bar_foo), bar2.subStates.toSet())
+        assertEquals(emptySet<State>(), bar_bar.subStates.toSet())
+        assertEquals(emptySet<State>(), bar_foo.subStates.toSet())
     }
 
     @Test

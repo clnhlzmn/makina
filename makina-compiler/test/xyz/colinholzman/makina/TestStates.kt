@@ -9,12 +9,12 @@ class TestStates {
         //        /  \      /  \
         //     s111 s112 s121 s122
 
-        val s111 = State("s111", parentId = listOf("s11"))
-        val s112 = State("s112", parentId = listOf("s11"))
+        val s111 = State("s111", parentId = listOf("s1", "s11"))
+        val s112 = State("s112", parentId = listOf("s1", "s11"))
         val s11 = State("s11", parentId = listOf("s1"))
 
-        val s121 = State("s121", parentId = listOf("s12"))
-        val s122 = State("s122", parentId = listOf("s12"))
+        val s121 = State("s121", parentId = listOf("s1", "s12"))
+        val s122 = State("s122", parentId = listOf("s1", "s12"))
         val s12 = State("s12", parentId = listOf("s1"), initial = true)
 
         val s1 = State("s1")
