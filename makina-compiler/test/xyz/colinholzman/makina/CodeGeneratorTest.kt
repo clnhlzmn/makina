@@ -18,7 +18,7 @@ internal class CodeGeneratorTest {
                 state s2 {
                     entry s1_s2_entry;
                     on e1 (s1_s2_e1_guard) s1_s2_e1_action;
-                    on e2 -> .s2.s3;
+                    on e2 -> s2.s3;
                     exit s1_s2_exit;
                 }
                 exit s1_exit;

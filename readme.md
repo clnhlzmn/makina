@@ -6,8 +6,6 @@ Makina is a hierarchical state machine source-to-source translator. It takes sta
 
 Each file given as input to the Makina compiler represents a single state machine. At the top of the file the name of the machine is specified with a `machine` statement:
 
----
-
 ### Machines
 
 ```
@@ -15,8 +13,6 @@ machine Oven;
 ```
 
 Here the machine is called `Oven`.
-
----
 
 ### States
 
@@ -44,8 +40,6 @@ state open {
 ```
 
 Now `Oven` has two states: `closed` and `open`.
-
----
 
 ### Event Handlers
 
@@ -84,8 +78,6 @@ All actions and guards are implemented by the user as C language functions with 
 int <function-name>(struct <machine-name> *, struct <machine_name>_event *);
 ```
 
----
-
 ### Hierarchical States
 
 To avoid duplicating event handlers for similar states Makina allows you to define sub states that defer unhandled events to their parent states. The `closed` state of the oven machine might have a few sub states:
@@ -112,8 +104,6 @@ state open {
 Now state `closed` has two sub states: `idle` and `cooking`. Additionally the states `closed` and `closed.idle` have been designated as `initial`. This isn't strictly necessary in this case, because default initial states are those appearing first in document order, but has been added to show the syntax. Initial states are the states that are first entered when the machine is initialized.
 
 Since neither sub state of `closed` defines a handler for the `open` event if the `Oven` machine is in either of those states when an `open` event is processed the parent state's handler, and any associated actions or transitions, will be triggered. In this case the `open` event will cause a transition to the `open` state regardless of which sub state was active.
-
----
 
 ### Entry and Exit Actions
 

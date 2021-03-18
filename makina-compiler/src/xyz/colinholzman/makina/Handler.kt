@@ -13,7 +13,8 @@ sealed class Handler: Node() {
                 if (found != null) return found
                 scope = scope.parent
             }
-            val found = machine.states.find { it.getFullyQualifiedId() == target }
+            val fullTargetId = if (target.first() == ".") target else listOf(".") + target
+            val found = machine.states.find { it.getFullyQualifiedId() == fullTargetId }
             if (found != null) return found
             throw RuntimeException("target $target not found")
         }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import xyz.colinholzman.makina.TestStates.Companion.machine
 import xyz.colinholzman.makina.TestStates.Companion.s1
+import xyz.colinholzman.makina.TestStates.Companion.s11
 import xyz.colinholzman.makina.TestStates.Companion.s111
 import xyz.colinholzman.makina.TestStates.Companion.s12
 import xyz.colinholzman.makina.TestStates.Companion.s121
@@ -46,7 +47,7 @@ internal class HandlerTest {
         handler = Handler.Event("foo", target = listOf("s121"))
         assertEquals(s121, handler.getTargetState(s12, machine))
 
-        handler = Handler.Event("foo", target = listOf(".", "s3", "s12"))
+        handler = Handler.Event("foo", target = listOf("s3", "s12"))
         assertEquals(s3_s12, handler.getTargetState(s1, machine))
 
         handler = Handler.Event("foo", target = listOf("s12"))
@@ -54,5 +55,11 @@ internal class HandlerTest {
 
         handler = Handler.Event("foo", target = listOf(".", "s2"))
         assertEquals(s2, handler.getTargetState(s3, machine))
+
+        handler = Handler.Event("foo", target = listOf("s12"))
+        assertEquals(s12, handler.getTargetState(s11, machine))
+
+        handler = Handler.Event("foo", target = listOf("s1"))
+        assertEquals(s1, handler.getTargetState(s2, machine))
     }
 }
