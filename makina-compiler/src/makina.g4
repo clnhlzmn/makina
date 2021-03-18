@@ -9,7 +9,7 @@ state
     ;
 
 id
-    : ID ('.' ID)*
+    : root='.'? ID ('.' ID)*
     ;
 
 handler

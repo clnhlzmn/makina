@@ -1,7 +1,7 @@
 machine oven;
 
 initial state closed {
-    on open -> open;
+    on open -> .open;
     initial state idle {
         on start -> cooking;
     }
@@ -13,6 +13,6 @@ initial state closed {
 }
 
 state open {
-    on close -> closed;
+    on close -> .closed;
     on start error;
 }

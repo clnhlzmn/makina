@@ -36,14 +36,14 @@ internal class MachineTest {
     fun testNoDuplicateStates() {
         assertDoesNotThrow {
             Parse.fileFromString("machine foo; state foo {} state bar {}")
-            Parse.fileFromString("machine foo; state foo {} state foo.bar {} state baz {} state baz.bar {}")
+            Parse.fileFromString("machine foo; state foo {} state .foo.bar {} state baz {} state .baz.bar {}")
             Parse.fileFromString("machine foo; " +
                     "state foo {} " +
-                    "state foo.bar {} " +
-                    "state foo.bar.qux {} " +
+                    "state .foo.bar {} " +
+                    "state .foo.bar.qux {} " +
                     "state baz {} " +
-                    "state baz.fred {} " +
-                    "state baz.fred.qux {}"
+                    "state .baz.fred {} " +
+                    "state .baz.fred.qux {}"
             )
             Parse.fileFromString("machine foo; state foo { state foo {} } state bar { state foo {} }")
             Parse.fileFromString("machine foo; state foo { state bar { state baz {} } } state qux { state bar { state baz {} } }")
@@ -61,7 +61,7 @@ internal class MachineTest {
     fun testHasNoDuplicateInitialStates() {
         assertDoesNotThrow {
             Parse.fileFromString("machine foo; initial state foo {} state bar {}")
-            Parse.fileFromString("machine foo; initial state foo {} initial state foo.bar {}")
+            Parse.fileFromString("machine foo; initial state foo {} initial state .foo.bar {}")
         }
     }
 
@@ -80,9 +80,9 @@ internal class MachineTest {
     @Test
     fun getInitialStateConfiguration() {
         var s1 = State("s1", initial = false)
-        var s11 = State("s11", parentId = listOf("s1"), initial = false)
-        var s12 = State("s12", parentId = listOf("s1"), initial = false)
-        var s111 = State("s111", parentId = listOf("s1", "s11"), initial = false)
+        var s11 = State("s11", parentId = listOf(".", "s1"), initial = false)
+        var s12 = State("s12", parentId = listOf(".", "s1"), initial = false)
+        var s111 = State("s111", parentId = listOf(".", "s1", "s11"), initial = false)
         var machine = Machine("foo", listOf(s1, s11, s12, s111))
         var expected = StateConfiguration(setOf(s1, s11, s111))
         assertEquals(expected, machine.getInitialStateConfiguration())
@@ -93,7 +93,7 @@ internal class MachineTest {
         assertEquals(expected, machine.getInitialStateConfiguration())
 
         s1 = State("s1", initial = false)
-        s12 = State("s12", parentId = listOf("s1"), initial = true)
+        s12 = State("s12", parentId = listOf(".", "s1"), initial = true)
         machine = Machine("foo", listOf(s1, s11, s12, s111))
         expected = StateConfiguration(setOf(s1, s12))
         assertEquals(expected, machine.getInitialStateConfiguration())

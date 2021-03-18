@@ -14,7 +14,7 @@ class HandlerVisitor: makinaBaseVisitor<Handler>() {
         val guard = if (ctx.guard() != null) ctx.guard().ID().text else null
         val action = if (ctx.action() != null) ctx.action().ID().text else null
         val target = if (ctx.target() == null) emptyList<String>()
-                        else ctx.target().id().ID().map { it.text }
+                        else ctx.target().id().accept(IdVisitor())
         return Handler.Event(event, guard, action, target)
     }
 }

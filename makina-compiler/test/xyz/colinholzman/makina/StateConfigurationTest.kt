@@ -23,7 +23,7 @@ internal class StateConfigurationTest {
     @Test
     fun getHandlers() {
         val parent = Parse.state("state foo { on bar; }").first()
-        val child = Parse.state("state foo.baz { on qux; }").first()
+        val child = Parse.state("state .foo.baz { on qux; }").first()
         parent.subStates = listOf(child)
         child.parent = parent
         val config = StateConfiguration(setOf(child, parent))
@@ -33,7 +33,7 @@ internal class StateConfigurationTest {
     @Test
     fun getEntryHandlers() {
         val parent = Parse.state("state foo { entry bar; }").first()
-        val child = Parse.state("state foo.baz { entry qux; }").first()
+        val child = Parse.state("state .foo.baz { entry qux; }").first()
         parent.subStates = listOf(child)
         child.parent = parent
         val config = StateConfiguration(setOf(child, parent))
@@ -43,7 +43,7 @@ internal class StateConfigurationTest {
     @Test
     fun getLeafState() {
         val parent = Parse.state("state foo { on bar; }").first()
-        val child = Parse.state("state foo.baz { on qux; }").first()
+        val child = Parse.state("state .foo.baz { on qux; }").first()
         parent.subStates = listOf(child)
         child.parent = parent
         val config = StateConfiguration(setOf(child, parent))

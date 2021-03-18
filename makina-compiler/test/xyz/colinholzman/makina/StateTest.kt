@@ -72,13 +72,13 @@ internal class StateTest {
 
     @Test
     fun testAssignSubStates() {
-        val machine = Parse.fileFromString("machine foo; state bar {} state bar.baz {}")
+        val machine = Parse.fileFromString("machine foo; state bar {} state .bar.baz {}")
         val bar = machine.states.find { it.id == "bar" }!!
         val baz = machine.states.find { it.id == "baz" }!!
         assertEquals(listOf(baz), bar.subStates)
         assertEquals(emptyList<State>(), baz.subStates)
 
-        val machine2 = Parse.fileFromString("machine foo; state bar { state bar {} } state bar.foo {} ")
+        val machine2 = Parse.fileFromString("machine foo; state bar { state bar {} } state .bar.foo {} ")
         val bar2 = machine2.states.find { it.id == "bar" && it.parent == null }!!
         val bar_bar = machine2.states.find { it.id == "bar" && it.parent != null }!!
         val bar_foo = machine2.states.find { it.id == "foo" && it.parent != null }!!
@@ -89,7 +89,7 @@ internal class StateTest {
 
     @Test
     fun testAssignParent() {
-        val machine = Parse.fileFromString("machine foo; state bar {} state bar.baz {}")
+        val machine = Parse.fileFromString("machine foo; state bar {} state .bar.baz {}")
         val bar = machine.states.find { it.id == "bar" }!!
         val baz = machine.states.find { it.id == "baz" }!!
         assertEquals(null, bar.parent)
@@ -99,13 +99,13 @@ internal class StateTest {
     @Test
     fun testAssignParentNotFound() {
         assertThrows<RuntimeException> {
-            Parse.fileFromString("machine foo; state bar {} state oops.baz {}")
+            Parse.fileFromString("machine foo; state bar {} state .oops.baz {}")
         }
     }
 
     @Test
     fun testIsLeafState() {
-        val machine = Parse.fileFromString("machine foo; state bar {} state bar.baz {}")
+        val machine = Parse.fileFromString("machine foo; state bar {} state .bar.baz {}")
         val bar = machine.states.find { it.id == "bar" }!!
         val baz = machine.states.find { it.id == "baz" }!!
         assertFalse(bar.isLeafState())
@@ -114,7 +114,7 @@ internal class StateTest {
 
     @Test
     fun isLeafStateNested() {
-        val machine = Parse.fileFromString("machine foo; state bar { state baz {} } state bar.qux {}")
+        val machine = Parse.fileFromString("machine foo; state bar { state baz {} } state .bar.qux {}")
         val baz = machine.states.find { it.id == "baz" }!!
         val qux = machine.states.find { it.id == "qux" }!!
         assert(baz.isLeafState())

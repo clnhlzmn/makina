@@ -2,7 +2,7 @@ package xyz.colinholzman.makina
 
 data class State(val id: String,
                  val handlers: List<Handler> = listOf(),
-                 val parentId: List<String> = emptyList(),
+                 val parentId: List<String> = listOf("."),
                  val initial: Boolean = false): Node() {
 
     init {
@@ -27,12 +27,12 @@ data class State(val id: String,
     }
 
     fun getFullyQualifiedId(): List<String> {
-        return if (parent == null) listOf(id)
+        return if (parent == null) listOf(".", id)
         else parent!!.getFullyQualifiedId() + id
     }
 
     fun getFullyQualifiedIdString(): String {
-        return getFullyQualifiedId().joinToString("_")
+        return getFullyQualifiedId().drop(1).joinToString("_")
     }
 
     private fun hasDuplicateHandlers(): Boolean {
@@ -52,12 +52,12 @@ data class State(val id: String,
 
     fun assignSubStates(machine: Machine) {
         subStates = machine.states
-                .filter { it.parentId.isNotEmpty() }
+                .filter { it.parentId.isNotRoot() }
                 .filter { it.parentId == parentId + id }
     }
 
     fun assignParent(machine: Machine) {
-        if (parentId.isEmpty()) return
+        if (parentId.isRoot()) return
         parent = machine.states.find { it.parentId + it.id == parentId }
                 ?: throw RuntimeException("parent state $parentId not found")
     }

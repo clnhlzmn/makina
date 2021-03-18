@@ -14,11 +14,11 @@ internal class CodeGeneratorTest {
 
             state s1 {
                 entry s1_entry;
-                on e1 -> s2;
+                on e1 -> .s2;
                 state s2 {
                     entry s1_s2_entry;
                     on e1 (s1_s2_e1_guard) s1_s2_e1_action;
-                    on e2 -> s2.s3;
+                    on e2 -> .s2.s3;
                     exit s1_s2_exit;
                 }
                 exit s1_exit;
@@ -27,12 +27,12 @@ internal class CodeGeneratorTest {
                 entry s2_entry;
                 state s3 {
                     entry s2_s3_entry;
-                    on e2 -> s1;
+                    on e2 -> .s1;
                     exit s2_s3_exit;
                 }
                 initial state s1 {
                     entry s2_s1_entry;
-                    on e1 s2_s1_e1_action -> s1;
+                    on e1 s2_s1_e1_action -> .s1;
                     exit s2_s1_exit;
                 }
                 exit s2_exit;
@@ -129,31 +129,28 @@ internal class CodeGeneratorTest {
             }
         """.trimIndent()
 
-    private val testOutput =
-        """
-            s1_entry
-            s1_s2_entry
-            s1_s2_e1_guard
-            s1_s2_exit
-            s1_exit
-            s2_entry
-            s2_s1_entry
-            s2_s1_exit
-            s2_exit
-            s2_s1_e1_action
-            s1_entry
-            s1_s2_entry
-            s1_s2_e1_guard
-            s1_s2_e1_action
-            s1_s2_exit
-            s1_exit
-            s2_entry
-            s2_s3_entry
-            s2_s3_exit
-            s2_exit
-            s1_entry
-            s1_s2_entry
-        """.trimIndent()
+    private val testOutput = listOf("s1_entry",
+                                    "s1_s2_entry",
+                                    "s1_s2_e1_guard",
+                                    "s1_s2_exit",
+                                    "s1_exit",
+                                    "s2_entry",
+                                    "s2_s1_entry",
+                                    "s2_s1_exit",
+                                    "s2_exit",
+                                    "s2_s1_e1_action",
+                                    "s1_entry",
+                                    "s1_s2_entry",
+                                    "s1_s2_e1_guard",
+                                    "s1_s2_e1_action",
+                                    "s1_s2_exit",
+                                    "s1_exit",
+                                    "s2_entry",
+                                    "s2_s3_entry",
+                                    "s2_s3_exit",
+                                    "s2_exit",
+                                    "s1_entry",
+                                    "s1_s2_entry")
 
     @Test
     fun testCodeGenerator() {
@@ -181,7 +178,7 @@ internal class CodeGeneratorTest {
         runProcess.waitFor(10, TimeUnit.SECONDS)
 
         testDir.resolve("test_output.txt").toFile().reader().use {
-            assertEquals(testOutput, it.readText())
+            assertEquals(testOutput, it.readLines())
         }
     }
 }

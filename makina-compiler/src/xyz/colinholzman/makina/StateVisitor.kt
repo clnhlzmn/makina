@@ -1,7 +1,7 @@
 package xyz.colinholzman.makina
 
 class StateVisitor: makinaBaseVisitor<List<State>>() {
-    var currentParentId = emptyList<String>()
+    var currentParentId = listOf(".")
 
     private fun withNewParentId(id: String, block: ()->Unit) {
         val lastParentId = currentParentId
@@ -16,7 +16,7 @@ class StateVisitor: makinaBaseVisitor<List<State>>() {
         var parentId = fullId.dropLast(1)
         if (parentId.isEmpty())
             parentId = currentParentId
-        else if (currentParentId.isNotEmpty() && parentId != currentParentId)
+        else if (currentParentId.isNotRoot() && parentId != currentParentId)
             throw RuntimeException("invalid parent specified")
         val handlers = ctx.handler().map { it.accept(HandlerVisitor()) }
         val initial = ctx.initial != null

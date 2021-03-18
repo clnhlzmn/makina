@@ -15,7 +15,7 @@ sealed class Handler: Node() {
             }
             val found = machine.states.find { it.getFullyQualifiedId() == target }
             if (found != null) return found
-            throw RuntimeException("target not found")
+            throw RuntimeException("target $target not found")
         }
     }
 }
