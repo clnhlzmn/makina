@@ -54,19 +54,21 @@ class CodeGenerator(val machine: Machine) {
                 println("static int ${machine.id}_${state.getFullyQualifiedIdString()}($machineStructName *, $machineEventName *);")
             }
             println()
-            for (sourceState in machine.states.filter { it.isLeafState() }) {
-                println("static int ${machine.id}_${sourceState.getFullyQualifiedIdString()}($machineStructName *self, $machineEventName *event) {")
+            for (activeLeafState in machine.states.filter { it.isLeafState() }) {
+                println("static int ${machine.id}_${activeLeafState.getFullyQualifiedIdString()}($machineStructName *self, $machineEventName *event) {")
                 println("\tif (!self || !event) return -1;")
-                val config = sourceState.getStateConfiguration()
-                val handlers = config.getHandlers()
-                for (handler in handlers) {
+                val config = activeLeafState.getStateConfiguration()
+                val handlerStatePairs = config.getHandlers()
+                for (pair in handlerStatePairs) {
+                    val sourceState = pair.first
+                    val handler = pair.second
                     val guard = if (handler.guard != null) "${handler.guard}(self, event)" else "1"
                     println("\tif (event->id == ${machine.id}_event_${handler.id} && $guard) {")
                     if (handler.target.isNotEmpty()) {
                         var target = handler.getTargetState(sourceState, machine)
                         if (!target.isLeafState())
                             target = target.getStateConfiguration().getLeafState()
-                        val transition = Transition(sourceState, target)
+                        val transition = Transition(activeLeafState, target)
                         val exitSet = transition.getExitSet()
                         for (stateToExit in exitSet) {
                             for (exit in stateToExit.handlers.filterIsInstance<Handler.Exit>()) {

@@ -27,7 +27,7 @@ internal class StateConfigurationTest {
         parent.subStates = listOf(child)
         child.parent = parent
         val config = StateConfiguration(setOf(child, parent))
-        assertEquals(listOf(Handler.Event("qux"), Handler.Event("bar")), config.getHandlers())
+        assertEquals(listOf(Pair(child, Handler.Event("qux")), Pair(parent, Handler.Event("bar"))), config.getHandlers())
     }
 
     @Test

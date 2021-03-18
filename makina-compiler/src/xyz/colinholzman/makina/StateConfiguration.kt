@@ -19,8 +19,8 @@ data class StateConfiguration(val states: Set<State>) {
 
     //Returns the list of handlers that this state configuration should handle.
     //The handlers are deepest deepest state first and in document order for handlers within a single state.
-    fun getHandlers(): List<Handler.Event> {
-        return orderedStates.flatMap { state -> state.handlers.filterIsInstance<Handler.Event>() }
+    fun getHandlers(): List<Pair<State, Handler.Event>> {
+        return orderedStates.flatMap { state -> state.handlers.filterIsInstance<Handler.Event>().map { Pair(state, it) } }
     }
 
     //Returns the list of entry handlers that should be activated when initializing a machine in this state config.
