@@ -6,17 +6,30 @@ sealed class Handler: Node() {
     data class Event(val id: String, val guard: String? = null, val action: String? = null, val target: List<String> = emptyList()): Handler() {
         fun getTargetState(source: State, machine: Machine): State {
             if (target.isEmpty()) throw RuntimeException("handler doesn't define a transition")
+
+            //first look in the top level if the target is so specified
+            if (target.first() == ".")
+                return machine.states.find { it.getFullyQualifiedId() == target } ?:
+                    throw RuntimeException("target $target not found")
+
+            //then look for the target among the children of the source state,
+            //then among the siblings of the source state and the source state itself,
+            //then among the parent and siblings of the parent of the source state, etc...
             var scope: State? = source
-            while (scope != null) {
-                val fullTargetId = scope.getFullyQualifiedId() + target
+            while (true) {
+                //append the scope's fully qualified name to the target
+                val fullTargetId =
+                        if (scope == null) listOf(".") + target
+                        else scope.getFullyQualifiedId() + target
+
+                //look for the fully qualified target among the states
                 val found = machine.states.find { it.getFullyQualifiedId() == fullTargetId }
                 if (found != null) return found
-                scope = scope.parent
+
+                //if scope is null then we have looked everywhere
+                if (scope == null) throw RuntimeException("target $target not found")
+                else scope = scope.parent
             }
-            val fullTargetId = if (target.first() == ".") target else listOf(".") + target
-            val found = machine.states.find { it.getFullyQualifiedId() == fullTargetId }
-            if (found != null) return found
-            throw RuntimeException("target $target not found")
         }
     }
 }
