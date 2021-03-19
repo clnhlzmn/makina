@@ -2,6 +2,8 @@
 
 Makina is a hierarchical state machine source-to-source translator. It takes state machine descriptions as input and produces C language implementations of those state machines.
 
+## [Demo](https://clnhlzmn.github.io/Makina-demo/)
+
 ## Syntax
 
 Each file given as input to the Makina compiler represents a single state machine. At the top of the file the name of the machine is specified with a `machine` statement:
@@ -111,4 +113,16 @@ Entry and exit actions are similar to event handlers except they are triggered w
 
 ## Invoking Makina
 
+### Get the jar
 
+Clone the repo and build the makina-compiler project using Intellij. Or download the latest jar from [here](https://github.com/clnhlzmn/makina/raw/master/makina-compiler/out/artifacts/makina_compiler_jar/makina-compiler.jar).
+
+### Run the compiler
+
+```
+java -jar <path>/<to>/makina-compiler.jar <input-file> [<input-file-2>]
+```
+
+### Output
+
+Two files, `<machine-name>.h` and `<machine-name>.c` will be created (or overwritten!) in the same directory as `<input-file>`.
