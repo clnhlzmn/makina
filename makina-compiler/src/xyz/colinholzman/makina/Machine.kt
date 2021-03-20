@@ -1,7 +1,11 @@
 package xyz.colinholzman.makina
 
-data class Machine(val id: String, val states: List<State> = emptyList(),
-                   val location: SourceLocation = SourceLocation.none) {
+data class Machine(val id: String, val states: List<State> = emptyList()): Node() {
+
+    constructor(id: String, states: List<State> = emptyList(),
+                location: SourceLocation = SourceLocation.none): this(id, states) {
+        this.location = location
+    }
 
     init {
         linkStateGraph()

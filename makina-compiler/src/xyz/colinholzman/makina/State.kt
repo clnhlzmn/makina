@@ -3,8 +3,14 @@ package xyz.colinholzman.makina
 data class State(val id: String,
                  val handlers: List<Handler> = listOf(),
                  val parentId: List<String> = listOf("."),
-                 val initial: Boolean = false,
-                 val location: SourceLocation = SourceLocation.none) {
+                 val initial: Boolean = false): Node() {
+
+    constructor(id: String, handlers: List<Handler> = emptyList(),
+                parentId: List<String> = listOf("."),
+                initial: Boolean = false,
+                location: SourceLocation = SourceLocation.none): this(id, handlers, parentId, initial) {
+        this.location = location
+    }
 
     init {
         if (hasDuplicateHandlers()) throw RuntimeException("duplicate handlers")
