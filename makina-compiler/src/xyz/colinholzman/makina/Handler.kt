@@ -1,30 +1,54 @@
 package xyz.colinholzman.makina
 
-sealed class Handler: Node() {
-    data class Entry(val action: String): Handler() {
-        constructor(action: String, location: SourceLocation): this(action) {
-            this.location = location
+sealed class Handler(location: SourceLocation): Node(location) {
+    class Entry(val action: String,
+                location: SourceLocation = SourceLocation.none) : Handler(location) {
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Entry
+
+            if (action != other.action) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return action.hashCode()
         }
     }
-    data class Exit(val action: String): Handler() {
-        constructor(action: String, location: SourceLocation): this(action) {
-            this.location = location
+    class Exit(val action: String,
+               location: SourceLocation = SourceLocation.none): Handler(location) {
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Exit
+
+            if (action != other.action) return false
+
+            return true
         }
+
+        override fun hashCode(): Int {
+            return action.hashCode()
+        }
+
     }
-    data class Event(val id: String, val guard: String? = null,
-                     val action: String? = null, val target: List<String> = emptyList()): Handler() {
-        constructor(id: String, guard: String? = null,
-                    action: String? = null, target: List<String> = emptyList(),
-                    location: SourceLocation = SourceLocation.none): this(id, guard, action, target) {
-            this.location = location
-        }
+    class Event(val id: String, val guard: String? = null,
+                     val action: String? = null, val target: List<String> = emptyList(),
+                     location: SourceLocation = SourceLocation.none): Handler(location) {
+
         fun getTargetState(source: State, machine: Machine): State {
             if (target.isEmpty()) throw RuntimeException("handler doesn't define a transition")
 
             //first look in the top level if the target is so specified
             if (target.first() == ".")
                 return machine.states.find { it.getFullyQualifiedId() == target } ?:
-                    throw RuntimeException("target $target not found")
+                    throw RuntimeException("target $target not found at $location")
 
             //then look for the target among the children of the source state,
             //then among the siblings of the source state and the source state itself,
@@ -41,9 +65,31 @@ sealed class Handler: Node() {
                 if (found != null) return found
 
                 //if scope is null then we have looked everywhere
-                if (scope == null) throw RuntimeException("target $target not found")
+                if (scope == null) throw RuntimeException("target $target not found at $location")
                 else scope = scope.parent
             }
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Event
+
+            if (id != other.id) return false
+            if (guard != other.guard) return false
+            if (action != other.action) return false
+            if (target != other.target) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = id.hashCode()
+            result = 31 * result + (guard?.hashCode() ?: 0)
+            result = 31 * result + (action?.hashCode() ?: 0)
+            result = 31 * result + target.hashCode()
+            return result
         }
     }
 }

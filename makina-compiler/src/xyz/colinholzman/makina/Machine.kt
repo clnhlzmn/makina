@@ -1,11 +1,7 @@
 package xyz.colinholzman.makina
 
-data class Machine(val id: String, val states: List<State> = emptyList()): Node() {
-
-    constructor(id: String, states: List<State> = emptyList(),
-                location: SourceLocation = SourceLocation.none): this(id, states) {
-        this.location = location
-    }
+class Machine(val id: String, val states: List<State> = emptyList(),
+              location: SourceLocation = SourceLocation.none): Node(location) {
 
     init {
         linkStateGraph()
@@ -59,5 +55,23 @@ data class Machine(val id: String, val states: List<State> = emptyList()): Node(
         val designatedInitial = children.find { it.initial }
         val initial = designatedInitial ?: children.first()
         return initial.getStateConfiguration()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Machine
+
+        if (id != other.id) return false
+        if (states != other.states) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + states.hashCode()
+        return result
     }
 }

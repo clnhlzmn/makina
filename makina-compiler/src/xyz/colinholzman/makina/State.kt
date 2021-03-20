@@ -1,19 +1,13 @@
 package xyz.colinholzman.makina
 
-data class State(val id: String,
-                 val handlers: List<Handler> = listOf(),
-                 val parentId: List<String> = listOf("."),
-                 val initial: Boolean = false): Node() {
-
-    constructor(id: String, handlers: List<Handler> = emptyList(),
-                parentId: List<String> = listOf("."),
-                initial: Boolean = false,
-                location: SourceLocation = SourceLocation.none): this(id, handlers, parentId, initial) {
-        this.location = location
-    }
+class State(val id: String,
+            val handlers: List<Handler> = listOf(),
+            val parentId: List<String> = listOf("."),
+            val initial: Boolean = false,
+            location: SourceLocation = SourceLocation.none): Node(location) {
 
     init {
-        if (hasDuplicateHandlers()) throw RuntimeException("duplicate handlers")
+        if (hasDuplicateHandlers()) throw RuntimeException("duplicate handlers at $location")
     }
 
     //subStates field is valid only after this State has been included in a Machine
@@ -66,7 +60,7 @@ data class State(val id: String,
     fun assignParent(machine: Machine) {
         if (parentId.isRoot()) return
         parent = machine.states.find { it.parentId + it.id == parentId }
-                ?: throw RuntimeException("parent state $parentId not found")
+                ?: throw RuntimeException("parent state $parentId not found at $location")
     }
 
     fun isLeafState(): Boolean {
@@ -120,6 +114,28 @@ data class State(val id: String,
             val initial = subStates.find { it.initial } ?: subStates.first()
             initial.getStateConfiguration()
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as State
+
+        if (id != other.id) return false
+        if (handlers != other.handlers) return false
+        if (parentId != other.parentId) return false
+        if (initial != other.initial) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + handlers.hashCode()
+        result = 31 * result + parentId.hashCode()
+        result = 31 * result + initial.hashCode()
+        return result
     }
 
     companion object {

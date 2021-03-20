@@ -1,5 +1,3 @@
 package xyz.colinholzman.makina
 
-abstract class Node {
-    var location = SourceLocation.none
-}
+abstract class Node(val location: SourceLocation)
