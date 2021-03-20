@@ -5,8 +5,8 @@ class Machine(val id: String, val states: List<State> = emptyList(),
 
     init {
         linkStateGraph()
-        if (hasDuplicateStates()) throw RuntimeException("duplicate states")
-        if (hasDuplicateInitialStates()) throw RuntimeException("duplicate initial states")
+        checkForDuplicateStates()
+        checkForDuplicateInitialStates()
     }
 
     private fun linkStateGraph() {
@@ -16,13 +16,25 @@ class Machine(val id: String, val states: List<State> = emptyList(),
         }
     }
 
-    private fun hasDuplicateStates(): Boolean {
-        val stateIds = states.map { Pair(it.id, it.parent) }
-        return HashSet(stateIds).size != stateIds.size
+    private fun checkForDuplicateStates() {
+        val set = HashSet<Pair<String, State?>>()
+        for (state in states) {
+            val entry = Pair(state.id, state.parent)
+            if (set.contains(entry))
+                throw RuntimeException("duplicate state at ${state.location}")
+            else
+                set.add(entry)
+        }
     }
 
-    private fun hasDuplicateInitialStates(): Boolean {
-        return states.filter { it.initial && it.parent == null }.count() > 1
+    private fun checkForDuplicateInitialStates() {
+        var count = 0
+        for (state in states) {
+            if (state.initial && state.parent == null) {
+                if (count == 0) count++
+                else throw RuntimeException("duplicate initial state at ${state.location}")
+            }
+        }
     }
 
     fun getAllActionAndGuardNames(): Set<String> {
