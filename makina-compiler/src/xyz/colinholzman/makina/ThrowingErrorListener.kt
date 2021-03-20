@@ -5,7 +5,7 @@ import org.antlr.v4.runtime.RecognitionException
 import org.antlr.v4.runtime.Recognizer
 import org.antlr.v4.runtime.misc.ParseCancellationException
 
-class ThrowingErrorListener : BaseErrorListener() {
+class ThrowingErrorListener(val sourceName: String) : BaseErrorListener() {
 
     @Throws(ParseCancellationException::class)
     override fun syntaxError(
@@ -16,11 +16,6 @@ class ThrowingErrorListener : BaseErrorListener() {
         msg: String?,
         e: RecognitionException?
     ) {
-        throw ParseCancellationException("line $line:$charPositionInLine $msg")
-    }
-
-    companion object {
-
-        val INSTANCE = ThrowingErrorListener()
+        throw ParseCancellationException("$msg at $line:${charPositionInLine+1} in $sourceName")
     }
 }

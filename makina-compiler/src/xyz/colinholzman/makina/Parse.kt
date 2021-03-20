@@ -11,7 +11,7 @@ class Parse {
             val tokens = CommonTokenStream(lexer)
             val parser = makinaParser(tokens)
             parser.removeErrorListeners()
-            parser.addErrorListener(ThrowingErrorListener.INSTANCE)
+            parser.addErrorListener(ThrowingErrorListener(stream.sourceName))
             return parser
         }
         fun fileFromString(content: String): Machine {
