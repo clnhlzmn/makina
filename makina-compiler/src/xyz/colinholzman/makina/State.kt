@@ -7,14 +7,14 @@ class State(val id: String,
             location: SourceLocation = SourceLocation.none): Node(location) {
 
     init {
-        if (hasDuplicateHandlers()) throw RuntimeException("duplicate handlers at $location")
+        checkForDuplicateHandlers()
     }
 
     //subStates field is valid only after this State has been included in a Machine
     var subStates: List<State> = ArrayList()
         set(value) {
             field = value
-            if (hasDuplicateInitialStates()) throw RuntimeException("duplicate initial states")
+            checkForDuplicateInitialStates()
         }
 
     //parent field is valid only after this State has been included in a Machine
@@ -36,19 +36,30 @@ class State(val id: String,
         return getFullyQualifiedId().drop(1).joinToString("_")
     }
 
-    private fun hasDuplicateHandlers(): Boolean {
-        val handlerIds = handlers.map {
-            when (it) {
-                is Handler.Entry -> Pair("entry", null)
+    private fun checkForDuplicateHandlers() {
+        val set = HashSet<Pair<String, String?>>()
+        for (handler in handlers) {
+            val entry = when (handler) {
                 is Handler.Exit -> Pair("exit", null)
-                is Handler.Event -> Pair(it.id, it.guard)
+                is Handler.Entry -> Pair("entry", null)
+                is Handler.Event -> Pair(handler.id, handler.guard)
+            }
+            if (set.contains(entry)) {
+                throw RuntimeException("duplicate handler at ${handler.location}")
+            } else {
+                set.add(entry)
             }
         }
-        return HashSet(handlerIds).size != handlerIds.size
     }
 
-    private fun hasDuplicateInitialStates(): Boolean {
-        return subStates.filter { it.initial }.size > 1
+    private fun checkForDuplicateInitialStates() {
+        var count = 0
+        for (subState in subStates) {
+            if (subState.initial) {
+                if (count == 0) count++
+                else throw RuntimeException("duplicate initial state at ${subState.location}")
+            }
+        }
     }
 
     fun assignSubStates(machine: Machine) {
