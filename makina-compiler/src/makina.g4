@@ -1,7 +1,7 @@
 grammar makina;
 
 file
-    : 'machine' ID ';' state*
+    : 'machine' ID ';' state* EOF
     ;
 
 state
