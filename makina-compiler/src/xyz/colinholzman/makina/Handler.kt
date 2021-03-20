@@ -1,9 +1,13 @@
 package xyz.colinholzman.makina
 
-sealed class Handler: Node() {
-    data class Entry(val action: String): Handler()
-    data class Exit(val action: String): Handler()
-    data class Event(val id: String, val guard: String? = null, val action: String? = null, val target: List<String> = emptyList()): Handler() {
+sealed class Handler {
+    data class Entry(val action: String,
+                     val location: SourceLocation = SourceLocation.none): Handler()
+    data class Exit(val action: String,
+                    val location: SourceLocation = SourceLocation.none): Handler()
+    data class Event(val id: String, val guard: String? = null,
+                     val action: String? = null, val target: List<String> = emptyList(),
+                     val location: SourceLocation = SourceLocation.none): Handler() {
         fun getTargetState(source: State, machine: Machine): State {
             if (target.isEmpty()) throw RuntimeException("handler doesn't define a transition")
 

@@ -1,6 +1,7 @@
 package xyz.colinholzman.makina
 
-data class Machine(val id: String, val states: List<State> = emptyList()): Node() {
+data class Machine(val id: String, val states: List<State> = emptyList(),
+                   val location: SourceLocation = SourceLocation.none) {
 
     init {
         linkStateGraph()

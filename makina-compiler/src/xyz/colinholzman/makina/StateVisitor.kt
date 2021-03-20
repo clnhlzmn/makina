@@ -24,6 +24,6 @@ class StateVisitor: makinaBaseVisitor<List<State>>() {
         withNewParentId(id) {
             childStates = ctx.state().flatMap { it.accept(this) }
         }
-        return childStates + State(id, handlers, parentId, initial)
+        return childStates + State(id, handlers, parentId, initial, SourceLocation.fromParseContext(ctx))
     }
 }
