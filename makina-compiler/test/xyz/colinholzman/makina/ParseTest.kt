@@ -74,7 +74,14 @@ internal class ParseTest {
     @Test
     fun testParseStateWithParent() {
         val actual = Parse.state("state Bar.Foo {}").first()
-        val expected = State("Foo", listOf(), listOf("Bar"))
+        val expected = State("Foo", listOf(), listOf(".", "Bar"))
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun testParseStateWithParentAbsolute() {
+        val actual = Parse.state("state .Bar.Foo {}").first()
+        val expected = State("Foo", listOf(), listOf(".", "Bar"))
         assertEquals(expected, actual)
     }
 

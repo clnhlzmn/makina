@@ -16,6 +16,8 @@ class StateVisitor: makinaBaseVisitor<List<State>>() {
         var parentId = fullId.dropLast(1)
         if (parentId.isEmpty())
             parentId = currentParentId
+        else if (currentParentId.isRoot() && parentId.first() != ".")
+            parentId = listOf(".") + parentId
         else if (currentParentId.isNotRoot() && parentId != currentParentId)
             throw RuntimeException("invalid parent specified at ${SourceLocation.fromParseContext(ctx)}")
         val handlers = ctx.handler().map { it.accept(HandlerVisitor()) }
