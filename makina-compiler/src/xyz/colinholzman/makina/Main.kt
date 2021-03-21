@@ -22,7 +22,8 @@ fun main(args: Array<String>) {
             val headerPath = Paths.get(outputDirectoryPath, "${machine.id}.h").toString()
             val sourcePath = Paths.get(outputDirectoryPath, "${machine.id}.c").toString()
 
-            val generator = CodeGenerator(machine)
+            val generator = CodeGenerator(machine, options.machineDataType,
+                    options.eventDataType, options.includes)
 
             val headerStream = ByteArrayOutputStream()
             val implementationStream = ByteArrayOutputStream()

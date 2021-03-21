@@ -116,14 +116,14 @@ internal class CodeGeneratorTest {
             int main (void) {
                 output = fopen("test_output.txt", "w+");
                 struct test instance;
-                test_init(&instance);                                                //s1_entry, s1_s2_entry
-                test_process_event(&instance, &(struct test_event) {test_event_e1}); //s1_s2_e1_guard, s1_s2_exit, s1_exit, s2_entry, s2_s1_entry
-                test_process_event(&instance, &(struct test_event) {test_event_e2}); //...
-                test_process_event(&instance, &(struct test_event) {test_event_e1}); //s2_s1_exit, s2_exit, s2_s1_e1_action, s1_entry, s1_s2_entry
+                test_init(&instance);                                                      //s1_entry, s1_s2_entry
+                test_process_event(&instance, &(struct test_event) {.id = test_event_e1}); //s1_s2_e1_guard, s1_s2_exit, s1_exit, s2_entry, s2_s1_entry
+                test_process_event(&instance, &(struct test_event) {.id = test_event_e2}); //...
+                test_process_event(&instance, &(struct test_event) {.id = test_event_e1}); //s2_s1_exit, s2_exit, s2_s1_e1_action, s1_entry, s1_s2_entry
                 s1_s2_e1_guard_value = 1;
-                test_process_event(&instance, &(struct test_event) {test_event_e1}); //s1_s2_e1_guard, s1_s2_e1_action
-                test_process_event(&instance, &(struct test_event) {test_event_e2}); //s1_s2_exit, s1_exit, s2_entry, s2_s3_entry
-                test_process_event(&instance, &(struct test_event) {test_event_e2}); //s2_s3_exit, s2_exit, s1_entry, s1_s2_entry
+                test_process_event(&instance, &(struct test_event) {.id = test_event_e1}); //s1_s2_e1_guard, s1_s2_e1_action
+                test_process_event(&instance, &(struct test_event) {.id = test_event_e2}); //s1_s2_exit, s1_exit, s2_entry, s2_s3_entry
+                test_process_event(&instance, &(struct test_event) {.id = test_event_e2}); //s2_s3_exit, s2_exit, s1_entry, s1_s2_entry
                 fclose(output);
                 return 0;
             }
@@ -164,7 +164,6 @@ internal class CodeGeneratorTest {
 
         //invoke Makina
         main(arrayOf(testSourceFile.absolutePath))
-
 
         val makinaOutputFilePath = testDir.resolve("test.c").toString()
         val compiledExecutablePath = testDir.resolve("test.exe").toString()
