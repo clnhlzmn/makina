@@ -14,7 +14,7 @@ fun main(args: Array<String>) {
         try {
             val machine = Parse.file(file)
 
-            val outputDirectoryPath = options.outputDir ?: Paths.get(file).parent.toString()
+            val outputDirectoryPath = options.outputDir ?: (Paths.get(file).parent ?: ".").toString()
             val outputDirectory = File(outputDirectoryPath)
             if (!outputDirectory.exists())
                 outputDirectory.mkdirs()
