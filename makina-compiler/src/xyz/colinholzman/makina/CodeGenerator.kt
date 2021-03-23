@@ -1,5 +1,6 @@
 package xyz.colinholzman.makina
 
+import xyz.colinholzman.makina.StateConfiguration.Companion.groupByIdAndRemoveRedundantHandlers
 import java.io.PrintWriter
 
 class CodeGenerator(val machine: Machine,
@@ -66,10 +67,10 @@ class CodeGenerator(val machine: Machine,
                 val exitSet = transition.getExitSet()
                 for (stateToExit in exitSet) {
                     for (exit in stateToExit.handlers.filterIsInstance<Handler.Exit>()) {
-                        println("\t\t${exit.action}(self, event);")
+                        println("\t\t\t${exit.action}(self, event);")
                     }
                 }
-                println("\t\tself->state = NULL;")
+                println("\t\t\tself->state = NULL;")
             }
         }
     }
@@ -79,10 +80,10 @@ class CodeGenerator(val machine: Machine,
             if (handler.target.isNotEmpty()) {
                 val transition = getTransition(handler, sourceState, activeLeafState)
                 val entrySet = transition.getEntrySet()
-                println("\t\tself->state = ${machine.id}_${transition.target.getFullyQualifiedIdString()};")
+                println("\t\t\tself->state = ${machine.id}_${transition.target.getFullyQualifiedIdString()};")
                 for (stateToEnter in entrySet) {
                     for (entry in stateToEnter.handlers.filterIsInstance<Handler.Entry>()) {
-                        println("\t\t${entry.action}(self, event);")
+                        println("\t\t\t${entry.action}(self, event);")
                     }
                 }
             }
@@ -103,20 +104,28 @@ class CodeGenerator(val machine: Machine,
                 println("static int ${machine.id}_${activeLeafState.getFullyQualifiedIdString()}($machineStructName *self, $machineEventName *event) {")
                 println("\tif (!self || !event) return -1;")
                 val config = activeLeafState.getStateConfiguration()
-                val handlerStatePairs = config.getHandlers()
-                for (pair in handlerStatePairs) {
-                    val sourceState = pair.first
-                    val handler = pair.second
-                    val guard = if (handler.guard != null) "${handler.guard}(self, event)" else "1"
-                    println("\tif (event->id == ${machine.id}_event_${handler.id} && $guard) {")
-                    generateExitActions(handler, sourceState, activeLeafState, output)
-                    if (handler.action != null) {
-                        println("\t\t${handler.action}(self, event);")
+                println("\tswitch (event->id) {")
+                val handlerStatePairs = config.getHandlers().groupByIdAndRemoveRedundantHandlers()
+                for (entry in handlerStatePairs) {
+                    val eventId = entry.key
+                    println("\tcase ${machine.id}_event_$eventId:")
+                    for (handlerStatePair in entry.value) {
+                        val sourceState = handlerStatePair.first
+                        val handler = handlerStatePair.second
+                        val guard = if (handler.guard != null) "${handler.guard}(self, event)" else "1"
+                        println("\t\tif ($guard) {")
+                        generateExitActions(handler, sourceState, activeLeafState, output)
+                        if (handler.action != null) {
+                            println("\t\t\t${handler.action}(self, event);")
+                        }
+                        generateEntryActions(handler, sourceState, activeLeafState, output)
+                        println("\t\t\tbreak;")
+                        println("\t\t}")
                     }
-                    generateEntryActions(handler, sourceState, activeLeafState, output)
-                    println("\t\treturn 0;")
-                    println("\t}")
+                    println("\t\tbreak;")
                 }
+                println("\tdefault: break;")
+                println("\t}")
                 println("\treturn 0;")
                 println("}")
                 println()
