@@ -17,13 +17,13 @@ enum oven_event_id {
 };
 
 struct oven_event {
+	void * ctx;
 	enum oven_event_id id;
-	void *ctx;
 };
 
 struct oven {
 	int (*state)(struct oven *, struct oven_event *);
-	void *ctx;
+	void * ctx;
 };
 
 int oven_init(struct oven *);
