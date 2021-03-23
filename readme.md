@@ -120,9 +120,19 @@ Clone the repo and build the makina-compiler project using Intellij. Or download
 ### Run the compiler
 
 ```
-java -jar <path>/<to>/makina-compiler.jar <input-file> [<input-file-2>]
+java -jar <path>/<to>/makina-compiler.jar <input-file> [<input-file-2>] [<other-options>]
 ```
 
 ### Output
 
-Two files, `<machine-name>.h` and `<machine-name>.c` will be created (or overwritten!) in the same directory as `<input-file>`.
+Two files, `<machine-name>.h` and `<machine-name>.c` will be created (or overwritten!) in the same directory as `<input-file>` or in the specified output directory.
+
+### Command line options
+
+`-o <path>`  or `--output <path>`: Specify the output path for generated files.
+
+`-m <type>`  or `--machine-data <type>`: Specify the type of the `ctx` member of the generated machine type. The default type is `void *`. May occur zero or one times.
+
+`-e <type>`  or `--event-data <type>`: Specify the type of the `ctx` member of the generated event type. The default type is `void *`. May occur zero or one times.
+
+`-i <file>`  or `--include <file>`: Specify files to include in the generated C header. This can be used to provide definitions of custom types specified with `-e` or `-m`. May occur zero or more times.
