@@ -4,6 +4,10 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
+import xyz.colinholzman.makina.StateConfiguration.Companion.groupByIdAndRemoveRedundantHandlers
+import xyz.colinholzman.makina.TestStates.Companion.s1
+import xyz.colinholzman.makina.TestStates.Companion.s11
+import xyz.colinholzman.makina.TestStates.Companion.s111
 
 internal class StateConfigurationTest {
 
@@ -48,5 +52,47 @@ internal class StateConfigurationTest {
         child.parent = parent
         val config = StateConfiguration(setOf(child, parent))
         assertEquals(child, config.getLeafState())
+    }
+
+    @Test
+    fun filterHandlers() {
+        var handlers = arrayListOf(
+                Pair(s111, Handler.Event("foo")),
+                Pair(s11, Handler.Event("foo")),
+                Pair(s1, Handler.Event("foo"))
+        )
+        var expected = mapOf(Pair("foo", listOf(Pair(s111, Handler.Event("foo")))))
+        assertEquals(expected, handlers.groupByIdAndRemoveRedundantHandlers())
+
+
+        handlers = arrayListOf(
+                Pair(s111, Handler.Event("foo")),
+                Pair(s11, Handler.Event("foo")),
+                Pair(s1, Handler.Event("foo", guard = "bar"))
+        )
+        expected = mapOf(Pair("foo", listOf(Pair(s111, Handler.Event("foo")),
+                                            Pair(s1, Handler.Event("foo", guard = "bar")))))
+        assertEquals(expected, handlers.groupByIdAndRemoveRedundantHandlers())
+
+
+        handlers = arrayListOf(
+                Pair(s111, Handler.Event("foo")),
+                Pair(s11, Handler.Event("bar")),
+                Pair(s1, Handler.Event("foo"))
+        )
+        expected = mapOf(Pair("foo", listOf(Pair(s111, Handler.Event("foo")))),
+                         Pair("bar", listOf(Pair(s11, Handler.Event("bar")))))
+        assertEquals(expected, handlers.groupByIdAndRemoveRedundantHandlers())
+
+
+        handlers = arrayListOf(
+                Pair(s111, Handler.Event("foo", guard = "bar")),
+                Pair(s11, Handler.Event("foo", guard = "baz")),
+                Pair(s1, Handler.Event("foo"))
+        )
+        expected = mapOf(Pair("foo", listOf(Pair(s111, Handler.Event("foo", guard = "bar")),
+                                            Pair(s11, Handler.Event("foo", guard = "baz")),
+                                            Pair(s1, Handler.Event("foo")))))
+        assertEquals(expected, handlers.groupByIdAndRemoveRedundantHandlers())
     }
 }

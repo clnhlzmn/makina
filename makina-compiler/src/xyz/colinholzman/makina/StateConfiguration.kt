@@ -18,7 +18,7 @@ data class StateConfiguration(val states: Set<State>) {
     }
 
     //Returns the list of handlers that this state configuration should handle.
-    //The handlers are deepest deepest state first and in document order for handlers within a single state.
+    //The handlers are deepest state first and in document order for handlers within a single state.
     fun getHandlers(): List<Pair<State, Handler.Event>> {
         return orderedStates.flatMap { state -> state.handlers.filterIsInstance<Handler.Event>().map { Pair(state, it) } }
     }
@@ -31,5 +31,14 @@ data class StateConfiguration(val states: Set<State>) {
     //Returns the leaf state for this configuration.
     fun getLeafState(): State {
         return orderedStates.first()
+    }
+
+    companion object {
+        fun List<Pair<State, Handler.Event>>.groupByIdAndRemoveRedundantHandlers(): Map<String, List<Pair<State, Handler.Event>>> {
+            return groupBy { it.second.id }.mapValues { entry ->
+                val guards = HashSet<String?>()
+                entry.value.filter { guards.add(it.second.guard) }
+            }
+        }
     }
 }
