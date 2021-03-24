@@ -1,5 +1,7 @@
 # Makina
 
+**Makina is a work in progress. Use at your own risk.**
+
 Makina is a hierarchical state machine source-to-source translator. It takes state machine descriptions as input and produces C language implementations of those state machines.
 
 ## [Demo](https://clnhlzmn.github.io/Makina-demo/)
