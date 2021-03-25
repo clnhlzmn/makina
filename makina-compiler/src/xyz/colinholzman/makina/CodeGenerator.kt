@@ -53,17 +53,11 @@ class CodeGenerator(val machine: Machine,
         }
     }
 
-    private fun getTransition(handler: Handler.Event, sourceState: State, activeLeafState: State): Transition {
-        var target = handler.getTargetState(sourceState, machine)
-        if (!target.isLeafState())
-            target = target.getStateConfiguration().getLeafState()
-        return Transition(activeLeafState, target)
-    }
-
     private fun generateExitActions(handler: Handler.Event, sourceState: State, activeLeafState: State, output: PrintWriter) {
         output.apply {
             if (handler.target.isNotEmpty()) {
-                val transition = getTransition(handler, sourceState, activeLeafState)
+                val target = handler.getTargetState(sourceState, machine)
+                val transition = Transition(activeLeafState, target)
                 val exitSet = transition.getExitSet()
                 for (stateToExit in exitSet) {
                     for (exit in stateToExit.handlers.filterIsInstance<Handler.Exit>()) {
@@ -78,9 +72,11 @@ class CodeGenerator(val machine: Machine,
     private fun generateEntryActions(handler: Handler.Event, sourceState: State, activeLeafState: State, output: PrintWriter) {
         output.apply {
             if (handler.target.isNotEmpty()) {
-                val transition = getTransition(handler, sourceState, activeLeafState)
-                val entrySet = transition.getEntrySet()
-                println("\t\t\tself->state = ${machine.id}_${transition.target.getFullyQualifiedIdString()};")
+                val target = handler.getTargetState(sourceState, machine)
+                val transition = Transition(activeLeafState, target)
+                val entrySet = transition.getEntrySet() + target.getDefaultEntrySet()
+                val leafStateTarget = if (target.isLeafState()) target else target.getDefaultEntrySet().last()
+                println("\t\t\tself->state = ${machine.id}_${leafStateTarget.getFullyQualifiedIdString()};")
                 for (stateToEnter in entrySet) {
                     for (entry in stateToEnter.handlers.filterIsInstance<Handler.Entry>()) {
                         println("\t\t\t${entry.action}(self, event);")
