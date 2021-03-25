@@ -34,16 +34,16 @@ internal class CodeGeneratorTest {
     @Test
     fun testCodeGenerator() {
         val makeClean = ProcessBuilder()
-                .directory(File("./test/code_generator_test"))
+                .directory(File("./../test/code_generator_test"))
                 .command("make", "clean").start()
         makeClean.waitFor(10, TimeUnit.SECONDS)
 
         val make = ProcessBuilder()
-                .directory(File("./test/code_generator_test"))
+                .directory(File("./../test/code_generator_test"))
                 .command("make").start()
         make.waitFor(10, TimeUnit.SECONDS)
 
-        File("./test/code_generator_test/out/test_output.txt").reader().use {
+        File("./../test/code_generator_test/out/test_output.txt").reader().use {
             assertEquals(testOutput, it.readLines())
         }
     }
