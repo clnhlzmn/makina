@@ -127,6 +127,20 @@ class State(val id: String,
         }
     }
 
+    fun getInitialSubState(): State {
+        return subStates.find { it.initial } ?: subStates.first()
+    }
+
+    //gets a list of the sub states to enter if this is the target of a transition
+    fun getDefaultEntrySet(): List<State> {
+        return if (isLeafState()) {
+            emptyList()
+        } else {
+            val initialSubState = getInitialSubState()
+            listOf(initialSubState) + initialSubState.getDefaultEntrySet()
+        }
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
