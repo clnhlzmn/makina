@@ -2,7 +2,6 @@ package xyz.colinholzman.makina
 
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
-import kotlin.math.exp
 import kotlin.test.assertEquals
 
 internal class ParseTest {
@@ -66,8 +65,8 @@ internal class ParseTest {
 
     @Test
     fun testParseLocalTransitionEventHandler() {
-        val actual = Parse.handler("on Foo > bar;")
-        val expected = Handler.Event("Foo", null, null, Target(listOf("bar"), Target.Kind.LOCAL))
+        val actual = Parse.handler("on Foo --> bar;")
+        val expected = Handler.Event("Foo", null, null, Target(listOf("bar"), Target.Kind.EXTERNAL))
         assertEquals(expected, actual)
     }
 

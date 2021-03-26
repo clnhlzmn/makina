@@ -6,8 +6,8 @@ class TargetVisitor: makinaBaseVisitor<Target>() {
         return Target(targetId, Target.Kind.EXTERNAL)
     }
 
-    override fun visitLocalTransition(ctx: makinaParser.LocalTransitionContext?): Target {
+    override fun visitDefaultTransition(ctx: makinaParser.DefaultTransitionContext?): Target {
         val targetId = ctx!!.id().accept(IdVisitor())
-        return Target(targetId, Target.Kind.LOCAL)
+        return Target(targetId, Target.Kind.DEFAULT)
     }
 }

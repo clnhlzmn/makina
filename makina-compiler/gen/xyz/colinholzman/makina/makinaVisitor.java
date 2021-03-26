@@ -1,4 +1,4 @@
-// Generated from /Users/colinholzman/makina/makina-compiler/src/makina.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Colin/Documents/makina/makina-compiler/src\makina.g4 by ANTLR 4.9.1
 package xyz.colinholzman.makina;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -62,17 +62,17 @@ public interface makinaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGuard(makinaParser.GuardContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code defaultTransition}
+	 * labeled alternative in {@link makinaParser#target}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefaultTransition(makinaParser.DefaultTransitionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code externalTransition}
 	 * labeled alternative in {@link makinaParser#target}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExternalTransition(makinaParser.ExternalTransitionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code localTransition}
-	 * labeled alternative in {@link makinaParser#target}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLocalTransition(makinaParser.LocalTransitionContext ctx);
 }

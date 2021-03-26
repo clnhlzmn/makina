@@ -1,4 +1,4 @@
-// Generated from /Users/colinholzman/makina/makina-compiler/src/makina.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Colin/Documents/makina/makina-compiler/src\makina.g4 by ANTLR 4.9.1
 package xyz.colinholzman.makina;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -33,7 +33,7 @@ public class makinaParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'machine'", "';'", "'initial'", "'state'", "'{'", "'}'", "'.'", 
-			"'entry'", "'exit'", "'on'", "'('", "')'", "'->'", "'>'"
+			"'entry'", "'exit'", "'on'", "'('", "')'", "'->'", "'-->'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -625,22 +625,22 @@ public class makinaParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class LocalTransitionContext extends TargetContext {
+	public static class DefaultTransitionContext extends TargetContext {
 		public IdContext id() {
 			return getRuleContext(IdContext.class,0);
 		}
-		public LocalTransitionContext(TargetContext ctx) { copyFrom(ctx); }
+		public DefaultTransitionContext(TargetContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof makinaListener ) ((makinaListener)listener).enterLocalTransition(this);
+			if ( listener instanceof makinaListener ) ((makinaListener)listener).enterDefaultTransition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof makinaListener ) ((makinaListener)listener).exitLocalTransition(this);
+			if ( listener instanceof makinaListener ) ((makinaListener)listener).exitDefaultTransition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof makinaVisitor ) return ((makinaVisitor<? extends T>)visitor).visitLocalTransition(this);
+			if ( visitor instanceof makinaVisitor ) return ((makinaVisitor<? extends T>)visitor).visitDefaultTransition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -653,7 +653,7 @@ public class makinaParser extends Parser {
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__12:
-				_localctx = new ExternalTransitionContext(_localctx);
+				_localctx = new DefaultTransitionContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(79);
@@ -663,7 +663,7 @@ public class makinaParser extends Parser {
 				}
 				break;
 			case T__13:
-				_localctx = new LocalTransitionContext(_localctx);
+				_localctx = new ExternalTransitionContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(81);

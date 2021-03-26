@@ -1,4 +1,4 @@
-// Generated from /Users/colinholzman/makina/makina-compiler/src/makina.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Colin/Documents/makina/makina-compiler/src\makina.g4 by ANTLR 4.9.1
 package xyz.colinholzman.makina;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -73,12 +73,12 @@ public class makinaBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExternalTransition(makinaParser.ExternalTransitionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefaultTransition(makinaParser.DefaultTransitionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLocalTransition(makinaParser.LocalTransitionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExternalTransition(makinaParser.ExternalTransitionContext ctx) { return visitChildren(ctx); }
 }

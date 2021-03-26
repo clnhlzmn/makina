@@ -1,4 +1,4 @@
-// Generated from /Users/colinholzman/makina/makina-compiler/src/makina.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Colin/Documents/makina/makina-compiler/src\makina.g4 by ANTLR 4.9.1
 package xyz.colinholzman.makina;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -94,6 +94,18 @@ public interface makinaListener extends ParseTreeListener {
 	 */
 	void exitGuard(makinaParser.GuardContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code defaultTransition}
+	 * labeled alternative in {@link makinaParser#target}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefaultTransition(makinaParser.DefaultTransitionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code defaultTransition}
+	 * labeled alternative in {@link makinaParser#target}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefaultTransition(makinaParser.DefaultTransitionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code externalTransition}
 	 * labeled alternative in {@link makinaParser#target}.
 	 * @param ctx the parse tree
@@ -105,16 +117,4 @@ public interface makinaListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExternalTransition(makinaParser.ExternalTransitionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code localTransition}
-	 * labeled alternative in {@link makinaParser#target}.
-	 * @param ctx the parse tree
-	 */
-	void enterLocalTransition(makinaParser.LocalTransitionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code localTransition}
-	 * labeled alternative in {@link makinaParser#target}.
-	 * @param ctx the parse tree
-	 */
-	void exitLocalTransition(makinaParser.LocalTransitionContext ctx);
 }

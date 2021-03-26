@@ -1,4 +1,4 @@
-// Generated from /Users/colinholzman/makina/makina-compiler/src/makina.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Colin/Documents/makina/makina-compiler/src\makina.g4 by ANTLR 4.9.1
 package xyz.colinholzman.makina;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -112,6 +112,18 @@ public class makinaBaseListener implements makinaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDefaultTransition(makinaParser.DefaultTransitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefaultTransition(makinaParser.DefaultTransitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExternalTransition(makinaParser.ExternalTransitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -119,18 +131,6 @@ public class makinaBaseListener implements makinaListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExternalTransition(makinaParser.ExternalTransitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterLocalTransition(makinaParser.LocalTransitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLocalTransition(makinaParser.LocalTransitionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
