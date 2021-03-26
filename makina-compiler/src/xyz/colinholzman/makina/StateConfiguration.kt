@@ -33,6 +33,11 @@ data class StateConfiguration(val states: Set<State>) {
         return orderedStates.first()
     }
 
+    //Returns the top level state of this configuration
+    fun getParentState(): State {
+        return orderedStates.last()
+    }
+
     companion object {
         fun List<Pair<State, Handler.Event>>.groupByIdAndRemoveRedundantHandlers(): Map<String, List<Pair<State, Handler.Event>>> {
             return groupBy { it.second.id }.mapValues { entry ->

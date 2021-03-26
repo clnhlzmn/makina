@@ -27,7 +27,8 @@ guard
     ;
 
 target
-    : '->' id
+    : '->' id       #externalTransition
+    | '>' id        #localTransition
     ;
 
 ID  : ('_'|'a'..'z'|'A'..'Z') ('_'|'0'..'9'|'a'..'z'|'A'..'Z')*

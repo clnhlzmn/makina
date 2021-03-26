@@ -55,7 +55,7 @@ class CodeGenerator(val machine: Machine,
 
     private fun generateExitActions(handler: Handler.Event, sourceState: State, activeLeafState: State, output: PrintWriter) {
         output.apply {
-            if (handler.target.isNotEmpty()) {
+            if (handler.target != null) {
                 val target = handler.getTargetState(sourceState, machine)
                 val transition = Transition(activeLeafState, target)
                 val exitSet = transition.getExitSet()
@@ -71,7 +71,7 @@ class CodeGenerator(val machine: Machine,
 
     private fun generateEntryActions(handler: Handler.Event, sourceState: State, activeLeafState: State, output: PrintWriter) {
         output.apply {
-            if (handler.target.isNotEmpty()) {
+            if (handler.target != null) {
                 val target = handler.getTargetState(sourceState, machine)
                 val transition = Transition(activeLeafState, target)
                 val entrySet = transition.getEntrySet() + target.getDefaultEntrySet()

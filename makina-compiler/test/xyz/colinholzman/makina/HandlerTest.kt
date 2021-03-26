@@ -19,7 +19,7 @@ internal class HandlerTest {
         val s1 = State("s1")
         val s11 = State("s11", parentId = listOf(".", "s1"))
         val s12 = State("s12", parentId = listOf(".", "s1"))
-        val handler = Handler.Event("foo", target = listOf(".", "s2"))
+        val handler = Handler.Event("foo", target = Target(listOf(".", "s2")))
         val s111 = State("s111", parentId = listOf(".", "s1", "s11"), handlers = listOf(handler))
         val s2 = State("s2")
         val machine = Machine("test", listOf(s1, s11, s12, s111, s2))
@@ -41,25 +41,25 @@ internal class HandlerTest {
 
     @Test
     fun getPartiallySpecifiedTargetState() {
-        var handler = Handler.Event("foo", target = listOf("s11", "s111"))
+        var handler = Handler.Event("foo", target = Target(listOf("s11", "s111")))
         assertEquals(s111, handler.getTargetState(s12, machine))
 
-        handler = Handler.Event("foo", target = listOf("s121"))
+        handler = Handler.Event("foo", target = Target(listOf("s121")))
         assertEquals(s121, handler.getTargetState(s12, machine))
 
-        handler = Handler.Event("foo", target = listOf("s3", "s12"))
+        handler = Handler.Event("foo", target = Target(listOf("s3", "s12")))
         assertEquals(s3_s12, handler.getTargetState(s1, machine))
 
-        handler = Handler.Event("foo", target = listOf("s12"))
+        handler = Handler.Event("foo", target = Target(listOf("s12")))
         assertEquals(s12, handler.getTargetState(s1, machine))
 
-        handler = Handler.Event("foo", target = listOf(".", "s2"))
+        handler = Handler.Event("foo", target = Target(listOf(".", "s2")))
         assertEquals(s2, handler.getTargetState(s3, machine))
 
-        handler = Handler.Event("foo", target = listOf("s12"))
+        handler = Handler.Event("foo", target = Target(listOf("s12")))
         assertEquals(s12, handler.getTargetState(s11, machine))
 
-        handler = Handler.Event("foo", target = listOf("s1"))
+        handler = Handler.Event("foo", target = Target(listOf("s1")))
         assertEquals(s1, handler.getTargetState(s2, machine))
     }
 }

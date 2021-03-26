@@ -60,7 +60,14 @@ internal class ParseTest {
     @Test
     fun testParseTransitionEventHandler() {
         val actual = Parse.handler("on Foo -> bar;")
-        val expected = Handler.Event("Foo", null, null, listOf("bar"))
+        val expected = Handler.Event("Foo", null, null, Target(listOf("bar")))
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun testParseLocalTransitionEventHandler() {
+        val actual = Parse.handler("on Foo > bar;")
+        val expected = Handler.Event("Foo", null, null, Target(listOf("bar"), Target.Kind.LOCAL))
         assertEquals(expected, actual)
     }
 

@@ -172,6 +172,11 @@ class State(val id: String,
             }
             return null
         }
+
+        //returns true if all states are descendants of the same ancestor
+        fun List<State>.areRelated(): Boolean {
+            return map { it.getStateConfiguration().getParentState() }.toSet().size == 1
+        }
     }
 
 }
