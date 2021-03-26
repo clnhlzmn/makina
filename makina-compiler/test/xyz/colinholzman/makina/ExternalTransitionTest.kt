@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.util.concurrent.TimeUnit
+import kotlin.test.assertEquals
 
 class ExternalTransitionTest {
 
@@ -33,14 +34,14 @@ class ExternalTransitionTest {
                 .directory(File("./../test/external_transition"))
                 .command("make", "clean").start()
         makeClean.waitFor(10, TimeUnit.SECONDS)
+        assertEquals(false, makeClean.isAlive)
+        assertEquals(0, makeClean.exitValue())
 
         val make = ProcessBuilder()
                 .directory(File("./../test/external_transition"))
                 .command("make").start()
         make.waitFor(10, TimeUnit.SECONDS)
-
-        File("./../test/external_transition/out/test_output.txt").reader().use {
-            Assertions.assertEquals(output, it.readLines())
-        }
+        assertEquals(false, make.isAlive)
+        assertEquals(0, make.exitValue())
     }
 }
