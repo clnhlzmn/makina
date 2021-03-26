@@ -54,33 +54,29 @@ class CodeGenerator(val machine: Machine,
     }
 
     private fun generateExitActions(handler: Handler.Event, sourceState: State, activeLeafState: State, output: PrintWriter) {
-        output.apply {
-            if (handler.target != null) {
-                val target = handler.getTargetState(sourceState, machine)
-                val transition = Transition(activeLeafState, target)
-                val exitSet = transition.getExitSet()
-                for (stateToExit in exitSet) {
-                    for (exit in stateToExit.handlers.filterIsInstance<Handler.Exit>()) {
-                        println("\t\t\t${exit.action}(self, event);")
-                    }
+        if (handler.target != null) output.apply {
+            val target = handler.getTargetState(sourceState, machine)
+            val transition = Transition(activeLeafState, target)
+            val exitSet = transition.getExitSet()
+            for (stateToExit in exitSet) {
+                for (exit in stateToExit.handlers.filterIsInstance<Handler.Exit>()) {
+                    println("\t\t\t${exit.action}(self, event);")
                 }
-                println("\t\t\tself->state = NULL;")
             }
+            println("\t\t\tself->state = NULL;")
         }
     }
 
     private fun generateEntryActions(handler: Handler.Event, sourceState: State, activeLeafState: State, output: PrintWriter) {
-        output.apply {
-            if (handler.target != null) {
-                val target = handler.getTargetState(sourceState, machine)
-                val transition = Transition(activeLeafState, target)
-                val entrySet = transition.getEntrySet() + target.getDefaultEntrySet()
-                val leafStateTarget = if (target.isLeafState()) target else target.getDefaultEntrySet().last()
-                println("\t\t\tself->state = ${machine.id}_${leafStateTarget.getFullyQualifiedIdString()};")
-                for (stateToEnter in entrySet) {
-                    for (entry in stateToEnter.handlers.filterIsInstance<Handler.Entry>()) {
-                        println("\t\t\t${entry.action}(self, event);")
-                    }
+        if (handler.target != null) output.apply {
+            val target = handler.getTargetState(sourceState, machine)
+            val transition = Transition(activeLeafState, target)
+            val entrySet = transition.getEntrySet() + target.getDefaultEntrySet()
+            val leafStateTarget = if (target.isLeafState()) target else target.getDefaultEntrySet().last()
+            println("\t\t\tself->state = ${machine.id}_${leafStateTarget.getFullyQualifiedIdString()};")
+            for (stateToEnter in entrySet) {
+                for (entry in stateToEnter.handlers.filterIsInstance<Handler.Entry>()) {
+                    println("\t\t\t${entry.action}(self, event);")
                 }
             }
         }
