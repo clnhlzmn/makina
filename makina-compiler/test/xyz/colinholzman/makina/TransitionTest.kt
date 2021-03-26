@@ -21,6 +21,8 @@ internal class TransitionTest {
         assertEquals(listOf(s2, s21), transition.getEntrySet())
         transition = Transition(s111, s111)
         assertEquals(listOf(s111), transition.getEntrySet())
+        transition = Transition(s111, s1)
+        assertEquals(listOf(s1), transition.getEntrySet())
     }
 
     @Test
@@ -31,5 +33,7 @@ internal class TransitionTest {
         assertEquals(listOf(s111, s11, s1), transition.getExitSet())
         transition = Transition(s111, s111)
         assertEquals(listOf(s111), transition.getExitSet())
+        transition = Transition(s111, s1)
+        assertEquals(listOf(s111, s11, s1), transition.getExitSet())
     }
 }
