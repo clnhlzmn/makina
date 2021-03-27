@@ -82,7 +82,7 @@ All actions and guards are implemented by the user as C language functions with 
 int <function-name>(struct <machine-name> *, struct <machine_name>_event *);
 ```
 
-Transition targets can be default  (`-> <target>`) or external (`--> <target>`). Default transitions behave like a [local transition](https://statecharts.github.io/glossary/local-transition.html) when the target state is a descendant of the source state and like an [external transition](https://statecharts.github.io/glossary/local-transition.html) otherwise. External transitions always behave like an external transition, i.e. they always cause the source state to exit.
+Transition targets can be default  (`-> <target>`) or external (`--> <target>`). Default transitions behave like a [local transition](https://statecharts.github.io/glossary/local-transition.html) (they don't exit the source state) when the target state is a descendant of the source state and like an external transition otherwise. External transitions always cause the source state to exit.
 
 ### Hierarchical States
 
