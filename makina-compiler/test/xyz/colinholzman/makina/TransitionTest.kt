@@ -36,6 +36,7 @@ internal class TransitionTest {
         assertEquals(listOf(s111, s11, s1), Transition(s111, s1, s121, Target.Kind.EXTERNAL).getExitSet())
         assertEquals(listOf(s111), Transition(s111, s111, s111, Target.Kind.EXTERNAL).getExitSet())
         assertEquals(listOf(s111, s11, s1), Transition(s111, s1, s1, Target.Kind.EXTERNAL).getExitSet())
+        assertEquals(listOf(s21, s2), Transition(s21, s2, s21, Target.Kind.EXTERNAL).getExitSet())
     }
 
     @Test

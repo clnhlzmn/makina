@@ -56,7 +56,7 @@ class CodeGenerator(val machine: Machine,
     private fun generateExitActions(handler: Handler.Event, sourceState: State, activeLeafState: State, output: PrintWriter) {
         if (handler.target != null) output.apply {
             val target = handler.getTargetState(sourceState, machine)
-            val transition = Transition(activeLeafState, sourceState, target)
+            val transition = Transition(activeLeafState, sourceState, target, handler.target.kind)
             val exitSet = transition.getExitSet()
             for (stateToExit in exitSet) {
                 for (exit in stateToExit.handlers.filterIsInstance<Handler.Exit>()) {
@@ -70,7 +70,7 @@ class CodeGenerator(val machine: Machine,
     private fun generateEntryActions(handler: Handler.Event, sourceState: State, activeLeafState: State, output: PrintWriter) {
         if (handler.target != null) output.apply {
             val target = handler.getTargetState(sourceState, machine)
-            val transition = Transition(activeLeafState, sourceState, target)
+            val transition = Transition(activeLeafState, sourceState, target, handler.target.kind)
             val entrySet = transition.getEntrySet()
             val targetLeafState = entrySet.last()
             println("\t\t\tself->state = ${machine.id}_${targetLeafState.getFullyQualifiedIdString()};")
