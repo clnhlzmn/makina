@@ -62,7 +62,7 @@ state open {
 The state `closed` now has an handler for the event named `open`. The handler causes the machine `Oven` to transition from `closed` to `open`. The full syntax for an event handler looks like this:
 
 ```
-on <event-id> [(<guard>)] [<action>] [-> <target>];
+on <event-id> [(<guard>)] [<action>] [->|--> <target>];
 ```
 
 The things in angle brackets can be arbitrary identifiers that conform to the C language concept of an identifier. Things in square brackets are optional. In the case above the handler includes an optional transition target, but not a guard or action.
@@ -81,6 +81,8 @@ All actions and guards are implemented by the user as C language functions with 
 ```
 int <function-name>(struct <machine-name> *, struct <machine_name>_event *);
 ```
+
+Transition targets can be default  (`-> <target>`) or external (`--> <target>`). Default transitions behave like a [local transition](https://statecharts.github.io/glossary/local-transition.html) in the event that the target state is a descendant of the source state and like an [external transition](https://statecharts.github.io/glossary/local-transition.html) otherwise. External transitions always behave like an external transition, i.e. they always cause the source state to exit.
 
 ### Hierarchical States
 

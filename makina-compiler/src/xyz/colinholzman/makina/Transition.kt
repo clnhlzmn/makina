@@ -19,7 +19,6 @@ data class Transition(val activeLeafState: State,
 
     fun getDomain(): State? {
         return if (kind == Target.Kind.DEFAULT
-                && !source.isLeafState()
                 && target.isDescendantOf(source))
             source
         else
