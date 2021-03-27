@@ -134,6 +134,7 @@ internal class StateTest {
         bar.parent = foo
         assert(bar.isDescendantOf(foo))
         assertFalse(foo.isDescendantOf(bar))
+        assertTrue(foo.isDescendantOf(null))
     }
 
     @Test

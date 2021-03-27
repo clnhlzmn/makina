@@ -88,7 +88,8 @@ class State(val id: String,
         return ret
     }
 
-    fun isDescendantOf(other: State): Boolean {
+    fun isDescendantOf(other: State?): Boolean {
+        if (other == null) return true
         var current: State? = this
         while (current != null) {
             if (current.parent == other)
@@ -171,11 +172,6 @@ class State(val id: String,
                 if (drop(1).all { s -> s.isDescendantOf(a) }) return a
             }
             return null
-        }
-
-        //returns true if all states are descendants of the same ancestor
-        fun List<State>.areRelated(): Boolean {
-            return map { it.getStateConfiguration().getParentState() }.toSet().size == 1
         }
     }
 
