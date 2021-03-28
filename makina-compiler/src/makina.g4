@@ -5,7 +5,7 @@ file
     ;
 
 state
-    : initial='initial'? 'state' id '{' (handler | state)* '}'
+    : (initial='initial'? | final_='final'?) 'state' id '{' (handler | state)* '}'
     ;
 
 id

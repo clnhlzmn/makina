@@ -1,4 +1,4 @@
-// Generated from C:/Users/Colin/Documents/makina/makina-compiler/src\makina.g4 by ANTLR 4.9.1
+// Generated from /Users/colinholzman/makina/makina-compiler/src/makina.g4 by ANTLR 4.9.1
 package xyz.colinholzman.makina;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 

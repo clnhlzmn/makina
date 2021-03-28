@@ -4,6 +4,7 @@ class State(val id: String,
             val handlers: List<Handler> = listOf(),
             val parentId: List<String> = listOf("."),
             val initial: Boolean = false,
+            val final: Boolean = false,
             location: SourceLocation = SourceLocation.none): Node(location) {
 
     init {
@@ -152,6 +153,7 @@ class State(val id: String,
         if (handlers != other.handlers) return false
         if (parentId != other.parentId) return false
         if (initial != other.initial) return false
+        if (final != other.final) return false
 
         return true
     }
@@ -161,6 +163,7 @@ class State(val id: String,
         result = 31 * result + handlers.hashCode()
         result = 31 * result + parentId.hashCode()
         result = 31 * result + initial.hashCode()
+        result = 31 * result + final.hashCode()
         return result
     }
 

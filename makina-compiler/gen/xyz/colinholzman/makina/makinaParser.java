@@ -1,4 +1,4 @@
-// Generated from C:/Users/Colin/Documents/makina/makina-compiler/src\makina.g4 by ANTLR 4.9.1
+// Generated from /Users/colinholzman/makina/makina-compiler/src/makina.g4 by ANTLR 4.9.1
 package xyz.colinholzman.makina;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -18,8 +18,8 @@ public class makinaParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, ID=15, WHITESPACE=16, 
-		COMMENT=17;
+		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, ID=16, WHITESPACE=17, 
+		COMMENT=18;
 	public static final int
 		RULE_file = 0, RULE_state = 1, RULE_id = 2, RULE_handler = 3, RULE_action = 4, 
 		RULE_guard = 5, RULE_target = 6;
@@ -32,15 +32,15 @@ public class makinaParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'machine'", "';'", "'initial'", "'state'", "'{'", "'}'", "'.'", 
-			"'entry'", "'exit'", "'on'", "'('", "')'", "'->'", "'-->'"
+			null, "'machine'", "';'", "'initial'", "'final'", "'state'", "'{'", "'}'", 
+			"'.'", "'entry'", "'exit'", "'on'", "'('", "')'", "'->'", "'-->'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, "ID", "WHITESPACE", "COMMENT"
+			null, null, null, null, "ID", "WHITESPACE", "COMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -138,7 +138,7 @@ public class makinaParser extends Parser {
 			setState(20);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__2 || _la==T__3) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__3) | (1L << T__4))) != 0)) {
 				{
 				{
 				setState(17);
@@ -166,6 +166,7 @@ public class makinaParser extends Parser {
 
 	public static class StateContext extends ParserRuleContext {
 		public Token initial;
+		public Token final_;
 		public IdContext id() {
 			return getRuleContext(IdContext.class,0);
 		}
@@ -207,42 +208,65 @@ public class makinaParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(26);
+			setState(31);
 			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==T__2) {
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+			case 1:
 				{
-				setState(25);
-				((StateContext)_localctx).initial = match(T__2);
+				setState(26);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==T__2) {
+					{
+					setState(25);
+					((StateContext)_localctx).initial = match(T__2);
+					}
 				}
-			}
 
-			setState(28);
-			match(T__3);
-			setState(29);
-			id();
-			setState(30);
+				}
+				break;
+			case 2:
+				{
+				setState(29);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==T__3) {
+					{
+					setState(28);
+					((StateContext)_localctx).final_ = match(T__3);
+					}
+				}
+
+				}
+				break;
+			}
+			setState(33);
 			match(T__4);
+			setState(34);
+			id();
 			setState(35);
+			match(T__5);
+			setState(40);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__3) | (1L << T__7) | (1L << T__8) | (1L << T__9))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__3) | (1L << T__4) | (1L << T__8) | (1L << T__9) | (1L << T__10))) != 0)) {
 				{
-				setState(33);
+				setState(38);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
-				case T__7:
 				case T__8:
 				case T__9:
+				case T__10:
 					{
-					setState(31);
+					setState(36);
 					handler();
 					}
 					break;
 				case T__2:
 				case T__3:
+				case T__4:
 					{
-					setState(32);
+					setState(37);
 					state();
 					}
 					break;
@@ -250,12 +274,12 @@ public class makinaParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(37);
+				setState(42);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(38);
-			match(T__5);
+			setState(43);
+			match(T__6);
 			}
 		}
 		catch (RecognitionException re) {
@@ -301,31 +325,31 @@ public class makinaParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(41);
+			setState(46);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__6) {
+			if (_la==T__7) {
 				{
-				setState(40);
-				((IdContext)_localctx).root = match(T__6);
+				setState(45);
+				((IdContext)_localctx).root = match(T__7);
 				}
 			}
 
-			setState(43);
-			match(ID);
 			setState(48);
+			match(ID);
+			setState(53);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__6) {
+			while (_la==T__7) {
 				{
 				{
-				setState(44);
-				match(T__6);
-				setState(45);
+				setState(49);
+				match(T__7);
+				setState(50);
 				match(ID);
 				}
 				}
-				setState(50);
+				setState(55);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -423,72 +447,72 @@ public class makinaParser extends Parser {
 		enterRule(_localctx, 6, RULE_handler);
 		int _la;
 		try {
-			setState(71);
+			setState(76);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__7:
+			case T__8:
 				_localctx = new EntryHandlerContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(51);
-				match(T__7);
-				setState(52);
-				action();
-				setState(53);
-				match(T__1);
-				}
-				break;
-			case T__8:
-				_localctx = new ExitHandlerContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(55);
-				match(T__8);
 				setState(56);
-				action();
+				match(T__8);
 				setState(57);
+				action();
+				setState(58);
 				match(T__1);
 				}
 				break;
 			case T__9:
+				_localctx = new ExitHandlerContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(60);
+				match(T__9);
+				setState(61);
+				action();
+				setState(62);
+				match(T__1);
+				}
+				break;
+			case T__10:
 				_localctx = new EventHandlerContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(59);
-				match(T__9);
-				setState(60);
+				setState(64);
+				match(T__10);
+				setState(65);
 				match(ID);
-				setState(62);
+				setState(67);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if (_la==T__10) {
+				if (_la==T__11) {
 					{
-					setState(61);
+					setState(66);
 					guard();
 					}
 				}
 
-				setState(65);
+				setState(70);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==ID) {
 					{
-					setState(64);
+					setState(69);
 					action();
 					}
 				}
 
-				setState(68);
+				setState(73);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if (_la==T__12 || _la==T__13) {
+				if (_la==T__13 || _la==T__14) {
 					{
-					setState(67);
+					setState(72);
 					target();
 					}
 				}
 
-				setState(70);
+				setState(75);
 				match(T__1);
 				}
 				break;
@@ -534,7 +558,7 @@ public class makinaParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(73);
+			setState(78);
 			match(ID);
 			}
 		}
@@ -576,12 +600,12 @@ public class makinaParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(75);
-			match(T__10);
-			setState(76);
-			match(ID);
-			setState(77);
+			setState(80);
 			match(T__11);
+			setState(81);
+			match(ID);
+			setState(82);
+			match(T__12);
 			}
 		}
 		catch (RecognitionException re) {
@@ -649,26 +673,26 @@ public class makinaParser extends Parser {
 		TargetContext _localctx = new TargetContext(_ctx, getState());
 		enterRule(_localctx, 12, RULE_target);
 		try {
-			setState(83);
+			setState(88);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__12:
+			case T__13:
 				_localctx = new DefaultTransitionContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(79);
-				match(T__12);
-				setState(80);
+				setState(84);
+				match(T__13);
+				setState(85);
 				id();
 				}
 				break;
-			case T__13:
+			case T__14:
 				_localctx = new ExternalTransitionContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(81);
-				match(T__13);
-				setState(82);
+				setState(86);
+				match(T__14);
+				setState(87);
 				id();
 				}
 				break;
@@ -688,28 +712,30 @@ public class makinaParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\23X\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\24]\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\3\2\3\2\3\2\7\2\25\n\2"+
-		"\f\2\16\2\30\13\2\3\2\3\2\3\3\5\3\35\n\3\3\3\3\3\3\3\3\3\3\3\7\3$\n\3"+
-		"\f\3\16\3\'\13\3\3\3\3\3\3\4\5\4,\n\4\3\4\3\4\3\4\7\4\61\n\4\f\4\16\4"+
-		"\64\13\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5A\n\5\3\5\5\5"+
-		"D\n\5\3\5\5\5G\n\5\3\5\5\5J\n\5\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3"+
-		"\b\5\bV\n\b\3\b\2\2\t\2\4\6\b\n\f\16\2\2\2\\\2\20\3\2\2\2\4\34\3\2\2\2"+
-		"\6+\3\2\2\2\bI\3\2\2\2\nK\3\2\2\2\fM\3\2\2\2\16U\3\2\2\2\20\21\7\3\2\2"+
-		"\21\22\7\21\2\2\22\26\7\4\2\2\23\25\5\4\3\2\24\23\3\2\2\2\25\30\3\2\2"+
-		"\2\26\24\3\2\2\2\26\27\3\2\2\2\27\31\3\2\2\2\30\26\3\2\2\2\31\32\7\2\2"+
-		"\3\32\3\3\2\2\2\33\35\7\5\2\2\34\33\3\2\2\2\34\35\3\2\2\2\35\36\3\2\2"+
-		"\2\36\37\7\6\2\2\37 \5\6\4\2 %\7\7\2\2!$\5\b\5\2\"$\5\4\3\2#!\3\2\2\2"+
-		"#\"\3\2\2\2$\'\3\2\2\2%#\3\2\2\2%&\3\2\2\2&(\3\2\2\2\'%\3\2\2\2()\7\b"+
-		"\2\2)\5\3\2\2\2*,\7\t\2\2+*\3\2\2\2+,\3\2\2\2,-\3\2\2\2-\62\7\21\2\2."+
-		"/\7\t\2\2/\61\7\21\2\2\60.\3\2\2\2\61\64\3\2\2\2\62\60\3\2\2\2\62\63\3"+
-		"\2\2\2\63\7\3\2\2\2\64\62\3\2\2\2\65\66\7\n\2\2\66\67\5\n\6\2\678\7\4"+
-		"\2\28J\3\2\2\29:\7\13\2\2:;\5\n\6\2;<\7\4\2\2<J\3\2\2\2=>\7\f\2\2>@\7"+
-		"\21\2\2?A\5\f\7\2@?\3\2\2\2@A\3\2\2\2AC\3\2\2\2BD\5\n\6\2CB\3\2\2\2CD"+
-		"\3\2\2\2DF\3\2\2\2EG\5\16\b\2FE\3\2\2\2FG\3\2\2\2GH\3\2\2\2HJ\7\4\2\2"+
-		"I\65\3\2\2\2I9\3\2\2\2I=\3\2\2\2J\t\3\2\2\2KL\7\21\2\2L\13\3\2\2\2MN\7"+
-		"\r\2\2NO\7\21\2\2OP\7\16\2\2P\r\3\2\2\2QR\7\17\2\2RV\5\6\4\2ST\7\20\2"+
-		"\2TV\5\6\4\2UQ\3\2\2\2US\3\2\2\2V\17\3\2\2\2\r\26\34#%+\62@CFIU";
+		"\f\2\16\2\30\13\2\3\2\3\2\3\3\5\3\35\n\3\3\3\5\3 \n\3\5\3\"\n\3\3\3\3"+
+		"\3\3\3\3\3\3\3\7\3)\n\3\f\3\16\3,\13\3\3\3\3\3\3\4\5\4\61\n\4\3\4\3\4"+
+		"\3\4\7\4\66\n\4\f\4\16\49\13\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
+		"\3\5\5\5F\n\5\3\5\5\5I\n\5\3\5\5\5L\n\5\3\5\5\5O\n\5\3\6\3\6\3\7\3\7\3"+
+		"\7\3\7\3\b\3\b\3\b\3\b\5\b[\n\b\3\b\2\2\t\2\4\6\b\n\f\16\2\2\2c\2\20\3"+
+		"\2\2\2\4!\3\2\2\2\6\60\3\2\2\2\bN\3\2\2\2\nP\3\2\2\2\fR\3\2\2\2\16Z\3"+
+		"\2\2\2\20\21\7\3\2\2\21\22\7\22\2\2\22\26\7\4\2\2\23\25\5\4\3\2\24\23"+
+		"\3\2\2\2\25\30\3\2\2\2\26\24\3\2\2\2\26\27\3\2\2\2\27\31\3\2\2\2\30\26"+
+		"\3\2\2\2\31\32\7\2\2\3\32\3\3\2\2\2\33\35\7\5\2\2\34\33\3\2\2\2\34\35"+
+		"\3\2\2\2\35\"\3\2\2\2\36 \7\6\2\2\37\36\3\2\2\2\37 \3\2\2\2 \"\3\2\2\2"+
+		"!\34\3\2\2\2!\37\3\2\2\2\"#\3\2\2\2#$\7\7\2\2$%\5\6\4\2%*\7\b\2\2&)\5"+
+		"\b\5\2\')\5\4\3\2(&\3\2\2\2(\'\3\2\2\2),\3\2\2\2*(\3\2\2\2*+\3\2\2\2+"+
+		"-\3\2\2\2,*\3\2\2\2-.\7\t\2\2.\5\3\2\2\2/\61\7\n\2\2\60/\3\2\2\2\60\61"+
+		"\3\2\2\2\61\62\3\2\2\2\62\67\7\22\2\2\63\64\7\n\2\2\64\66\7\22\2\2\65"+
+		"\63\3\2\2\2\669\3\2\2\2\67\65\3\2\2\2\678\3\2\2\28\7\3\2\2\29\67\3\2\2"+
+		"\2:;\7\13\2\2;<\5\n\6\2<=\7\4\2\2=O\3\2\2\2>?\7\f\2\2?@\5\n\6\2@A\7\4"+
+		"\2\2AO\3\2\2\2BC\7\r\2\2CE\7\22\2\2DF\5\f\7\2ED\3\2\2\2EF\3\2\2\2FH\3"+
+		"\2\2\2GI\5\n\6\2HG\3\2\2\2HI\3\2\2\2IK\3\2\2\2JL\5\16\b\2KJ\3\2\2\2KL"+
+		"\3\2\2\2LM\3\2\2\2MO\7\4\2\2N:\3\2\2\2N>\3\2\2\2NB\3\2\2\2O\t\3\2\2\2"+
+		"PQ\7\22\2\2Q\13\3\2\2\2RS\7\16\2\2ST\7\22\2\2TU\7\17\2\2U\r\3\2\2\2VW"+
+		"\7\20\2\2W[\5\6\4\2XY\7\21\2\2Y[\5\6\4\2ZV\3\2\2\2ZX\3\2\2\2[\17\3\2\2"+
+		"\2\17\26\34\37!(*\60\67EHKNZ";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
