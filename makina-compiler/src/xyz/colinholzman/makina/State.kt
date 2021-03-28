@@ -9,6 +9,7 @@ class State(val id: String,
 
     init {
         checkForDuplicateHandlers()
+        checkForHandlersInFinalState()
     }
 
     //subStates field is valid only after this State has been included in a Machine
@@ -60,6 +61,14 @@ class State(val id: String,
                 if (count == 0) count++
                 else throw RuntimeException("duplicate initial state at ${subState.location}")
             }
+        }
+    }
+
+    private fun checkForHandlersInFinalState() {
+        if (!final) return
+        for (handler in handlers) {
+            if (handler is Handler.Event)
+                throw RuntimeException("final states cannot handle events at ${handler.location}")
         }
     }
 

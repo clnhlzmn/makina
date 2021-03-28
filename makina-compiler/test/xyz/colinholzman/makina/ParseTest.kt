@@ -2,6 +2,7 @@ package xyz.colinholzman.makina
 
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
 internal class ParseTest {
@@ -103,6 +104,20 @@ internal class ParseTest {
         val actual = Parse.state("initial state Foo { }").first()
         val expected = State("Foo", listOf(), initial = true)
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun testFinalState() {
+        val actual = Parse.state("final state Foo {}").first()
+        val expected = State(id = "Foo", final = true)
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun initialFinalState() {
+        assertThrows<RuntimeException> {
+            Parse.state("initial final state foo {}")
+        }
     }
 
     @Test

@@ -162,4 +162,18 @@ internal class StateTest {
         assertEquals(StateConfiguration(setOf(s1, s11, s111)), s111.getStateConfiguration())
     }
 
+    @Test
+    fun eventHandlerInFinalState() {
+        assertThrows<RuntimeException> {
+            Parse.state("final state foo { on foo do_it; }")
+        }
+    }
+
+    @Test
+    fun entryExitHandlerInFinalState() {
+        assertDoesNotThrow {
+            Parse.state("final state foo { entry do_it; exit do_that; }")
+        }
+    }
+
 }
