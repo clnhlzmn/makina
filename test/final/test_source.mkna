@@ -1,0 +1,15 @@
+machine test;
+
+state s1 {
+    on e1 s1_e1_action;
+    entry s1_entry;
+    state s2 {
+        entry s1_s2_entry;
+        on e1 -> f;
+        exit s1_s2_exit;
+    }
+    final state f {
+        entry f_entry;
+    }
+    exit s1_exit;
+}

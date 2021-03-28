@@ -95,29 +95,31 @@ class CodeGenerator(val machine: Machine,
             for (activeAtomicState in machine.states.filter { it.isAtomic() }) {
                 println("static int ${machine.id}_${activeAtomicState.getFullyQualifiedIdString()}($machineStructName *self, $machineEventName *event) {")
                 println("\tif (!self || !event) return -1;")
-                val config = activeAtomicState.getStateConfiguration()
-                println("\tswitch (event->id) {")
-                val handlerGroups = config.getHandlers().groupByIdAndRemoveRedundantHandlers()
-                for (entry in handlerGroups) {
-                    val eventId = entry.key
-                    println("\tcase ${machine.id}_event_$eventId:")
-                    for (handlerStatePair in entry.value) {
-                        val sourceState = handlerStatePair.first
-                        val handler = handlerStatePair.second
-                        val guard = if (handler.guard != null) "${handler.guard}(self, event)" else "1"
-                        println("\t\tif ($guard) {")
-                        generateExitActions(handler, sourceState, activeAtomicState, output)
-                        if (handler.action != null) {
-                            println("\t\t\t${handler.action}(self, event);")
+                if (!activeAtomicState.final) {
+                    val config = activeAtomicState.getStateConfiguration()
+                    println("\tswitch (event->id) {")
+                    val handlerGroups = config.getHandlers().groupByIdAndRemoveRedundantHandlers()
+                    for (entry in handlerGroups) {
+                        val eventId = entry.key
+                        println("\tcase ${machine.id}_event_$eventId:")
+                        for (handlerStatePair in entry.value) {
+                            val sourceState = handlerStatePair.first
+                            val handler = handlerStatePair.second
+                            val guard = if (handler.guard != null) "${handler.guard}(self, event)" else "1"
+                            println("\t\tif ($guard) {")
+                            generateExitActions(handler, sourceState, activeAtomicState, output)
+                            if (handler.action != null) {
+                                println("\t\t\t${handler.action}(self, event);")
+                            }
+                            generateEntryActions(handler, sourceState, activeAtomicState, output)
+                            println("\t\t\tbreak;")
+                            println("\t\t}")
                         }
-                        generateEntryActions(handler, sourceState, activeAtomicState, output)
-                        println("\t\t\tbreak;")
-                        println("\t\t}")
+                        println("\t\tbreak;")
                     }
-                    println("\t\tbreak;")
+                    println("\tdefault: break;")
+                    println("\t}")
                 }
-                println("\tdefault: break;")
-                println("\t}")
                 println("\treturn 0;")
                 println("}")
                 println()
