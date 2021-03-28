@@ -28,8 +28,8 @@ data class StateConfiguration(val states: Set<State>) {
         return orderedStates.reversed().flatMap { state -> state.handlers.filterIsInstance<Handler.Entry>() }
     }
 
-    //Returns the leaf state for this configuration.
-    fun getLeafState(): State {
+    //Returns the atomic state for this configuration.
+    fun getAtomicState(): State {
         return orderedStates.first()
     }
 

@@ -17,6 +17,7 @@ class State(val id: String,
         set(value) {
             field = value
             checkForDuplicateInitialStates()
+            checkForSubStatesInFinalState()
         }
 
     //parent field is valid only after this State has been included in a Machine
@@ -64,6 +65,12 @@ class State(val id: String,
         }
     }
 
+    private fun checkForSubStatesInFinalState() {
+        if (!final) return
+        if (subStates.isNotEmpty())
+            throw RuntimeException("final must be atomic at $location")
+    }
+
     private fun checkForHandlersInFinalState() {
         if (!final) return
         for (handler in handlers) {
@@ -84,7 +91,7 @@ class State(val id: String,
                 ?: throw RuntimeException("parent state $parentId not found at $location")
     }
 
-    fun isLeafState(): Boolean {
+    fun isAtomic(): Boolean {
         return subStates.isEmpty()
     }
 
@@ -127,10 +134,10 @@ class State(val id: String,
         }
     }
 
-    //if this is a leaf state then get the config that is this state + ancestors
-    //it this is not a leaf state then get the initial state configuration
+    //if this is an atomic state then get the config that is this state + ancestors
+    //it this is not an atomic state then get the initial state configuration
     fun getStateConfiguration(): StateConfiguration {
-        return if (isLeafState())
+        return if (isAtomic())
             StateConfiguration((getAncestors() + this).toSet())
         else {
             val initial = subStates.find { it.initial } ?: subStates.first()
@@ -144,7 +151,7 @@ class State(val id: String,
 
     //gets a list of the sub states to enter if this is the target of a transition
     fun getDefaultEntrySet(): List<State> {
-        return if (isLeafState()) {
+        return if (isAtomic()) {
             emptyList()
         } else {
             val initialSubState = getInitialSubState()

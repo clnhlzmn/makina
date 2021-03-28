@@ -45,13 +45,13 @@ internal class StateConfigurationTest {
     }
 
     @Test
-    fun getLeafState() {
+    fun getAtomicState() {
         val parent = Parse.state("state foo { on bar; }").first()
         val child = Parse.state("state .foo.baz { on qux; }").first()
         parent.subStates = listOf(child)
         child.parent = parent
         val config = StateConfiguration(setOf(child, parent))
-        assertEquals(child, config.getLeafState())
+        assertEquals(child, config.getAtomicState())
     }
 
     @Test

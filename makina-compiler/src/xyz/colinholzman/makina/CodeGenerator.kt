@@ -53,10 +53,10 @@ class CodeGenerator(val machine: Machine,
         }
     }
 
-    private fun generateExitActions(handler: Handler.Event, sourceState: State, activeLeafState: State, output: PrintWriter) {
+    private fun generateExitActions(handler: Handler.Event, sourceState: State, activeAtomicState: State, output: PrintWriter) {
         if (handler.target != null) output.apply {
             val target = handler.getTargetState(sourceState, machine)
-            val transition = Transition(activeLeafState, sourceState, target, handler.target.kind)
+            val transition = Transition(activeAtomicState, sourceState, target, handler.target.kind)
             val exitSet = transition.getExitSet()
             for (stateToExit in exitSet) {
                 for (exit in stateToExit.handlers.filterIsInstance<Handler.Exit>()) {
@@ -67,13 +67,13 @@ class CodeGenerator(val machine: Machine,
         }
     }
 
-    private fun generateEntryActions(handler: Handler.Event, sourceState: State, activeLeafState: State, output: PrintWriter) {
+    private fun generateEntryActions(handler: Handler.Event, sourceState: State, activeAtomicState: State, output: PrintWriter) {
         if (handler.target != null) output.apply {
             val target = handler.getTargetState(sourceState, machine)
-            val transition = Transition(activeLeafState, sourceState, target, handler.target.kind)
+            val transition = Transition(activeAtomicState, sourceState, target, handler.target.kind)
             val entrySet = transition.getEntrySet()
-            val targetLeafState = entrySet.last()
-            println("\t\t\tself->state = ${machine.id}_${targetLeafState.getFullyQualifiedIdString()};")
+            val targetAtomicState = entrySet.last()
+            println("\t\t\tself->state = ${machine.id}_${targetAtomicState.getFullyQualifiedIdString()};")
             for (stateToEnter in entrySet) {
                 for (entry in stateToEnter.handlers.filterIsInstance<Handler.Entry>()) {
                     println("\t\t\t${entry.action}(self, event);")
@@ -88,14 +88,14 @@ class CodeGenerator(val machine: Machine,
             println("#include <stddef.h>")
             println("#include \"${machine.id}.h\"")
             println()
-            for (state in machine.states.filter { it.isLeafState() }) {
+            for (state in machine.states.filter { it.isAtomic() }) {
                 println("static int ${machine.id}_${state.getFullyQualifiedIdString()}($machineStructName *, $machineEventName *);")
             }
             println()
-            for (activeLeafState in machine.states.filter { it.isLeafState() }) {
-                println("static int ${machine.id}_${activeLeafState.getFullyQualifiedIdString()}($machineStructName *self, $machineEventName *event) {")
+            for (activeAtomicState in machine.states.filter { it.isAtomic() }) {
+                println("static int ${machine.id}_${activeAtomicState.getFullyQualifiedIdString()}($machineStructName *self, $machineEventName *event) {")
                 println("\tif (!self || !event) return -1;")
-                val config = activeLeafState.getStateConfiguration()
+                val config = activeAtomicState.getStateConfiguration()
                 println("\tswitch (event->id) {")
                 val handlerGroups = config.getHandlers().groupByIdAndRemoveRedundantHandlers()
                 for (entry in handlerGroups) {
@@ -106,11 +106,11 @@ class CodeGenerator(val machine: Machine,
                         val handler = handlerStatePair.second
                         val guard = if (handler.guard != null) "${handler.guard}(self, event)" else "1"
                         println("\t\tif ($guard) {")
-                        generateExitActions(handler, sourceState, activeLeafState, output)
+                        generateExitActions(handler, sourceState, activeAtomicState, output)
                         if (handler.action != null) {
                             println("\t\t\t${handler.action}(self, event);")
                         }
-                        generateEntryActions(handler, sourceState, activeLeafState, output)
+                        generateEntryActions(handler, sourceState, activeAtomicState, output)
                         println("\t\t\tbreak;")
                         println("\t\t}")
                     }
@@ -125,8 +125,8 @@ class CodeGenerator(val machine: Machine,
             println("int ${machine.id}_init($machineStructName *self) {")
             println("\tif (!self) return -1;")
             val initialConfig = machine.getInitialStateConfiguration()
-            val initialLeafState = initialConfig.getLeafState()
-            println("\tself->state = ${machine.id}_${initialLeafState.getFullyQualifiedIdString()};")
+            val initialAtomicState = initialConfig.getAtomicState()
+            println("\tself->state = ${machine.id}_${initialAtomicState.getFullyQualifiedIdString()};")
             val entryHandlers = initialConfig.getEntryHandlers()
             for (handler in entryHandlers) {
                 println("\t${handler.action}(self, NULL);")

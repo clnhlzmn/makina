@@ -2,7 +2,7 @@ package xyz.colinholzman.makina
 
 import xyz.colinholzman.makina.State.Companion.getLCCA
 
-data class Transition(val activeLeafState: State,
+data class Transition(val activeAtomicState: State,
                       val source: State, val target: State,
                       val kind: Target.Kind = Target.Kind.DEFAULT) {
     fun getEntrySet(): List<State> {
@@ -12,7 +12,7 @@ data class Transition(val activeLeafState: State,
 
     fun getExitSet(): List<State> {
         val domain = getDomain()
-        return activeLeafState.getStateConfiguration().states
+        return activeAtomicState.getStateConfiguration().states
                 .filter { it.isDescendantOf(domain) }
                 .sortedBy { it.getDepth() }.reversed()
     }

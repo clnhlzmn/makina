@@ -88,6 +88,13 @@ internal class StateTest {
     }
 
     @Test
+    fun finalMustBeAtomic() {
+        assertThrows<RuntimeException> {
+            Parse.fileFromString("machine foo; state top { final state child { state err { } } }")
+        }
+    }
+
+    @Test
     fun testAssignParent() {
         val machine = Parse.fileFromString("machine foo; state bar {} state .bar.baz {}")
         val bar = machine.states.find { it.id == "bar" }!!
@@ -104,21 +111,21 @@ internal class StateTest {
     }
 
     @Test
-    fun testIsLeafState() {
+    fun testIsAtomic() {
         val machine = Parse.fileFromString("machine foo; state bar {} state .bar.baz {}")
         val bar = machine.states.find { it.id == "bar" }!!
         val baz = machine.states.find { it.id == "baz" }!!
-        assertFalse(bar.isLeafState())
-        assert(baz.isLeafState())
+        assertFalse(bar.isAtomic())
+        assert(baz.isAtomic())
     }
 
     @Test
-    fun isLeafStateNested() {
+    fun isAtomicStateNested() {
         val machine = Parse.fileFromString("machine foo; state bar { state baz {} } state .bar.qux {}")
         val baz = machine.states.find { it.id == "baz" }!!
         val qux = machine.states.find { it.id == "qux" }!!
-        assert(baz.isLeafState())
-        assert(qux.isLeafState())
+        assert(baz.isAtomic())
+        assert(qux.isAtomic())
     }
 
     @Test
