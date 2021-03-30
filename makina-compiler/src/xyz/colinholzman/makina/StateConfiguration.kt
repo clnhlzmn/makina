@@ -8,7 +8,7 @@ data class StateConfiguration(val state: State) {
 
     //states ordered by depth, deepest first
     private val orderedStates: List<State>
-        get() = state.getAllActiveStates()
+        get() = state.getBranch()
 
     //Returns the list of handlers that this state configuration should handle.
     //The handlers are deepest state first and in document order for handlers within a single state.

@@ -184,9 +184,9 @@ internal class StateTest {
     }
 
     @Test
-    fun getAllActiveStates() {
-        assertEquals(listOf(s111, s11, s1), s111.getAllActiveStates())
-        assertEquals(listOf(s2), s2.getAllActiveStates())
+    fun getBranch() {
+        assertEquals(listOf(s111, s11, s1), s111.getBranch())
+        assertEquals(listOf(s2), s2.getBranch())
     }
 
 }

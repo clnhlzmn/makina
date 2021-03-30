@@ -152,15 +152,9 @@ class State(val id: String,
         }
     }
 
-    //returns a list of all states that are active when this state is active (including this state)
-    fun getAllActiveStates(): List<State> {
-        val parents = ArrayList<State>()
-        var current: State? = this
-        while (current != null) {
-            parents.add(current)
-            current = current.parent
-        }
-        return parents
+    //returns a list of this state and all its parents
+    fun getBranch(): List<State> {
+        return listOf(this) + getAncestors()
     }
 
     //if this is an atomic state then get the config that is this state + ancestors
