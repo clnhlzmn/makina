@@ -28,6 +28,54 @@ public interface makinaListener extends ParseTreeListener {
 	 */
 	void exitState(makinaParser.StateContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code initialType}
+	 * labeled alternative in {@link makinaParser#stateType}.
+	 * @param ctx the parse tree
+	 */
+	void enterInitialType(makinaParser.InitialTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code initialType}
+	 * labeled alternative in {@link makinaParser#stateType}.
+	 * @param ctx the parse tree
+	 */
+	void exitInitialType(makinaParser.InitialTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code parallelType}
+	 * labeled alternative in {@link makinaParser#stateType}.
+	 * @param ctx the parse tree
+	 */
+	void enterParallelType(makinaParser.ParallelTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code parallelType}
+	 * labeled alternative in {@link makinaParser#stateType}.
+	 * @param ctx the parse tree
+	 */
+	void exitParallelType(makinaParser.ParallelTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code finalType}
+	 * labeled alternative in {@link makinaParser#stateType}.
+	 * @param ctx the parse tree
+	 */
+	void enterFinalType(makinaParser.FinalTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code finalType}
+	 * labeled alternative in {@link makinaParser#stateType}.
+	 * @param ctx the parse tree
+	 */
+	void exitFinalType(makinaParser.FinalTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code defaultType}
+	 * labeled alternative in {@link makinaParser#stateType}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefaultType(makinaParser.DefaultTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code defaultType}
+	 * labeled alternative in {@link makinaParser#stateType}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefaultType(makinaParser.DefaultTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link makinaParser#id}.
 	 * @param ctx the parse tree
 	 */

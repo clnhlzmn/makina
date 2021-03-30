@@ -102,14 +102,14 @@ internal class ParseTest {
     @Test
     fun testParseInitialState() {
         val actual = Parse.state("initial state Foo { }").first()
-        val expected = State("Foo", listOf(), initial = true)
+        val expected = State("Foo", listOf(), type = State.Type.Default(true))
         assertEquals(expected, actual)
     }
 
     @Test
     fun testFinalState() {
         val actual = Parse.state("final state Foo {}").first()
-        val expected = State(id = "Foo", final = true)
+        val expected = State(id = "Foo", type = State.Type.Final)
         assertEquals(expected, actual)
     }
 

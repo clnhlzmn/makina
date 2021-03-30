@@ -21,12 +21,11 @@ class StateVisitor: makinaBaseVisitor<List<State>>() {
         else if (currentParentId.isNotRoot() && parentId != currentParentId)
             throw RuntimeException("invalid parent specified at ${SourceLocation.fromParseContext(ctx)}")
         val handlers = ctx.handler().map { it.accept(HandlerVisitor()) }
-        val initial = ctx.initial != null
-        val final = ctx.final_ != null
+        val type = ctx.stateType().accept(StateTypeVisitor())
         var childStates: List<State> = emptyList()
         withNewParentId(id) {
             childStates = ctx.state().flatMap { it.accept(this) }
         }
-        return childStates + State(id, handlers, parentId, initial, final, SourceLocation.fromParseContext(ctx))
+        return childStates + State(id, handlers, parentId, type, SourceLocation.fromParseContext(ctx))
     }
 }

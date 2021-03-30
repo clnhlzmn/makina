@@ -63,8 +63,8 @@ internal class StateTest {
     @Test
     fun hasDuplicateSubstates() {
         val state = State("foo")
-        val child = State("child", initial = true)
-        val child2 = State("child2", initial = true)
+        val child = State("child", type = State.Type.Default(true))
+        val child2 = State("child2", type = State.Type.Default(true))
         assertThrows<RuntimeException> {
             state.subStates = listOf(child, child2)
         }

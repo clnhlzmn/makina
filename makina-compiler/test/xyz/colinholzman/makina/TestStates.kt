@@ -15,12 +15,12 @@ class TestStates {
 
         val s121 = State("s121", parentId = listOf(".", "s1", "s12"))
         val s122 = State("s122", parentId = listOf(".", "s1", "s12"))
-        val s12 = State("s12", parentId = listOf(".", "s1"), initial = true)
+        val s12 = State("s12", parentId = listOf(".", "s1"), type = State.Type.Default(true))
 
         val s1 = State("s1")
 
         val s21 = State("s21", parentId = listOf(".", "s2"))
-        val s2 = State("s2", initial = true)
+        val s2 = State("s2", type = State.Type.Default(true))
 
         val s3 = State("s3")
 

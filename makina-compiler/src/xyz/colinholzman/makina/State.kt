@@ -3,9 +3,27 @@ package xyz.colinholzman.makina
 class State(val id: String,
             val handlers: List<Handler> = listOf(),
             val parentId: List<String> = listOf("."),
-            val initial: Boolean = false,
-            val final: Boolean = false,
+            val type: Type = Type.Default(false),
             location: SourceLocation = SourceLocation.none): Node(location) {
+
+    sealed class Type(val initial: Boolean) {
+        class Default(initial: Boolean): Type(initial)
+        class Parallel(initial: Boolean): Type(initial)
+        object Final: Type(false)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other !is Type) return false
+
+            if (initial != other.initial) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return initial.hashCode()
+        }
+    }
 
     init {
         checkForDuplicateHandlers()
@@ -58,7 +76,7 @@ class State(val id: String,
     private fun checkForDuplicateInitialStates() {
         var count = 0
         for (subState in subStates) {
-            if (subState.initial) {
+            if (subState.type.initial) {
                 if (count == 0) count++
                 else throw RuntimeException("duplicate initial state at ${subState.location}")
             }
@@ -66,13 +84,13 @@ class State(val id: String,
     }
 
     private fun checkForSubStatesInFinalState() {
-        if (!final) return
+        if (type !is Type.Final) return
         if (subStates.isNotEmpty())
             throw RuntimeException("final must be atomic at $location")
     }
 
     private fun checkForHandlersInFinalState() {
-        if (!final) return
+        if (type !is Type.Final) return
         for (handler in handlers) {
             if (handler is Handler.Event)
                 throw RuntimeException("final states cannot handle events at ${handler.location}")
@@ -140,13 +158,13 @@ class State(val id: String,
         return if (isAtomic())
             StateConfiguration((getAncestors() + this).toSet())
         else {
-            val initial = subStates.find { it.initial } ?: subStates.first()
+            val initial = subStates.find { it.type.initial } ?: subStates.first()
             initial.getStateConfiguration()
         }
     }
 
     fun getInitialSubState(): State {
-        return subStates.find { it.initial } ?: subStates.first()
+        return subStates.find { it.type.initial } ?: subStates.first()
     }
 
     //gets a list of the sub states to enter if this is the target of a transition
@@ -168,8 +186,7 @@ class State(val id: String,
         if (id != other.id) return false
         if (handlers != other.handlers) return false
         if (parentId != other.parentId) return false
-        if (initial != other.initial) return false
-        if (final != other.final) return false
+        if (type != other.type) return false
 
         return true
     }
@@ -178,8 +195,7 @@ class State(val id: String,
         var result = id.hashCode()
         result = 31 * result + handlers.hashCode()
         result = 31 * result + parentId.hashCode()
-        result = 31 * result + initial.hashCode()
-        result = 31 * result + final.hashCode()
+        result = 31 * result + type.hashCode()
         return result
     }
 

@@ -5,7 +5,14 @@ file
     ;
 
 state
-    : (initial='initial'? | final_='final'?) 'state' id '{' (handler | state)* '}'
+    : stateType id '{' (handler | state)* '}'
+    ;
+
+stateType
+    : 'initial' 'state'?                        #initialType
+    | initial='initial'? 'parallel' 'state'?    #parallelType
+    | 'final' 'state'?                          #finalType
+    | 'state'                                   #defaultType
     ;
 
 id

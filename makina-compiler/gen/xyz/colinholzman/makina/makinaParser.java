@@ -18,29 +18,30 @@ public class makinaParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, ID=16, WHITESPACE=17, 
-		COMMENT=18;
+		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, ID=17, 
+		WHITESPACE=18, COMMENT=19;
 	public static final int
-		RULE_file = 0, RULE_state = 1, RULE_id = 2, RULE_handler = 3, RULE_action = 4, 
-		RULE_guard = 5, RULE_target = 6;
+		RULE_file = 0, RULE_state = 1, RULE_stateType = 2, RULE_id = 3, RULE_handler = 4, 
+		RULE_action = 5, RULE_guard = 6, RULE_target = 7;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"file", "state", "id", "handler", "action", "guard", "target"
+			"file", "state", "stateType", "id", "handler", "action", "guard", "target"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'machine'", "';'", "'initial'", "'final'", "'state'", "'{'", "'}'", 
-			"'.'", "'entry'", "'exit'", "'on'", "'('", "')'", "'->'", "'-->'"
+			null, "'machine'", "';'", "'{'", "'}'", "'initial'", "'state'", "'parallel'", 
+			"'final'", "'.'", "'entry'", "'exit'", "'on'", "'('", "')'", "'->'", 
+			"'-->'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, "ID", "WHITESPACE", "COMMENT"
+			null, null, null, null, null, "ID", "WHITESPACE", "COMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -129,27 +130,27 @@ public class makinaParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(14);
-			match(T__0);
-			setState(15);
-			match(ID);
 			setState(16);
+			match(T__0);
+			setState(17);
+			match(ID);
+			setState(18);
 			match(T__1);
-			setState(20);
+			setState(22);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__3) | (1L << T__4))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__7))) != 0)) {
 				{
 				{
-				setState(17);
+				setState(19);
 				state();
 				}
 				}
-				setState(22);
+				setState(24);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(23);
+			setState(25);
 			match(EOF);
 			}
 		}
@@ -165,8 +166,9 @@ public class makinaParser extends Parser {
 	}
 
 	public static class StateContext extends ParserRuleContext {
-		public Token initial;
-		public Token final_;
+		public StateTypeContext stateType() {
+			return getRuleContext(StateTypeContext.class,0);
+		}
 		public IdContext id() {
 			return getRuleContext(IdContext.class,0);
 		}
@@ -208,65 +210,34 @@ public class makinaParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(31);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
-			case 1:
-				{
-				setState(26);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==T__2) {
-					{
-					setState(25);
-					((StateContext)_localctx).initial = match(T__2);
-					}
-				}
-
-				}
-				break;
-			case 2:
-				{
-				setState(29);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==T__3) {
-					{
-					setState(28);
-					((StateContext)_localctx).final_ = match(T__3);
-					}
-				}
-
-				}
-				break;
-			}
-			setState(33);
-			match(T__4);
-			setState(34);
+			setState(27);
+			stateType();
+			setState(28);
 			id();
-			setState(35);
-			match(T__5);
-			setState(40);
+			setState(29);
+			match(T__2);
+			setState(34);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__3) | (1L << T__4) | (1L << T__8) | (1L << T__9) | (1L << T__10))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << T__9) | (1L << T__10) | (1L << T__11))) != 0)) {
 				{
-				setState(38);
+				setState(32);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
-				case T__8:
 				case T__9:
 				case T__10:
+				case T__11:
 					{
-					setState(36);
+					setState(30);
 					handler();
 					}
 					break;
-				case T__2:
-				case T__3:
 				case T__4:
+				case T__5:
+				case T__6:
+				case T__7:
 					{
-					setState(37);
+					setState(31);
 					state();
 					}
 					break;
@@ -274,12 +245,182 @@ public class makinaParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(42);
+				setState(36);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(43);
-			match(T__6);
+			setState(37);
+			match(T__3);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class StateTypeContext extends ParserRuleContext {
+		public StateTypeContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_stateType; }
+	 
+		public StateTypeContext() { }
+		public void copyFrom(StateTypeContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ParallelTypeContext extends StateTypeContext {
+		public Token initial;
+		public ParallelTypeContext(StateTypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof makinaListener ) ((makinaListener)listener).enterParallelType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof makinaListener ) ((makinaListener)listener).exitParallelType(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof makinaVisitor ) return ((makinaVisitor<? extends T>)visitor).visitParallelType(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class InitialTypeContext extends StateTypeContext {
+		public InitialTypeContext(StateTypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof makinaListener ) ((makinaListener)listener).enterInitialType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof makinaListener ) ((makinaListener)listener).exitInitialType(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof makinaVisitor ) return ((makinaVisitor<? extends T>)visitor).visitInitialType(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class FinalTypeContext extends StateTypeContext {
+		public FinalTypeContext(StateTypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof makinaListener ) ((makinaListener)listener).enterFinalType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof makinaListener ) ((makinaListener)listener).exitFinalType(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof makinaVisitor ) return ((makinaVisitor<? extends T>)visitor).visitFinalType(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DefaultTypeContext extends StateTypeContext {
+		public DefaultTypeContext(StateTypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof makinaListener ) ((makinaListener)listener).enterDefaultType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof makinaListener ) ((makinaListener)listener).exitDefaultType(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof makinaVisitor ) return ((makinaVisitor<? extends T>)visitor).visitDefaultType(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final StateTypeContext stateType() throws RecognitionException {
+		StateTypeContext _localctx = new StateTypeContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_stateType);
+		int _la;
+		try {
+			setState(55);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
+			case 1:
+				_localctx = new InitialTypeContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(39);
+				match(T__4);
+				setState(41);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==T__5) {
+					{
+					setState(40);
+					match(T__5);
+					}
+				}
+
+				}
+				break;
+			case 2:
+				_localctx = new ParallelTypeContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(44);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==T__4) {
+					{
+					setState(43);
+					((ParallelTypeContext)_localctx).initial = match(T__4);
+					}
+				}
+
+				setState(46);
+				match(T__6);
+				setState(48);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==T__5) {
+					{
+					setState(47);
+					match(T__5);
+					}
+				}
+
+				}
+				break;
+			case 3:
+				_localctx = new FinalTypeContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(50);
+				match(T__7);
+				setState(52);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==T__5) {
+					{
+					setState(51);
+					match(T__5);
+					}
+				}
+
+				}
+				break;
+			case 4:
+				_localctx = new DefaultTypeContext(_localctx);
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(54);
+				match(T__5);
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -320,36 +461,36 @@ public class makinaParser extends Parser {
 
 	public final IdContext id() throws RecognitionException {
 		IdContext _localctx = new IdContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_id);
+		enterRule(_localctx, 6, RULE_id);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(46);
+			setState(58);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__7) {
+			if (_la==T__8) {
 				{
-				setState(45);
-				((IdContext)_localctx).root = match(T__7);
+				setState(57);
+				((IdContext)_localctx).root = match(T__8);
 				}
 			}
 
-			setState(48);
+			setState(60);
 			match(ID);
-			setState(53);
+			setState(65);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__7) {
+			while (_la==T__8) {
 				{
 				{
-				setState(49);
-				match(T__7);
-				setState(50);
+				setState(61);
+				match(T__8);
+				setState(62);
 				match(ID);
 				}
 				}
-				setState(55);
+				setState(67);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -444,75 +585,75 @@ public class makinaParser extends Parser {
 
 	public final HandlerContext handler() throws RecognitionException {
 		HandlerContext _localctx = new HandlerContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_handler);
+		enterRule(_localctx, 8, RULE_handler);
 		int _la;
 		try {
-			setState(76);
+			setState(88);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__8:
+			case T__9:
 				_localctx = new EntryHandlerContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(56);
-				match(T__8);
-				setState(57);
-				action();
-				setState(58);
-				match(T__1);
-				}
-				break;
-			case T__9:
-				_localctx = new ExitHandlerContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(60);
+				setState(68);
 				match(T__9);
-				setState(61);
+				setState(69);
 				action();
-				setState(62);
+				setState(70);
 				match(T__1);
 				}
 				break;
 			case T__10:
+				_localctx = new ExitHandlerContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(72);
+				match(T__10);
+				setState(73);
+				action();
+				setState(74);
+				match(T__1);
+				}
+				break;
+			case T__11:
 				_localctx = new EventHandlerContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(64);
-				match(T__10);
-				setState(65);
+				setState(76);
+				match(T__11);
+				setState(77);
 				match(ID);
-				setState(67);
+				setState(79);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if (_la==T__11) {
+				if (_la==T__12) {
 					{
-					setState(66);
+					setState(78);
 					guard();
 					}
 				}
 
-				setState(70);
+				setState(82);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==ID) {
 					{
-					setState(69);
+					setState(81);
 					action();
 					}
 				}
 
-				setState(73);
+				setState(85);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if (_la==T__13 || _la==T__14) {
+				if (_la==T__14 || _la==T__15) {
 					{
-					setState(72);
+					setState(84);
 					target();
 					}
 				}
 
-				setState(75);
+				setState(87);
 				match(T__1);
 				}
 				break;
@@ -554,11 +695,11 @@ public class makinaParser extends Parser {
 
 	public final ActionContext action() throws RecognitionException {
 		ActionContext _localctx = new ActionContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_action);
+		enterRule(_localctx, 10, RULE_action);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(78);
+			setState(90);
 			match(ID);
 			}
 		}
@@ -596,16 +737,16 @@ public class makinaParser extends Parser {
 
 	public final GuardContext guard() throws RecognitionException {
 		GuardContext _localctx = new GuardContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_guard);
+		enterRule(_localctx, 12, RULE_guard);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(80);
-			match(T__11);
-			setState(81);
-			match(ID);
-			setState(82);
+			setState(92);
 			match(T__12);
+			setState(93);
+			match(ID);
+			setState(94);
+			match(T__13);
 			}
 		}
 		catch (RecognitionException re) {
@@ -671,28 +812,28 @@ public class makinaParser extends Parser {
 
 	public final TargetContext target() throws RecognitionException {
 		TargetContext _localctx = new TargetContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_target);
+		enterRule(_localctx, 14, RULE_target);
 		try {
-			setState(88);
+			setState(100);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__13:
+			case T__14:
 				_localctx = new DefaultTransitionContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(84);
-				match(T__13);
-				setState(85);
+				setState(96);
+				match(T__14);
+				setState(97);
 				id();
 				}
 				break;
-			case T__14:
+			case T__15:
 				_localctx = new ExternalTransitionContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(86);
-				match(T__14);
-				setState(87);
+				setState(98);
+				match(T__15);
+				setState(99);
 				id();
 				}
 				break;
@@ -712,30 +853,33 @@ public class makinaParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\24]\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\3\2\3\2\3\2\7\2\25\n\2"+
-		"\f\2\16\2\30\13\2\3\2\3\2\3\3\5\3\35\n\3\3\3\5\3 \n\3\5\3\"\n\3\3\3\3"+
-		"\3\3\3\3\3\3\3\7\3)\n\3\f\3\16\3,\13\3\3\3\3\3\3\4\5\4\61\n\4\3\4\3\4"+
-		"\3\4\7\4\66\n\4\f\4\16\49\13\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
-		"\3\5\5\5F\n\5\3\5\5\5I\n\5\3\5\5\5L\n\5\3\5\5\5O\n\5\3\6\3\6\3\7\3\7\3"+
-		"\7\3\7\3\b\3\b\3\b\3\b\5\b[\n\b\3\b\2\2\t\2\4\6\b\n\f\16\2\2\2c\2\20\3"+
-		"\2\2\2\4!\3\2\2\2\6\60\3\2\2\2\bN\3\2\2\2\nP\3\2\2\2\fR\3\2\2\2\16Z\3"+
-		"\2\2\2\20\21\7\3\2\2\21\22\7\22\2\2\22\26\7\4\2\2\23\25\5\4\3\2\24\23"+
-		"\3\2\2\2\25\30\3\2\2\2\26\24\3\2\2\2\26\27\3\2\2\2\27\31\3\2\2\2\30\26"+
-		"\3\2\2\2\31\32\7\2\2\3\32\3\3\2\2\2\33\35\7\5\2\2\34\33\3\2\2\2\34\35"+
-		"\3\2\2\2\35\"\3\2\2\2\36 \7\6\2\2\37\36\3\2\2\2\37 \3\2\2\2 \"\3\2\2\2"+
-		"!\34\3\2\2\2!\37\3\2\2\2\"#\3\2\2\2#$\7\7\2\2$%\5\6\4\2%*\7\b\2\2&)\5"+
-		"\b\5\2\')\5\4\3\2(&\3\2\2\2(\'\3\2\2\2),\3\2\2\2*(\3\2\2\2*+\3\2\2\2+"+
-		"-\3\2\2\2,*\3\2\2\2-.\7\t\2\2.\5\3\2\2\2/\61\7\n\2\2\60/\3\2\2\2\60\61"+
-		"\3\2\2\2\61\62\3\2\2\2\62\67\7\22\2\2\63\64\7\n\2\2\64\66\7\22\2\2\65"+
-		"\63\3\2\2\2\669\3\2\2\2\67\65\3\2\2\2\678\3\2\2\28\7\3\2\2\29\67\3\2\2"+
-		"\2:;\7\13\2\2;<\5\n\6\2<=\7\4\2\2=O\3\2\2\2>?\7\f\2\2?@\5\n\6\2@A\7\4"+
-		"\2\2AO\3\2\2\2BC\7\r\2\2CE\7\22\2\2DF\5\f\7\2ED\3\2\2\2EF\3\2\2\2FH\3"+
-		"\2\2\2GI\5\n\6\2HG\3\2\2\2HI\3\2\2\2IK\3\2\2\2JL\5\16\b\2KJ\3\2\2\2KL"+
-		"\3\2\2\2LM\3\2\2\2MO\7\4\2\2N:\3\2\2\2N>\3\2\2\2NB\3\2\2\2O\t\3\2\2\2"+
-		"PQ\7\22\2\2Q\13\3\2\2\2RS\7\16\2\2ST\7\22\2\2TU\7\17\2\2U\r\3\2\2\2VW"+
-		"\7\20\2\2W[\5\6\4\2XY\7\21\2\2Y[\5\6\4\2ZV\3\2\2\2ZX\3\2\2\2[\17\3\2\2"+
-		"\2\17\26\34\37!(*\60\67EHKNZ";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\25i\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\3\2\3\2\7\2"+
+		"\27\n\2\f\2\16\2\32\13\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\7\3#\n\3\f\3\16\3"+
+		"&\13\3\3\3\3\3\3\4\3\4\5\4,\n\4\3\4\5\4/\n\4\3\4\3\4\5\4\63\n\4\3\4\3"+
+		"\4\5\4\67\n\4\3\4\5\4:\n\4\3\5\5\5=\n\5\3\5\3\5\3\5\7\5B\n\5\f\5\16\5"+
+		"E\13\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6R\n\6\3\6\5\6U\n"+
+		"\6\3\6\5\6X\n\6\3\6\5\6[\n\6\3\7\3\7\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\5"+
+		"\tg\n\t\3\t\2\2\n\2\4\6\b\n\f\16\20\2\2\2r\2\22\3\2\2\2\4\35\3\2\2\2\6"+
+		"9\3\2\2\2\b<\3\2\2\2\nZ\3\2\2\2\f\\\3\2\2\2\16^\3\2\2\2\20f\3\2\2\2\22"+
+		"\23\7\3\2\2\23\24\7\23\2\2\24\30\7\4\2\2\25\27\5\4\3\2\26\25\3\2\2\2\27"+
+		"\32\3\2\2\2\30\26\3\2\2\2\30\31\3\2\2\2\31\33\3\2\2\2\32\30\3\2\2\2\33"+
+		"\34\7\2\2\3\34\3\3\2\2\2\35\36\5\6\4\2\36\37\5\b\5\2\37$\7\5\2\2 #\5\n"+
+		"\6\2!#\5\4\3\2\" \3\2\2\2\"!\3\2\2\2#&\3\2\2\2$\"\3\2\2\2$%\3\2\2\2%\'"+
+		"\3\2\2\2&$\3\2\2\2\'(\7\6\2\2(\5\3\2\2\2)+\7\7\2\2*,\7\b\2\2+*\3\2\2\2"+
+		"+,\3\2\2\2,:\3\2\2\2-/\7\7\2\2.-\3\2\2\2./\3\2\2\2/\60\3\2\2\2\60\62\7"+
+		"\t\2\2\61\63\7\b\2\2\62\61\3\2\2\2\62\63\3\2\2\2\63:\3\2\2\2\64\66\7\n"+
+		"\2\2\65\67\7\b\2\2\66\65\3\2\2\2\66\67\3\2\2\2\67:\3\2\2\28:\7\b\2\29"+
+		")\3\2\2\29.\3\2\2\29\64\3\2\2\298\3\2\2\2:\7\3\2\2\2;=\7\13\2\2<;\3\2"+
+		"\2\2<=\3\2\2\2=>\3\2\2\2>C\7\23\2\2?@\7\13\2\2@B\7\23\2\2A?\3\2\2\2BE"+
+		"\3\2\2\2CA\3\2\2\2CD\3\2\2\2D\t\3\2\2\2EC\3\2\2\2FG\7\f\2\2GH\5\f\7\2"+
+		"HI\7\4\2\2I[\3\2\2\2JK\7\r\2\2KL\5\f\7\2LM\7\4\2\2M[\3\2\2\2NO\7\16\2"+
+		"\2OQ\7\23\2\2PR\5\16\b\2QP\3\2\2\2QR\3\2\2\2RT\3\2\2\2SU\5\f\7\2TS\3\2"+
+		"\2\2TU\3\2\2\2UW\3\2\2\2VX\5\20\t\2WV\3\2\2\2WX\3\2\2\2XY\3\2\2\2Y[\7"+
+		"\4\2\2ZF\3\2\2\2ZJ\3\2\2\2ZN\3\2\2\2[\13\3\2\2\2\\]\7\23\2\2]\r\3\2\2"+
+		"\2^_\7\17\2\2_`\7\23\2\2`a\7\20\2\2a\17\3\2\2\2bc\7\21\2\2cg\5\b\5\2d"+
+		"e\7\22\2\2eg\5\b\5\2fb\3\2\2\2fd\3\2\2\2g\21\3\2\2\2\21\30\"$+.\62\66"+
+		"9<CQTWZf";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

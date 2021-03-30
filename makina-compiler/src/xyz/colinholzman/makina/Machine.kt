@@ -30,7 +30,7 @@ class Machine(val id: String, val states: List<State> = emptyList(),
     private fun checkForDuplicateInitialStates() {
         var count = 0
         for (state in states) {
-            if (state.initial && state.parent == null) {
+            if (state.type.initial && state.parent == null) {
                 if (count == 0) count++
                 else throw RuntimeException("duplicate initial state at ${state.location}")
             }
@@ -64,7 +64,7 @@ class Machine(val id: String, val states: List<State> = emptyList(),
 
     fun getInitialStateConfiguration(): StateConfiguration {
         val children = this.states.filter { it.parent == null }
-        val designatedInitial = children.find { it.initial }
+        val designatedInitial = children.find { it.type.initial }
         val initial = designatedInitial ?: children.first()
         return initial.getStateConfiguration()
     }

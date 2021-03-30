@@ -23,6 +23,34 @@ public interface makinaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitState(makinaParser.StateContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code initialType}
+	 * labeled alternative in {@link makinaParser#stateType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInitialType(makinaParser.InitialTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code parallelType}
+	 * labeled alternative in {@link makinaParser#stateType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParallelType(makinaParser.ParallelTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code finalType}
+	 * labeled alternative in {@link makinaParser#stateType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFinalType(makinaParser.FinalTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code defaultType}
+	 * labeled alternative in {@link makinaParser#stateType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefaultType(makinaParser.DefaultTypeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link makinaParser#id}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

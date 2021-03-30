@@ -95,7 +95,7 @@ class CodeGenerator(val machine: Machine,
             for (activeAtomicState in machine.states.filter { it.isAtomic() }) {
                 println("static int ${machine.id}_${activeAtomicState.getFullyQualifiedIdString()}($machineStructName *self, $machineEventName *event) {")
                 println("\tif (!self || !event) return -1;")
-                if (!activeAtomicState.final) {
+                if (activeAtomicState.type !is State.Type.Final) {
                     val config = activeAtomicState.getStateConfiguration()
                     println("\tswitch (event->id) {")
                     val handlerGroups = config.getHandlers().groupByIdAndRemoveRedundantHandlers()
