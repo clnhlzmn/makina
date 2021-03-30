@@ -8,19 +8,20 @@ import xyz.colinholzman.makina.StateConfiguration.Companion.groupByIdAndRemoveRe
 import xyz.colinholzman.makina.TestStates.Companion.s1
 import xyz.colinholzman.makina.TestStates.Companion.s11
 import xyz.colinholzman.makina.TestStates.Companion.s111
+import xyz.colinholzman.makina.TestStates.Companion.s2
 
 internal class StateConfigurationTest {
 
     @Test
     fun testIsValid() {
         assertDoesNotThrow {
-            StateConfiguration(setOf(TestStates.s1, TestStates.s11, TestStates.s111))
+            StateConfiguration(s111)
         }
         assertThrows<RuntimeException> {
-            StateConfiguration(setOf(TestStates.s1, TestStates.s11, TestStates.s12, TestStates.s111))
+            StateConfiguration(s11)
         }
         assertThrows<RuntimeException> {
-            StateConfiguration(setOf(TestStates.s1, TestStates.s21, TestStates.s111))
+            StateConfiguration(s2)
         }
     }
 
@@ -30,7 +31,7 @@ internal class StateConfigurationTest {
         val child = Parse.state("state .foo.baz { on qux; }").first()
         parent.subStates = listOf(child)
         child.parent = parent
-        val config = StateConfiguration(setOf(child, parent))
+        val config = StateConfiguration(child)
         assertEquals(listOf(Pair(child, Handler.Event("qux")), Pair(parent, Handler.Event("bar"))), config.getHandlers())
     }
 
@@ -40,7 +41,7 @@ internal class StateConfigurationTest {
         val child = Parse.state("state .foo.baz { entry qux; }").first()
         parent.subStates = listOf(child)
         child.parent = parent
-        val config = StateConfiguration(setOf(child, parent))
+        val config = StateConfiguration(child)
         assertEquals(listOf(Handler.Entry("bar"), Handler.Entry("qux")), config.getEntryHandlers())
     }
 
@@ -50,7 +51,7 @@ internal class StateConfigurationTest {
         val child = Parse.state("state .foo.baz { on qux; }").first()
         parent.subStates = listOf(child)
         child.parent = parent
-        val config = StateConfiguration(setOf(child, parent))
+        val config = StateConfiguration(child)
         assertEquals(child, config.getAtomicState())
     }
 

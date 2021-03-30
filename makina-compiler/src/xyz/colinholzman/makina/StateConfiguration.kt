@@ -1,21 +1,14 @@
 package xyz.colinholzman.makina
 
-data class StateConfiguration(val states: Set<State>) {
+data class StateConfiguration(val state: State) {
 
     init {
-        if (!isValid()) throw RuntimeException("invalid state configuration")
+        if (!state.isAtomic()) throw RuntimeException("invalid configuration")
     }
 
     //states ordered by depth, deepest first
     private val orderedStates: List<State>
-        get() = states.sortedByDescending { it.getDepth() }
-
-    private fun isValid(): Boolean {
-        if (states.isEmpty()) return false
-        if (orderedStates.groupBy { it.getDepth() }.any { it.value.size > 1 }) return false
-        if (orderedStates.first().getProperAncestors(null) != orderedStates.drop(1)) return false
-        return true
-    }
+        get() = state.getAllActiveStates()
 
     //Returns the list of handlers that this state configuration should handle.
     //The handlers are deepest state first and in document order for handlers within a single state.

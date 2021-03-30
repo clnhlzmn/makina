@@ -162,11 +162,11 @@ internal class StateTest {
 
     @Test
     fun getStateConfiguration() {
-        assertEquals(StateConfiguration(setOf(s2, s21)), s21.getStateConfiguration())
-        assertEquals(StateConfiguration(setOf(s2, s21)), s2.getStateConfiguration())
-        assertEquals(StateConfiguration(setOf(s1, s12, s121)), s1.getStateConfiguration())
-        assertEquals(StateConfiguration(setOf(s1, s11, s111)), s11.getStateConfiguration())
-        assertEquals(StateConfiguration(setOf(s1, s11, s111)), s111.getStateConfiguration())
+        assertEquals(StateConfiguration(s21), s21.getStateConfiguration())
+        assertEquals(StateConfiguration(s21), s2.getStateConfiguration())
+        assertEquals(StateConfiguration(s121), s1.getStateConfiguration())
+        assertEquals(StateConfiguration(s111), s11.getStateConfiguration())
+        assertEquals(StateConfiguration(s111), s111.getStateConfiguration())
     }
 
     @Test
@@ -181,6 +181,12 @@ internal class StateTest {
         assertDoesNotThrow {
             Parse.state("final state foo { entry do_it; exit do_that; }")
         }
+    }
+
+    @Test
+    fun getAllActiveStates() {
+        assertEquals(listOf(s111, s11, s1), s111.getAllActiveStates())
+        assertEquals(listOf(s2), s2.getAllActiveStates())
     }
 
 }

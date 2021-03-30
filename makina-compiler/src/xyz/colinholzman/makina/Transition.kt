@@ -12,7 +12,7 @@ data class Transition(val activeAtomicState: State,
 
     fun getExitSet(): List<State> {
         val domain = getDomain()
-        return activeAtomicState.getStateConfiguration().states
+        return activeAtomicState.getAllActiveStates()
                 .filter { it.isDescendantOf(domain) }
                 .sortedBy { it.getDepth() }.reversed()
     }

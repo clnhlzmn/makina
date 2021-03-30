@@ -84,18 +84,18 @@ internal class MachineTest {
         var s12 = State("s12", parentId = listOf(".", "s1"))
         var s111 = State("s111", parentId = listOf(".", "s1", "s11"))
         var machine = Machine("foo", listOf(s1, s11, s12, s111))
-        var expected = StateConfiguration(setOf(s1, s11, s111))
+        var expected = StateConfiguration(s111)
         assertEquals(expected, machine.getInitialStateConfiguration())
 
         s1 = State("s1", type = State.Type.Default(true))
         machine = Machine("foo", listOf(s1, s11, s12, s111))
-        expected = StateConfiguration(setOf(s1, s11, s111))
+        expected = StateConfiguration(s111)
         assertEquals(expected, machine.getInitialStateConfiguration())
 
         s1 = State("s1")
         s12 = State("s12", parentId = listOf(".", "s1"), type = State.Type.Default(true))
         machine = Machine("foo", listOf(s1, s11, s12, s111))
-        expected = StateConfiguration(setOf(s1, s12))
+        expected = StateConfiguration(s12)
         assertEquals(expected, machine.getInitialStateConfiguration())
     }
 }

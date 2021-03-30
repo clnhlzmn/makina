@@ -152,11 +152,22 @@ class State(val id: String,
         }
     }
 
+    //returns a list of all states that are active when this state is active (including this state)
+    fun getAllActiveStates(): List<State> {
+        val parents = ArrayList<State>()
+        var current: State? = this
+        while (current != null) {
+            parents.add(current)
+            current = current.parent
+        }
+        return parents
+    }
+
     //if this is an atomic state then get the config that is this state + ancestors
     //it this is not an atomic state then get the initial state configuration
     fun getStateConfiguration(): StateConfiguration {
         return if (isAtomic())
-            StateConfiguration((getAncestors() + this).toSet())
+            StateConfiguration(this)
         else {
             val initial = subStates.find { it.type.initial } ?: subStates.first()
             initial.getStateConfiguration()
