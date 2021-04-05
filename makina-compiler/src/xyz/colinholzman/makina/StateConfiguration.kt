@@ -42,7 +42,7 @@ data class StateConfiguration(val states: Set<State>) {
         fun List<Pair<State, Handler.Event>>.groupByIdAndRemoveRedundantHandlers(): Map<String, List<Pair<State, Handler.Event>>> {
             return groupBy { it.second.id }.mapValues { entry ->
                 val guards = HashSet<String?>()
-                entry.value.filter { guards.add(it.second.guard) }
+                entry.value.filter { !guards.contains(null) && guards.add(it.second.guard) }
             }
         }
     }
