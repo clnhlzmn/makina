@@ -71,8 +71,7 @@ internal class StateConfigurationTest {
                 Pair(s11, Handler.Event("foo")),
                 Pair(s1, Handler.Event("foo", guard = "bar"))
         )
-        expected = mapOf(Pair("foo", listOf(Pair(s111, Handler.Event("foo")),
-                                            Pair(s1, Handler.Event("foo", guard = "bar")))))
+        expected = mapOf(Pair("foo", listOf(Pair(s111, Handler.Event("foo")))))
         assertEquals(expected, handlers.groupByIdAndRemoveRedundantHandlers())
 
 
