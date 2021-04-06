@@ -98,4 +98,46 @@ internal class MachineTest {
         expected = StateConfiguration(s12)
         assertEquals(expected, machine.getInitialStateConfiguration())
     }
+
+    @Test
+    fun getAllConfigurations() {
+        run {
+            val machine = Parse.fileFromString("machine test; state s1 { state s11 {} state s12 {} }")
+            val actual = machine.getAllConfigurations()
+            val expected = listOf(listOf(State("s11", parentId = listOf(".", "s1"))),
+                    listOf(State("s12", parentId = listOf(".", "s1"))))
+            assertEquals(expected, actual)
+        }
+        run {
+            val machine = Parse.fileFromString("machine test; state s1 { state s11 {} state s12 {} } state s2 {}")
+            val actual = machine.getAllConfigurations()
+            val expected = listOf(listOf(State("s11", parentId = listOf(".", "s1"))),
+                    listOf(State("s12", parentId = listOf(".", "s1"))),
+                    listOf(State("s2")))
+            assertEquals(expected, actual)
+        }
+        run {
+            val machine = Parse.fileFromString("machine test; parallel s1 { state s11 {} state s12 {} }")
+            val actual = machine.getAllConfigurations()
+            val expected = listOf(listOf(State("s11", parentId = listOf(".", "s1")),
+                                         State("s12", parentId = listOf(".", "s1"))))
+            assertEquals(expected, actual)
+        }
+        run {
+            val machine = Parse.fileFromString("machine test; parallel s1 { state s11 { state s111 {} state s112 {} } }")
+            val actual = machine.getAllConfigurations()
+            val expected = listOf(listOf(State("s111", parentId = listOf(".", "s1", "s11"))),
+                                  listOf(State("s112", parentId = listOf(".", "s1", "s11"))))
+            assertEquals(expected, actual)
+        }
+        run {
+            val machine = Parse.fileFromString("machine test; parallel s1 { state s11 { state s111 {} state s112 {} } state s12 {} }")
+            val actual = machine.getAllConfigurations()
+            val expected = listOf(
+                    listOf(State("s111", parentId = listOf(".", "s1", "s11")), State("s12", parentId = listOf(".", "s1"))),
+                    listOf(State("s112", parentId = listOf(".", "s1", "s11")), State("s12", parentId = listOf(".", "s1")))
+            )
+            assertEquals(expected, actual)
+        }
+    }
 }

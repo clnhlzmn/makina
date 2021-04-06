@@ -69,6 +69,10 @@ class Machine(val id: String, val states: List<State> = emptyList(),
         return initial.getStateConfiguration()
     }
 
+    fun getAllConfigurations(): List<List<State>> {
+        return states.filter { it.parent == null }.flatMap { it.getAllConfigurations() }
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

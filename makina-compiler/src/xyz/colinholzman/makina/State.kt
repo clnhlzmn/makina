@@ -1,5 +1,7 @@
 package xyz.colinholzman.makina
 
+import xyz.colinholzman.makina.Product.Companion.product
+
 class State(val id: String,
             val handlers: List<Handler> = listOf(),
             val parentId: List<String> = listOf("."),
@@ -113,6 +115,14 @@ class State(val id: String,
         return subStates.isEmpty()
     }
 
+    fun isParallel(): Boolean {
+        return type is Type.Parallel
+    }
+
+    fun isCompound(): Boolean {
+        return subStates.isNotEmpty()
+    }
+
     fun getDepth(): Int {
         var ret = 0
         var current: State? = parent
@@ -179,6 +189,14 @@ class State(val id: String,
         } else {
             val initialSubState = getInitialSubState()
             listOf(initialSubState) + initialSubState.getDefaultEntrySet()
+        }
+    }
+
+    fun getAllConfigurations(): List<List<State>> {
+        return when {
+            isParallel() -> subStates.map { it.getAllConfigurations() }.product().map { it.flatten() }
+            isCompound() -> subStates.flatMap { it.getAllConfigurations() }
+            else -> listOf(listOf(this))
         }
     }
 
