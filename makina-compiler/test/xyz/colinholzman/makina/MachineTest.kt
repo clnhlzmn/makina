@@ -139,5 +139,14 @@ internal class MachineTest {
             )
             assertEquals(expected, actual)
         }
+        run {
+            val machine = Parse.fileFromString("machine test; parallel s1 { parallel s11 { state s111 {} state s112 {} } parallel s12 { state s121 {} state s122 {} } }")
+            val actual = machine.getAllConfigurations()
+            val expected = listOf(
+                    listOf(State("s111", parentId = listOf(".", "s1", "s11")), State("s112", parentId = listOf(".", "s1", "s11")),
+                            State("s121", parentId = listOf(".", "s1", "s12")), State("s122", parentId = listOf(".", "s1", "s12")))
+            )
+            assertEquals(expected, actual)
+        }
     }
 }
