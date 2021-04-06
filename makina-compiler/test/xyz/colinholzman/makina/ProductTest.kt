@@ -5,7 +5,6 @@ import xyz.colinholzman.makina.Product.Companion.product
 import kotlin.test.assertEquals
 
 class ProductTest {
-    data class Config(val items: Set<String>)
     @Test
     fun product() {
         run {
