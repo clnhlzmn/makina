@@ -3,6 +3,7 @@ package xyz.colinholzman.makina
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import xyz.colinholzman.makina.GetState.Companion.getState
 
 internal class MachineTest {
     @Test
@@ -97,6 +98,46 @@ internal class MachineTest {
         machine = Machine("foo", listOf(s1, s11, s12, s111))
         expected = StateConfiguration(s12)
         assertEquals(expected, machine.getInitialStateConfiguration())
+    }
+
+    @Test
+    fun getInitialStateConfiguration2() {
+        run {
+            val machine = Parse.fileFromString("""
+                machine test;
+                state foo {} state bar {}
+            """.trimIndent())
+            val actual = machine.getInitialStateConfiguration2()
+            val expected = listOf(machine.getState(".foo"))
+            assertEquals(expected, actual)
+        }
+        run {
+            val machine = Parse.fileFromString("""
+                machine test;
+                state foo {} initial bar {}
+            """.trimIndent())
+            val actual = machine.getInitialStateConfiguration2()
+            val expected = listOf(machine.getState(".bar"))
+            assertEquals(expected, actual)
+        }
+        run {
+            val machine = Parse.fileFromString("""
+                machine test;
+                state foo { state baz {} } state bar {}
+            """.trimIndent())
+            val actual = machine.getInitialStateConfiguration2()
+            val expected = listOf(machine.getState(".foo.baz"))
+            assertEquals(expected, actual)
+        }
+        run {
+            val machine = Parse.fileFromString("""
+                machine test;
+                parallel foo { state bar {} state baz {} }
+            """.trimIndent())
+            val actual = machine.getInitialStateConfiguration2()
+            val expected = listOf(machine.getState(".foo.bar"), machine.getState(".foo.baz"))
+            assertEquals(expected, actual)
+        }
     }
 
     @Test
