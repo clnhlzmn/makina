@@ -38,5 +38,14 @@ data class StateConfiguration(val state: State) {
                 entry.value.filter { !guards.contains(null) && guards.add(it.second.guard) }
             }
         }
+
+        //Returns all handlers a given state configuration should handle
+        fun List<State>.getEventHandlers(): Map<String, List<Pair<State, Handler.Event>>> {
+            return flatMap { leafState ->
+                leafState.getBranch().flatMap {
+                    state -> state.handlers.filterIsInstance<Handler.Event>().map { Pair(state, it) }
+                }
+            }.sortedByDescending { it.first.getDepth() }.groupByIdAndRemoveRedundantHandlers()
+        }
     }
 }

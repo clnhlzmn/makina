@@ -38,5 +38,11 @@ class Parse {
             val context = parser.state()
             return context.accept(StateVisitor())
         }
+        fun id(content: String): List<String> {
+            val stream = CharStreams.fromString(content)
+            val parser = parser(stream)
+            val context = parser.id()
+            return context.accept(IdVisitor())
+        }
     }
 }

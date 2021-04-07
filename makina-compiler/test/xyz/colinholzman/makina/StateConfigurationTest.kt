@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
+import xyz.colinholzman.makina.GetState.Companion.getState
+import xyz.colinholzman.makina.StateConfiguration.Companion.getEventHandlers
 import xyz.colinholzman.makina.StateConfiguration.Companion.groupByIdAndRemoveRedundantHandlers
 import xyz.colinholzman.makina.TestStates.Companion.s1
 import xyz.colinholzman.makina.TestStates.Companion.s11
@@ -94,5 +96,48 @@ internal class StateConfigurationTest {
                                             Pair(s11, Handler.Event("foo", guard = "baz")),
                                             Pair(s1, Handler.Event("foo")))))
         assertEquals(expected, handlers.groupByIdAndRemoveRedundantHandlers())
+    }
+
+    @Test
+    fun getEventHandlers() {
+        run {
+            val machine = Parse.fileFromString("""
+                machine test;
+                state foo {
+                    on e;
+                    state bar {
+                        on e (guard);
+                    }
+                }
+            """.trimIndent())
+            val foo = machine.getState(".foo")
+            val bar = machine.getState(".foo.bar")
+            val actual = listOf(bar).getEventHandlers()
+            val expected = mapOf(Pair("e", listOf(Pair(bar, Parse.handler("on e (guard);")),
+                                                  Pair(foo, Parse.handler("on e;")))))
+            assertEquals(expected, actual)
+        }
+        run {
+            val machine = Parse.fileFromString("""
+                machine test;
+                parallel foo {
+                    on e;
+                    state bar {
+                        on e (bar_guard);
+                    }
+                    state baz {
+                        on e (baz_guard);
+                    }
+                }
+            """.trimIndent())
+            val foo = machine.getState(".foo")
+            val bar = machine.getState(".foo.bar")
+            val baz = machine.getState(".foo.baz")
+            val actual = listOf(bar, baz).getEventHandlers()
+            val expected = mapOf(Pair("e", listOf(Pair(bar, Parse.handler("on e (bar_guard);")),
+                                                  Pair(baz, Parse.handler("on e (baz_guard);")),
+                                                  Pair(foo, Parse.handler("on e;")))))
+            assertEquals(expected, actual)
+        }
     }
 }
