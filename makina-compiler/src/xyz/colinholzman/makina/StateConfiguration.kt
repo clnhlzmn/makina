@@ -41,11 +41,20 @@ data class StateConfiguration(val state: State) {
 
         //Returns all handlers a given state configuration should handle
         fun List<State>.getEventHandlers(): Map<String, List<Pair<State, Handler.Event>>> {
-            return flatMap { leafState ->
-                leafState.getBranch().flatMap {
+            return flatMap { atomicState ->
+                atomicState.getBranch().flatMap {
                     state -> state.handlers.filterIsInstance<Handler.Event>().map { Pair(state, it) }
                 }
             }.sortedByDescending { it.first.getDepth() }.groupByIdAndRemoveRedundantHandlers()
+        }
+
+        //Returns a list of the entry handlers that must be activated to enter the given initial configuration
+        fun List<State>.getEntryHandlers(): List<Handler.Entry> {
+            return flatMap { atomicState ->
+                atomicState.getBranch().reversed().flatMap { state ->
+                    state.handlers.filterIsInstance<Handler.Entry>().map { state to it }
+                }
+            }.toSet().map { it.second }
         }
     }
 }

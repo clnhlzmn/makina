@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
 import xyz.colinholzman.makina.GetState.Companion.getState
+import xyz.colinholzman.makina.StateConfiguration.Companion.getEntryHandlers
 import xyz.colinholzman.makina.StateConfiguration.Companion.getEventHandlers
 import xyz.colinholzman.makina.StateConfiguration.Companion.groupByIdAndRemoveRedundantHandlers
 import xyz.colinholzman.makina.TestStates.Companion.s1
@@ -137,6 +138,48 @@ internal class StateConfigurationTest {
             val expected = mapOf(Pair("e", listOf(Pair(bar, Parse.handler("on e (bar_guard);")),
                                                   Pair(baz, Parse.handler("on e (baz_guard);")),
                                                   Pair(foo, Parse.handler("on e;")))))
+            assertEquals(expected, actual)
+        }
+    }
+
+    @Test
+    fun getEntryHandlers2() {
+        run {
+            val machine = Parse.fileFromString("""
+                machine test;
+                parallel foo {
+                    entry foo;
+                    state bar {
+                        entry bar;
+                    }
+                    state baz {
+                        entry baz;
+                    }
+                }
+            """.trimIndent())
+            val bar = machine.getState(".foo.bar")
+            val baz = machine.getState(".foo.baz")
+            val actual = listOf(bar, baz).getEntryHandlers()
+            val expected = listOf(Handler.Entry("foo"), Handler.Entry("bar"), Handler.Entry("baz"))
+            assertEquals(expected, actual)
+        }
+        run {
+            val machine = Parse.fileFromString("""
+                machine test;
+                parallel foo {
+                    entry foo;
+                    state bar {
+                        entry foo;
+                    }
+                    state baz {
+                        entry foo;
+                    }
+                }
+            """.trimIndent())
+            val bar = machine.getState(".foo.bar")
+            val baz = machine.getState(".foo.baz")
+            val actual = listOf(bar, baz).getEntryHandlers()
+            val expected = listOf(Handler.Entry("foo"), Handler.Entry("foo"), Handler.Entry("foo"))
             assertEquals(expected, actual)
         }
     }
