@@ -193,11 +193,13 @@ class State(val id: String,
 
     //gets a list of the sub states to enter if this is the target of a transition
     fun getDefaultEntrySet(): List<State> {
-        return if (isAtomic()) {
-            emptyList()
-        } else {
-            val initialSubState = getInitialSubState()
-            listOf(initialSubState) + initialSubState.getDefaultEntrySet()
+        return when {
+            isParallel() -> subStates.flatMap { listOf(it) + it.getDefaultEntrySet() }
+            isCompound() -> {
+                val initialSubState = getInitialSubState()
+                listOf(initialSubState) + initialSubState.getDefaultEntrySet()
+            }
+            else -> emptyList()
         }
     }
 
