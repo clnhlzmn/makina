@@ -54,7 +54,7 @@ data class StateConfiguration(val state: State) {
                 atomicState.getBranch().reversed().flatMap { state ->
                     state.handlers.filterIsInstance<Handler.Entry>().map { state to it }
                 }
-            }.toSet().map { it.second }
+            }.distinct().map { it.second }
         }
     }
 }
