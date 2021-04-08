@@ -2,9 +2,13 @@ package xyz.colinholzman.makina
 
 import xyz.colinholzman.makina.State.Companion.getLCCA
 
-data class Transition(val activeAtomicState: State,
+data class Transition(val activeConfiguration: List<State>,
                       val source: State, val target: State,
                       val kind: Target.Kind = Target.Kind.DEFAULT) {
+
+    constructor (activeAtomicState: State, source: State, target: State,
+                 kind: Target.Kind = Target.Kind.DEFAULT): this(listOf(activeAtomicState), source, target, kind)
+
     fun getEntrySet(): List<State> {
         return (listOf(target) + target.getDefaultEntrySet() + target.getProperAncestors(getDomain()))
                 .sortedBy { it.getDepth() }
@@ -12,9 +16,10 @@ data class Transition(val activeAtomicState: State,
 
     fun getExitSet(): List<State> {
         val domain = getDomain()
-        return activeAtomicState.getBranch()
+        return activeConfiguration.flatMap { activeState ->
+            activeState.getBranch()
                 .filter { it.isDescendantOf(domain) }
-                .sortedBy { it.getDepth() }.reversed()
+        }.distinct().sortedBy { it.getDepth() }.reversed()
     }
 
     fun getDomain(): State? {
