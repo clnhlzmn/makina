@@ -8,6 +8,12 @@ data class SourceLocation(val fileName: String, val lineNumber: Int, val column:
         return "$lineNumber:$column in $fileName"
     }
 
+    fun compareTo(other: SourceLocation): Int {
+        val lineComparison = lineNumber.compareTo(other.lineNumber)
+        return if (lineComparison != 0) lineComparison
+        else column.compareTo(other.column)
+    }
+
     companion object {
         fun fromToken(token: Token): SourceLocation {
             return SourceLocation(token.inputStream.sourceName, token.line, token.charPositionInLine + 1)

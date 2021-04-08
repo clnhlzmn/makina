@@ -3,6 +3,7 @@ package xyz.colinholzman.makina
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import xyz.colinholzman.makina.GetState.Companion.getState
 import xyz.colinholzman.makina.State.Companion.getLCCA
 import xyz.colinholzman.makina.TestStates.Companion.machine
 import xyz.colinholzman.makina.TestStates.Companion.s1
@@ -187,6 +188,56 @@ internal class StateTest {
     fun getBranch() {
         assertEquals(listOf(s111, s11, s1), s111.getBranch())
         assertEquals(listOf(s2), s2.getBranch())
+    }
+
+    @Test
+    fun entryOrder() {
+        run {
+            val machine = Parse.fileFromString("""
+                machine test;
+                state foo { state bar {} }
+                state qux {} state fred {}
+            """.trimIndent())
+            val foo = machine.getState(".foo")
+            val bar = machine.getState(".foo.bar")
+            val qux = machine.getState(".qux")
+            val fred = machine.getState(".fred")
+            assert(State.entryOrder.compare(foo, bar) < 0)
+            assert(State.entryOrder.compare(bar, foo) > 0)
+            assert(State.entryOrder.compare(qux, bar) < 0)
+            assert(State.entryOrder.compare(bar, qux) > 0)
+            assert(State.entryOrder.compare(qux, fred) < 0)
+            assert(State.entryOrder.compare(fred, qux) > 0)
+            assertEquals(0, State.entryOrder.compare(foo, foo))
+            assertEquals(0, State.entryOrder.compare(bar, bar))
+            assertEquals(0, State.entryOrder.compare(qux, qux))
+            assertEquals(0, State.entryOrder.compare(fred, fred))
+        }
+    }
+
+    @Test
+    fun exitOrder() {
+        run {
+            val machine = Parse.fileFromString("""
+                machine test;
+                state foo { state bar {} }
+                state qux {} state fred {}
+            """.trimIndent())
+            val foo = machine.getState(".foo")
+            val bar = machine.getState(".foo.bar")
+            val qux = machine.getState(".qux")
+            val fred = machine.getState(".fred")
+            assert(State.exitOrder.compare(foo, bar) > 0)
+            assert(State.exitOrder.compare(bar, foo) < 0)
+            assert(State.exitOrder.compare(qux, bar) > 0)
+            assert(State.exitOrder.compare(bar, qux) < 0)
+            assert(State.exitOrder.compare(qux, fred) > 0)
+            assert(State.exitOrder.compare(fred, qux) < 0)
+            assertEquals(0, State.exitOrder.compare(foo, foo))
+            assertEquals(0, State.exitOrder.compare(bar, bar))
+            assertEquals(0, State.exitOrder.compare(qux, qux))
+            assertEquals(0, State.exitOrder.compare(fred, fred))
+        }
     }
 
 }

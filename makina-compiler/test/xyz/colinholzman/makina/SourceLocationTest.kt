@@ -2,6 +2,7 @@ package xyz.colinholzman.makina
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import xyz.colinholzman.makina.GetState.Companion.getState
 import java.io.File
 
 class SourceLocationTest {
@@ -27,5 +28,25 @@ class SourceLocationTest {
         assertEquals(SourceLocation(fileName, 2, 13), qux.location)
         assertEquals(SourceLocation(fileName, 3, 13), this_that.location)
         assertEquals(SourceLocation(fileName, 4, 14), fred.location)
+    }
+
+    @Test
+    fun compareTo() {
+        run {
+            val machine = Parse.fileFromString("""
+                machine foo;
+                state bar {} state baz {}
+                state qux {}
+            """.trimIndent())
+            val bar = machine.getState(".bar")
+            val baz = machine.getState(".baz")
+            val qux = machine.getState(".qux")
+            assert(bar.location.compareTo(baz.location) < 0)
+            assert(baz.location.compareTo(bar.location) > 0)
+            assertEquals(0, bar.location.compareTo(bar.location))
+            assert(baz.location.compareTo(qux.location) < 0)
+            assert(qux.location.compareTo(baz.location) > 0)
+            assertEquals(0, baz.location.compareTo(baz.location))
+        }
     }
 }

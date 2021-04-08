@@ -242,6 +242,18 @@ class State(val id: String,
             }
             return null
         }
+
+        val entryOrder = Comparator<State> { s1, s2 ->
+            val depthComparison = s1.getDepth().compareTo(s2.getDepth())
+            if (depthComparison != 0) depthComparison
+            else s1.location.compareTo(s2.location)
+        }
+
+        val exitOrder = Comparator<State> { s1, s2 ->
+            val depthComparison = s2.getDepth().compareTo(s1.getDepth())
+            if (depthComparison != 0) depthComparison
+            else s2.location.compareTo(s1.location)
+        }
     }
 
 }
