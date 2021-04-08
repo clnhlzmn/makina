@@ -80,6 +80,23 @@ internal class TransitionTest {
             val expected = listOf(foo, bar, baz)
             assertEquals(expected, actual)
         }
+        run {
+            val machine = Parse.fileFromString("""
+                machine test;
+                parallel foo {
+                    state bar {}
+                    state baz {}
+                }
+                state qux {}
+            """.trimIndent())
+            val foo = machine.getState(".foo")
+            val bar = machine.getState(".foo.bar")
+            val baz = machine.getState(".foo.baz")
+            val qux = machine.getState(".qux")
+            val actual = Transition(listOf(qux), qux, bar).getEntrySet()
+            val expected = listOf(foo, bar, baz)
+            assertEquals(expected, actual)
+        }
     }
 
     @Test
