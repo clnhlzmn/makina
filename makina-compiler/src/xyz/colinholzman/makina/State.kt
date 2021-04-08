@@ -181,13 +181,8 @@ class State(val id: String,
     //Returns the initial state configuration for this state
     fun getInitialStateConfiguration(): List<State> {
         return when {
-            isParallel() ->
-                subStates.flatMap { it.getInitialStateConfiguration() }
-            isCompound() -> {
-                val designatedInitial = subStates.find { it.type.initial }
-                designatedInitial?.getInitialStateConfiguration()
-                        ?: subStates.first().getInitialStateConfiguration()
-            }
+            isParallel() -> subStates.flatMap { it.getInitialStateConfiguration() }
+            isCompound() -> listOf(getInitialSubState())
             else -> listOf(this)
         }
     }
