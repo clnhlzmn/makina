@@ -42,8 +42,7 @@ internal class TransitionTest {
 
     @Test
     fun getParallelExitSet() {
-        run {
-            val machine = Parse.fileFromString("""
+        val machine = Parse.fileFromString("""
                 machine test;
                 parallel foo {
                     state bar {}
@@ -51,10 +50,11 @@ internal class TransitionTest {
                 }
                 state qux {}
             """.trimIndent())
-            val foo = machine.getState(".foo")
-            val bar = machine.getState(".foo.bar")
-            val baz = machine.getState(".foo.baz")
-            val qux = machine.getState(".qux")
+        val foo = machine.getState(".foo")
+        val bar = machine.getState(".foo.bar")
+        val baz = machine.getState(".foo.baz")
+        val qux = machine.getState(".qux")
+        run {
             val actual = Transition(listOf(bar, baz), bar, qux).getExitSet()
             val expected = listOf(baz, bar, foo)
             assertEquals(expected, actual)
@@ -63,8 +63,7 @@ internal class TransitionTest {
 
     @Test
     fun getParallelEntrySet() {
-        run {
-            val machine = Parse.fileFromString("""
+        val machine = Parse.fileFromString("""
                 machine test;
                 parallel foo {
                     state bar {}
@@ -72,27 +71,16 @@ internal class TransitionTest {
                 }
                 state qux {}
             """.trimIndent())
-            val foo = machine.getState(".foo")
-            val bar = machine.getState(".foo.bar")
-            val baz = machine.getState(".foo.baz")
-            val qux = machine.getState(".qux")
+        val foo = machine.getState(".foo")
+        val bar = machine.getState(".foo.bar")
+        val baz = machine.getState(".foo.baz")
+        val qux = machine.getState(".qux")
+        run {
             val actual = Transition(listOf(qux), qux, foo).getEntrySet()
             val expected = listOf(foo, bar, baz)
             assertEquals(expected, actual)
         }
         run {
-            val machine = Parse.fileFromString("""
-                machine test;
-                parallel foo {
-                    state bar {}
-                    state baz {}
-                }
-                state qux {}
-            """.trimIndent())
-            val foo = machine.getState(".foo")
-            val bar = machine.getState(".foo.bar")
-            val baz = machine.getState(".foo.baz")
-            val qux = machine.getState(".qux")
             val actual = Transition(listOf(qux), qux, bar).getEntrySet()
             val expected = listOf(foo, bar, baz)
             assertEquals(expected, actual)

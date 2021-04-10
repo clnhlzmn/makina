@@ -45,7 +45,7 @@ data class Transition(val activeConfiguration: List<State>,
         return activeConfiguration.flatMap { activeState ->
             activeState.getBranch()
                 .filter { it.isDescendantOf(domain) }
-        }.distinct().sortedBy { it.getDepth() }.reversed()
+        }.distinct().sortedWith(State.exitOrder)
     }
 
     fun getDomain(): State? {
