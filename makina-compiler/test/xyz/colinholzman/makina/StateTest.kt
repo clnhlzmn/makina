@@ -198,20 +198,11 @@ internal class StateTest {
                 state foo { state bar {} }
                 state qux {} state fred {}
             """.trimIndent())
-            val foo = machine.getState(".foo")
-            val bar = machine.getState(".foo.bar")
-            val qux = machine.getState(".qux")
-            val fred = machine.getState(".fred")
-            assert(State.entryOrder.compare(foo, bar) < 0)
-            assert(State.entryOrder.compare(bar, foo) > 0)
-            assert(State.entryOrder.compare(qux, bar) < 0)
-            assert(State.entryOrder.compare(bar, qux) > 0)
-            assert(State.entryOrder.compare(qux, fred) < 0)
-            assert(State.entryOrder.compare(fred, qux) > 0)
-            assertEquals(0, State.entryOrder.compare(foo, foo))
-            assertEquals(0, State.entryOrder.compare(bar, bar))
-            assertEquals(0, State.entryOrder.compare(qux, qux))
-            assertEquals(0, State.entryOrder.compare(fred, fred))
+            val stateNames = listOf(".foo", ".qux", ".fred", ".foo.bar")
+            val states = stateNames.map { machine.getState(it) }
+            val actual = states.shuffled().sortedWith(State.entryOrder)
+            val expected = states
+            assertEquals(expected, actual)
         }
     }
 
@@ -223,20 +214,11 @@ internal class StateTest {
                 state foo { state bar {} }
                 state qux {} state fred {}
             """.trimIndent())
-            val foo = machine.getState(".foo")
-            val bar = machine.getState(".foo.bar")
-            val qux = machine.getState(".qux")
-            val fred = machine.getState(".fred")
-            assert(State.exitOrder.compare(foo, bar) > 0)
-            assert(State.exitOrder.compare(bar, foo) < 0)
-            assert(State.exitOrder.compare(qux, bar) > 0)
-            assert(State.exitOrder.compare(bar, qux) < 0)
-            assert(State.exitOrder.compare(qux, fred) > 0)
-            assert(State.exitOrder.compare(fred, qux) < 0)
-            assertEquals(0, State.exitOrder.compare(foo, foo))
-            assertEquals(0, State.exitOrder.compare(bar, bar))
-            assertEquals(0, State.exitOrder.compare(qux, qux))
-            assertEquals(0, State.exitOrder.compare(fred, fred))
+            val stateNames = listOf(".foo.bar", ".fred", ".qux", ".foo")
+            val states = stateNames.map { machine.getState(it) }
+            val actual = states.shuffled().sortedWith(State.exitOrder)
+            val expected = states
+            assertEquals(expected, actual)
         }
     }
 
