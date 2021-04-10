@@ -92,4 +92,18 @@ sealed class Handler(location: SourceLocation): Node(location) {
             return result
         }
     }
+
+    companion object {
+        val entryOrder = Comparator<Pair<State, Handler>> { o1, o2 ->
+            val stateComparison = State.entryOrder.compare(o1.first, o2.first)
+            if (stateComparison != 0) stateComparison
+            else o1.second.location.compareTo(o2.second.location)
+        }
+
+        val exitOrder = Comparator<Pair<State, Handler>> { o1, o2 ->
+            val stateComparison = State.entryOrder.compare(o2.first, o1.first)
+            if (stateComparison != 0) stateComparison
+            else o2.second.location.compareTo(o1.second.location)
+        }
+    }
 }
