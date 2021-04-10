@@ -10,13 +10,8 @@ data class Transition(val activeConfiguration: List<State>,
                  kind: Target.Kind = Target.Kind.DEFAULT): this(listOf(activeAtomicState), source, target, kind)
 
     fun getEntrySet(): List<State> {
-        val ret = ArrayList<State>()
-        ret.add(target)
-        ret.addAll(target.getDefaultEntrySet())
-        val domain = getDomain()
-        val ancestors = target.getProperAncestors(domain)
-        ancestors.forEach { ret.add(it); ret.addAll(it.getDefaultEntrySet()) }
-        return ret.distinct().sortedBy { it.getDepth() }
+        return (listOf(target) + target.getDefaultEntrySet() + target.getProperAncestors(getDomain()))
+                .sortedBy { it.getDepth() }
     }
 
     fun getExitSet(): List<State> {
