@@ -63,38 +63,4 @@ internal class HandlerTest {
         handler = Handler.Event("foo", target = Target(listOf("s1")))
         assertEquals(s1, handler.getTargetState(s2, machine))
     }
-
-    @Test
-    fun entryOrder() {
-        run {
-            val machine = Parse.fileFromString("""
-                machine test;
-                state foo { on e; } state bar { on e; }
-                state baz { on e; state qux { on e; } }
-                """.trimIndent())
-            val stateNames = listOf(".foo", ".bar", ".baz", ".baz.qux")
-            val states = stateNames.map { machine.getState(it) }
-            val pairs = states.map { Pair(it, it.handlers.first()) }
-            val actual = pairs.shuffled().sortedWith(Handler.entryOrder)
-            val expected = pairs
-            assertEquals(expected, actual)
-        }
-    }
-
-    @Test
-    fun exitOrder() {
-        run {
-            val machine = Parse.fileFromString("""
-                machine test;
-                state foo { on e; } state bar { on e; }
-                state baz { on e; state qux { on e; } }
-                """.trimIndent())
-            val stateNames = listOf(".foo", ".bar", ".baz", ".baz.qux").reversed()
-            val states = stateNames.map { machine.getState(it) }
-            val pairs = states.map { Pair(it, it.handlers.first()) }
-            val actual = pairs.shuffled().sortedWith(Handler.exitOrder)
-            val expected = pairs
-            assertEquals(expected, actual)
-        }
-    }
 }
