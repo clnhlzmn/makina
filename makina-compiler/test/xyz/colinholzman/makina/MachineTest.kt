@@ -108,7 +108,7 @@ internal class MachineTest {
                 state foo {} state bar {}
             """.trimIndent())
             val actual = machine.getInitialStateConfiguration2()
-            val expected = setOf(machine.getState(".foo"))
+            val expected = listOf(machine.getState(".foo"))
             assertEquals(expected, actual)
         }
         run {
@@ -117,7 +117,7 @@ internal class MachineTest {
                 state foo {} initial bar {}
             """.trimIndent())
             val actual = machine.getInitialStateConfiguration2()
-            val expected = setOf(machine.getState(".bar"))
+            val expected = listOf(machine.getState(".bar"))
             assertEquals(expected, actual)
         }
         run {
@@ -126,7 +126,7 @@ internal class MachineTest {
                 state foo { state baz {} } state bar {}
             """.trimIndent())
             val actual = machine.getInitialStateConfiguration2()
-            val expected = setOf(machine.getState(".foo.baz"))
+            val expected = listOf(machine.getState(".foo.baz"))
             assertEquals(expected, actual)
         }
         run {
@@ -135,7 +135,7 @@ internal class MachineTest {
                 parallel foo { state bar {} state baz {} }
             """.trimIndent())
             val actual = machine.getInitialStateConfiguration2()
-            val expected = setOf(machine.getState(".foo.bar"), machine.getState(".foo.baz"))
+            val expected = listOf(machine.getState(".foo.bar"), machine.getState(".foo.baz"))
             assertEquals(expected, actual)
         }
     }

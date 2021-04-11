@@ -179,11 +179,11 @@ class State(val id: String,
     }
 
     //Returns the initial state configuration for this state
-    fun getInitialStateConfiguration(): Set<State> {
+    fun getInitialStateConfiguration(): List<State> {
         return when {
-            isParallel() -> subStates.flatMap { it.getInitialStateConfiguration() }.toSet()
-            isCompound() -> setOf(getInitialSubState())
-            else -> setOf(this)
+            isParallel() -> subStates.flatMap { it.getInitialStateConfiguration() }
+            isCompound() -> listOf(getInitialSubState())
+            else -> listOf(this)
         }
     }
 
