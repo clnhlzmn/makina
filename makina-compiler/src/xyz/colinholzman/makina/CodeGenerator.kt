@@ -103,8 +103,8 @@ class CodeGenerator(val machine: Machine,
                     for (handlerStatePair in entry.value) {
                         val sourceState = handlerStatePair.first
                         val handler = handlerStatePair.second
-                        val guard = if (handler.guard != null) "${handler.guard}(self, event)" else "1"
-                        println("\t\tif ($guard) {")
+                        val guard = if (handler.guard != null) "if (${handler.guard}(self, event)) " else ""
+                        println("\t\t$guard{")
                         generateExitActions(handler, sourceState, config, output)
                         if (handler.action != null) {
                             println("\t\t\t${handler.action}(self, event);")
@@ -142,6 +142,6 @@ class CodeGenerator(val machine: Machine,
     }
 
     private fun configurationName(config: List<State>): String {
-        return "${machine.id}${config.sortedWith(State.entryOrder).joinToString(" _ ") { it.getFullyQualifiedIdString() }}"
+        return "${machine.id}_${config.sortedWith(State.entryOrder).joinToString("_") { it.getFullyQualifiedIdString() }}"
     }
 }
