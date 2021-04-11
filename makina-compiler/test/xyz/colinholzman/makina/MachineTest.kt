@@ -80,34 +80,12 @@ internal class MachineTest {
 
     @Test
     fun getInitialStateConfiguration() {
-        var s1 = State("s1")
-        var s11 = State("s11", parentId = listOf(".", "s1"))
-        var s12 = State("s12", parentId = listOf(".", "s1"))
-        var s111 = State("s111", parentId = listOf(".", "s1", "s11"))
-        var machine = Machine("foo", listOf(s1, s11, s12, s111))
-        var expected = StateConfiguration(s111)
-        assertEquals(expected, machine.getInitialStateConfiguration())
-
-        s1 = State("s1", type = State.Type.Default(true))
-        machine = Machine("foo", listOf(s1, s11, s12, s111))
-        expected = StateConfiguration(s111)
-        assertEquals(expected, machine.getInitialStateConfiguration())
-
-        s1 = State("s1")
-        s12 = State("s12", parentId = listOf(".", "s1"), type = State.Type.Default(true))
-        machine = Machine("foo", listOf(s1, s11, s12, s111))
-        expected = StateConfiguration(s12)
-        assertEquals(expected, machine.getInitialStateConfiguration())
-    }
-
-    @Test
-    fun getInitialStateConfiguration2() {
         run {
             val machine = Parse.fileFromString("""
                 machine test;
                 state foo {} state bar {}
             """.trimIndent())
-            val actual = machine.getInitialStateConfiguration2()
+            val actual = machine.getInitialStateConfiguration()
             val expected = listOf(machine.getState(".foo"))
             assertEquals(expected, actual)
         }
@@ -116,7 +94,7 @@ internal class MachineTest {
                 machine test;
                 state foo {} initial bar {}
             """.trimIndent())
-            val actual = machine.getInitialStateConfiguration2()
+            val actual = machine.getInitialStateConfiguration()
             val expected = listOf(machine.getState(".bar"))
             assertEquals(expected, actual)
         }
@@ -125,7 +103,7 @@ internal class MachineTest {
                 machine test;
                 state foo { state baz {} } state bar {}
             """.trimIndent())
-            val actual = machine.getInitialStateConfiguration2()
+            val actual = machine.getInitialStateConfiguration()
             val expected = listOf(machine.getState(".foo.baz"))
             assertEquals(expected, actual)
         }
@@ -134,7 +112,7 @@ internal class MachineTest {
                 machine test;
                 parallel foo { state bar {} state baz {} }
             """.trimIndent())
-            val actual = machine.getInitialStateConfiguration2()
+            val actual = machine.getInitialStateConfiguration()
             val expected = listOf(machine.getState(".foo.bar"), machine.getState(".foo.baz"))
             assertEquals(expected, actual)
         }

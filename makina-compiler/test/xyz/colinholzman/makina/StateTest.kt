@@ -162,15 +162,6 @@ internal class StateTest {
     }
 
     @Test
-    fun getStateConfiguration() {
-        assertEquals(StateConfiguration(s21), s21.getStateConfiguration())
-        assertEquals(StateConfiguration(s21), s2.getStateConfiguration())
-        assertEquals(StateConfiguration(s121), s1.getStateConfiguration())
-        assertEquals(StateConfiguration(s111), s11.getStateConfiguration())
-        assertEquals(StateConfiguration(s111), s111.getStateConfiguration())
-    }
-
-    @Test
     fun eventHandlerInFinalState() {
         assertThrows<RuntimeException> {
             Parse.state("final state foo { on foo do_it; }")

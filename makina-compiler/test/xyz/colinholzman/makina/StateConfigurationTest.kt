@@ -5,58 +5,12 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
 import xyz.colinholzman.makina.GetState.Companion.getState
-import xyz.colinholzman.makina.StateConfiguration.Companion.getEntryHandlers
-import xyz.colinholzman.makina.StateConfiguration.Companion.getEventHandlers
-import xyz.colinholzman.makina.StateConfiguration.Companion.groupByIdAndRemoveRedundantHandlers
 import xyz.colinholzman.makina.TestStates.Companion.s1
 import xyz.colinholzman.makina.TestStates.Companion.s11
 import xyz.colinholzman.makina.TestStates.Companion.s111
 import xyz.colinholzman.makina.TestStates.Companion.s2
 
 internal class StateConfigurationTest {
-
-    @Test
-    fun testIsValid() {
-        assertDoesNotThrow {
-            StateConfiguration(s111)
-        }
-        assertThrows<RuntimeException> {
-            StateConfiguration(s11)
-        }
-        assertThrows<RuntimeException> {
-            StateConfiguration(s2)
-        }
-    }
-
-    @Test
-    fun getHandlers() {
-        val parent = Parse.state("state foo { on bar; }").first()
-        val child = Parse.state("state .foo.baz { on qux; }").first()
-        parent.subStates = listOf(child)
-        child.parent = parent
-        val config = StateConfiguration(child)
-        assertEquals(listOf(Pair(child, Handler.Event("qux")), Pair(parent, Handler.Event("bar"))), config.getHandlers())
-    }
-
-    @Test
-    fun getEntryHandlers() {
-        val parent = Parse.state("state foo { entry bar; }").first()
-        val child = Parse.state("state .foo.baz { entry qux; }").first()
-        parent.subStates = listOf(child)
-        child.parent = parent
-        val config = StateConfiguration(child)
-        assertEquals(listOf(Handler.Entry("bar"), Handler.Entry("qux")), config.getEntryHandlers())
-    }
-
-    @Test
-    fun getAtomicState() {
-        val parent = Parse.state("state foo { on bar; }").first()
-        val child = Parse.state("state .foo.baz { on qux; }").first()
-        parent.subStates = listOf(child)
-        child.parent = parent
-        val config = StateConfiguration(child)
-        assertEquals(child, config.getAtomicState())
-    }
 
     @Test
     fun filterHandlers() {

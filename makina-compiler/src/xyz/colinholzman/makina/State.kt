@@ -167,17 +167,6 @@ class State(val id: String,
         return listOf(this) + getAncestors()
     }
 
-    //if this is an atomic state then get the config that is this state + ancestors
-    //it this is not an atomic state then get the initial state configuration
-    fun getStateConfiguration(): StateConfiguration {
-        return if (isAtomic())
-            StateConfiguration(this)
-        else {
-            val initial = subStates.find { it.type.initial } ?: subStates.first()
-            initial.getStateConfiguration()
-        }
-    }
-
     //Returns the initial state configuration for this state
     fun getInitialStateConfiguration(): List<State> {
         return when {

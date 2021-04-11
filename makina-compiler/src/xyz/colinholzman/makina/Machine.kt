@@ -62,14 +62,7 @@ class Machine(val id: String, val states: List<State> = emptyList(),
         }.toSet()
     }
 
-    fun getInitialStateConfiguration(): StateConfiguration {
-        val children = this.states.filter { it.parent == null }
-        val designatedInitial = children.find { it.type.initial }
-        val initial = designatedInitial ?: children.first()
-        return initial.getStateConfiguration()
-    }
-
-    fun getInitialStateConfiguration2(): List<State> {
+    fun getInitialStateConfiguration(): List<State> {
         val children = this.states.filter { it.parent == null }
         val designatedInitial = children.find { it.type.initial }
         val initial = designatedInitial ?: children.first()

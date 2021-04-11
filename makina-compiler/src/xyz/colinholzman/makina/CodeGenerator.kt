@@ -1,6 +1,5 @@
 package xyz.colinholzman.makina
 
-import xyz.colinholzman.makina.StateConfiguration.Companion.getEventHandlers
 import java.io.PrintWriter
 
 class CodeGenerator(val machine: Machine,
@@ -129,8 +128,7 @@ class CodeGenerator(val machine: Machine,
             println("int ${machine.id}_init($machineStructName *self) {")
             println("\tif (!self) return -1;")
             val initialConfig = machine.getInitialStateConfiguration()
-            val initialAtomicState = initialConfig.getAtomicState()
-            println("\tself->state = ${machine.id}_${initialAtomicState.getFullyQualifiedIdString()};")
+            println("\tself->state = ${machine.id}_${configurationName(initialConfig)};")
             val entryHandlers = initialConfig.getEntryHandlers()
             for (handler in entryHandlers) {
                 println("\t${handler.action}(self, NULL);")
