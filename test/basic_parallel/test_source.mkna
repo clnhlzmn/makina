@@ -1,0 +1,22 @@
+machine test;
+
+parallel s1 {
+    entry s1_entry;
+    state s11 {
+        entry s11_entry;
+        on e1 s11_e1_action -> s2;
+        exit s11_exit;
+    }
+    state s12 {
+        entry s12_entry;
+        on e2 s12_e2_action -> s2;
+        exit s12_exit;
+    }
+    exit s1_exit;
+}
+
+state s2 {
+    entry s2_entry;
+    on e1 s2_e1_action -> s1;
+    exit s2_exit;
+}
