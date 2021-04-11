@@ -71,18 +71,14 @@ class CodeGenerator(val machine: Machine,
             val target = handler.getTargetState(sourceState, machine)
             val transition = Transition(activeConfiguration, sourceState, target, handler.target.kind)
             val entrySet = transition.getEntrySet()
-            val targetAtomicState = entrySet.last()
-            println("\t\t\tself->state = ${machine.id}_${targetAtomicState.getFullyQualifiedIdString()};")
+            val targetConfig = entrySet.filter { it.isAtomic() }
+            println("\t\t\tself->state = ${configurationName(targetConfig)};")
             for (stateToEnter in entrySet) {
                 for (entry in stateToEnter.handlers.filterIsInstance<Handler.Entry>()) {
                     println("\t\t\t${entry.action}(self, event);")
                 }
             }
         }
-    }
-
-    private fun configurationName(config: List<State>): String {
-        return config.sortedWith(State.entryOrder).joinToString("_") { it.getFullyQualifiedIdString() }
     }
 
     fun generateSource(output: PrintWriter) {
@@ -93,11 +89,11 @@ class CodeGenerator(val machine: Machine,
             println()
             val activeConfigurations = machine.getAllConfigurations()
             for (config in activeConfigurations) {
-                println("static int ${machine.id}_${configurationName(config)}($machineStructName *, $machineEventName *);")
+                println("static int ${configurationName(config)}($machineStructName *, $machineEventName *);")
             }
             println()
             for (config in activeConfigurations) {
-                println("static int ${machine.id}_${configurationName(config)}($machineStructName *self, $machineEventName *event) {")
+                println("static int ${configurationName(config)}($machineStructName *self, $machineEventName *event) {")
                 println("\t(void)self; (void)event;")
                 println("\tswitch (event->id) {")
                 val handlerGroups = config.getEventHandlers()
@@ -128,7 +124,7 @@ class CodeGenerator(val machine: Machine,
             println("int ${machine.id}_init($machineStructName *self) {")
             println("\tif (!self) return -1;")
             val initialConfig = machine.getInitialStateConfiguration()
-            println("\tself->state = ${machine.id}_${configurationName(initialConfig)};")
+            println("\tself->state = ${configurationName(initialConfig)};")
             val entryHandlers = initialConfig.getEntryHandlers()
             for (handler in entryHandlers) {
                 println("\t${handler.action}(self, NULL);")
@@ -143,5 +139,9 @@ class CodeGenerator(val machine: Machine,
             println("\treturn 0;")
             println("}")
         }
+    }
+
+    private fun configurationName(config: List<State>): String {
+        return "${machine.id}${config.sortedWith(State.entryOrder).joinToString(" _ ") { it.getFullyQualifiedIdString() }}"
     }
 }
