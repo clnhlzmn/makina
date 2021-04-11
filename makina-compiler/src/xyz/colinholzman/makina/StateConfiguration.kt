@@ -42,7 +42,8 @@ data class StateConfiguration(val state: State) {
         //Returns all handlers a given state configuration should handle
         fun List<State>.getEventHandlers(): Map<String, List<Pair<State, Handler.Event>>> {
             return flatMap { atomicState ->
-                atomicState.getBranch().flatMap {
+                if (atomicState.type is State.Type.Final) emptyList()
+                else atomicState.getBranch().flatMap {
                     state -> state.handlers.filterIsInstance<Handler.Event>().map { Pair(state, it) }
                 }
             }.sortedByDescending { it.first.getDepth() }.groupByIdAndRemoveRedundantHandlers()
