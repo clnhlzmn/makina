@@ -1,0 +1,29 @@
+machine test;
+
+parallel s1 {
+    entry s1_entry;
+    
+    state s11 {
+        entry s11_entry;
+        
+        state s111 {
+            entry s111_entry;
+            on e -> s112;
+            exit s111_exit;
+        }
+        
+        state s112 { entry s112_entry; }
+    }
+    
+    state s12 {
+        entry s12_entry;
+        
+        state s121 {
+            entry s121_entry;
+            on e -> s122;
+            exit s121_exit;
+        }
+        
+        state s122 { entry s122_entry; }
+    }
+}
