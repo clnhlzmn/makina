@@ -97,7 +97,7 @@ internal class StateConfigurationTest {
     }
 
     @Test
-    fun getEntryHandlers2() {
+    fun getEntryHandlers() {
         run {
             val machine = Parse.fileFromString("""
                 machine test;
@@ -136,5 +136,35 @@ internal class StateConfigurationTest {
             val expected = listOf(Handler.Entry("foo"), Handler.Entry("foo"), Handler.Entry("foo"))
             assertEquals(expected, actual)
         }
+    }
+
+    @Test
+    fun getParallelEventHandlers() {
+        val machine = Parse.fileFromString("""
+            machine test;
+            parallel s1 {
+                state s11 {
+                    state s111 {
+                        on e -> s112;
+                    }
+                    state s112 {}
+                }
+                state s12 {
+                    state s121 {
+                        on e -> s122;
+                    }
+                    state s122 {}
+                }
+            }
+        """.trimIndent())
+        val s111 = machine.getState(".s1.s11.s111")
+        val s112 = machine.getState(".s1.s11.s112")
+        val s121 = machine.getState(".s1.s12.s121")
+        val s122 = machine.getState(".s1.s12.s122")
+        val initialConfig = listOf(s111, s121)
+        val targetConfig = listOf(s112, s122)
+        val actual = initialConfig.getEventHandlers()["e"]
+        val expected = listOf(Pair(s111, Handler.Event("e", target = Target(listOf("s112")))), Pair(s121, Handler.Event("e", target = Target(listOf("s112")))))
+        assertEquals(expected, actual)
     }
 }
